@@ -1,0 +1,308 @@
+---
+layout: default
+nav: patents
+title: "Patents"
+description: "358 granted U.S. patents, 226 still in force. The full verified record, searchable and filterable, with the method used to confirm every one of them."
+---
+
+<div class="shell">
+
+  <header class="page-head">
+    <p class="kicker">Patents <span class="sep">/</span> verified 2026-08-07 <span class="sep">/</span> public record</p>
+    <h1>358 granted U.S. patents</h1>
+    <p class="lede">
+      Every one confirmed against the USPTO record, not counted from memory. Granted patents are
+      public documents, so the whole thing is here: search it, filter it, sort it, and click through
+      to the filing. The method used to separate my record from the other James Pratts is at the
+      bottom of the page.
+    </p>
+  </header>
+
+</div>
+
+<div class="shell">
+  <div class="stats" style="margin-top:2.5rem">
+    <div class="stat"><div class="n">358</div><div class="k">Granted<br>patents</div></div>
+    <div class="stat"><div class="n">226</div><div class="k">Active and<br>in force</div></div>
+    <div class="stat"><div class="n">111</div><div class="k">Named<br>co-inventors</div></div>
+    <div class="stat"><div class="n">525</div><div class="k">Distinct<br>applications</div></div>
+  </div>
+</div>
+
+<section class="section" style="border-top:0;padding-top:0">
+  <div class="shell">
+
+    <div class="pat-tools">
+      <p class="hist-caption" id="hist-label">Granted patents by year</p>
+      <div class="hist" id="hist" role="group" aria-labelledby="hist-label"></div>
+      <div class="hist-axis" id="hist-axis"></div>
+    </div>
+
+    <div class="pat-filters">
+      <label class="visually-hidden" for="pat-q">Search patents</label>
+      <input class="pat-search" id="pat-q" type="search"
+             placeholder="Search titles, patent numbers, co-inventors" autocomplete="off">
+      <div class="filters" style="padding:0;border:0;gap:.5rem">
+        <button type="button" data-s="all" aria-pressed="true">All</button>
+        <button type="button" data-s="0" aria-pressed="false">In force</button>
+        <button type="button" data-s="1" aria-pressed="false">Expired</button>
+      </div>
+      <span class="pat-count" id="pat-count">358 patents</span>
+    </div>
+
+    <div class="pat-table-wrap">
+    <table class="pat-table">
+      <caption id="pat-caption">All 358 granted patents. This table is the complete data view.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Title</th>
+          <th scope="col">Granted</th>
+          <th scope="col">Status</th>
+          <th scope="col" class="h-people">Co-inventors</th>
+        </tr>
+      </thead>
+      <tbody id="pat-rows"></tbody>
+    </table>
+    </div>
+
+    <button class="pat-more" id="pat-more" type="button" hidden>Show more</button>
+    <p class="pat-empty" id="pat-empty" hidden>Nothing matches that. Try a different term.</p>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="num">//</span>
+      <span class="label">Most frequent co-inventors</span>
+      <span class="count">111 people across 358 patents</span>
+    </div>
+    <div class="people-cloud" id="people"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="num">//</span>
+      <span class="label">How this was verified</span>
+      <span class="count">2026-08-07</span>
+    </div>
+    <div class="split">
+      <div class="prose">
+        <p>
+          There are several James Pratts in the U.S. patent indexes: one in Granite Bay, California,
+          one in Southwick, Massachusetts, one in Vicksburg, Mississippi, one in Raleigh. I file under
+          two spellings, <strong>James Pratt</strong> and <strong>James H. Pratt</strong>, and both
+          resolve to <strong>Round Rock, Texas</strong>. That city is the identity test. Every record
+          in this table was checked against it.
+        </p>
+        <p>
+          The pass produced 862 confirmed records: 358 grants, 504 published applications (337 of
+          which later granted), and 525 distinct applications. Seven records were excluded as a
+          different James Pratt. Of the 358 grants, 226 are active, 124 expired for unpaid
+          maintenance fees, which is ordinary portfolio pruning rather than a defect, and 8 are too
+          recent for the public index.
+        </p>
+        <p>
+          Two families have been divested and now sit with other companies, which is why this table
+          shows assignees other than AT&amp;T.
+        </p>
+      </div>
+      <div>
+        <dl class="dl">
+          <div><dt>Confirmed records</dt><dd>862</dd></div>
+          <div><dt>Granted</dt><dd>358</dd></div>
+          <div><dt>Active and in force</dt><dd>226</dd></div>
+          <div><dt>Expired</dt><dd>124</dd></div>
+          <div><dt>Published applications</dt><dd>504</dd></div>
+          <div><dt>Distinct applications</dt><dd>525</dd></div>
+          <div><dt>Continuations, divisionals, CIPs</dt><dd>145</dd></div>
+          <div><dt>Excluded as a different person</dt><dd>7</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var PAGE = 60;
+  var state = { q: '', status: 'all', year: null, person: null, shown: PAGE };
+  var DATA = null;
+
+  var $rows = document.getElementById('pat-rows');
+  var $count = document.getElementById('pat-count');
+  var $more = document.getElementById('pat-more');
+  var $empty = document.getElementById('pat-empty');
+  var $hist = document.getElementById('hist');
+  var $axis = document.getElementById('hist-axis');
+  var $people = document.getElementById('people');
+  var $q = document.getElementById('pat-q');
+  var $caption = document.getElementById('pat-caption');
+
+  if (window.__PATENTS__) {
+    DATA = window.__PATENTS__;
+    init();
+  } else {
+  fetch('/assets/data/patents.json')
+    .then(function (r) { return r.json(); })
+    .then(function (d) { DATA = d; init(); })
+    .catch(function () {
+      $empty.hidden = false;
+      $empty.textContent =
+        'The patent data could not load. The full record is in the repository as assets/data/patents.json.';
+    });
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function init() {
+    buildHist();
+    buildPeople();
+
+    $q.addEventListener('input', function () {
+      state.q = $q.value.trim().toLowerCase();
+      state.shown = PAGE;
+      render();
+    });
+
+    document.querySelectorAll('.pat-filters [data-s]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.status = b.dataset.s;
+        state.shown = PAGE;
+        document.querySelectorAll('.pat-filters [data-s]').forEach(function (o) {
+          o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+        });
+        render();
+      });
+    });
+
+    $more.addEventListener('click', function () {
+      state.shown += PAGE;
+      render();
+    });
+
+    render();
+  }
+
+  function buildHist() {
+    var max = Math.max.apply(null, DATA.hist.map(function (h) { return h[1]; }));
+    var peak = DATA.hist.reduce(function (a, b) { return b[1] > a[1] ? b : a; });
+
+    $hist.innerHTML = DATA.hist.map(function (h) {
+      var pct = Math.max(2, Math.round((h[1] / max) * 100));
+      return '<button class="col" type="button" data-y="' + h[0] + '" aria-pressed="false" ' +
+        'aria-label="' + h[0] + ', ' + h[1] + ' patents. Filter to this year.">' +
+        '<span class="hist-tip" aria-hidden="true">' + h[0] + ' &middot; ' + h[1] + '</span>' +
+        '<span class="bar" style="height:' + pct + '%"></span>' +
+        '</button>';
+    }).join('');
+
+    $axis.innerHTML =
+      '<span>' + DATA.hist[0][0] + '</span>' +
+      '<span>peak ' + peak[0] + ', ' + peak[1] + ' patents</span>' +
+      '<span>' + DATA.hist[DATA.hist.length - 1][0] + '</span>';
+
+    $hist.querySelectorAll('.col').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var y = parseInt(b.dataset.y, 10);
+        state.year = state.year === y ? null : y;
+        state.shown = PAGE;
+        render();
+      });
+    });
+  }
+
+  function buildPeople() {
+    var counts = {};
+    DATA.patents.forEach(function (p) {
+      p[5].forEach(function (i) { counts[i] = (counts[i] || 0) + 1; });
+    });
+    var top = Object.keys(counts)
+      .sort(function (a, b) { return counts[b] - counts[a]; })
+      .slice(0, 14);
+
+    $people.innerHTML = top.map(function (i) {
+      return '<button type="button" data-p="' + i + '">' + esc(DATA.inventors[i]) +
+        '<span class="n">' + counts[i] + '</span></button>';
+    }).join('');
+
+    $people.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = parseInt(b.dataset.p, 10);
+        state.person = state.person === i ? null : i;
+        state.shown = PAGE;
+        render();
+        document.querySelector('.pat-filters').scrollIntoView({ block: 'start' });
+      });
+    });
+  }
+
+  function matches(p) {
+    if (state.status !== 'all' && p[3] !== parseInt(state.status, 10)) return false;
+    if (state.year !== null && p[2] !== state.year) return false;
+    if (state.person !== null && p[5].indexOf(state.person) === -1) return false;
+    if (state.q) {
+      var hay = (p[0] + ' ' + p[1] + ' ' + p[5].map(function (i) {
+        return DATA.inventors[i];
+      }).join(' ')).toLowerCase();
+      if (hay.indexOf(state.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function render() {
+    var list = DATA.patents.filter(matches);
+    var slice = list.slice(0, state.shown);
+
+    $rows.innerHTML = slice.map(function (p) {
+      var people = p[5].map(function (i) { return esc(DATA.inventors[i]); });
+      var shown = people.slice(0, 2).join(', ');
+      if (people.length > 2) shown += ' +' + (people.length - 2);
+      return '<tr>' +
+        '<td class="c-num"><a href="https://patents.google.com/patent/' + esc(p[0]) + '/en">' +
+          esc(p[0]) + '</a></td>' +
+        '<td class="c-title">' + esc(p[1]) + '</td>' +
+        '<td class="c-year">' + p[2] + '</td>' +
+        '<td class="c-status"><span class="dot-status s' + p[3] + '" aria-hidden="true"></span>' +
+          esc(DATA.status[p[3]]) + '</td>' +
+        '<td class="c-people">' + (shown || '-') + '</td>' +
+        '</tr>';
+    }).join('');
+
+    var bits = [];
+    if (state.year !== null) bits.push('granted ' + state.year);
+    if (state.person !== null) bits.push('with ' + DATA.inventors[state.person]);
+    if (state.status !== 'all') bits.push(DATA.status[parseInt(state.status, 10)].toLowerCase());
+    if (state.q) bits.push('matching "' + state.q + '"');
+
+    $count.textContent = list.length + (list.length === 1 ? ' patent' : ' patents') +
+      (bits.length ? ' ' + bits.join(', ') : '');
+    $caption.textContent = bits.length
+      ? 'Filtered view: ' + list.length + ' of 358 granted patents, ' + bits.join(', ') + '.'
+      : 'All 358 granted patents. This table is the complete data view.';
+
+    $more.hidden = list.length <= state.shown;
+    $more.textContent = 'Show ' + Math.min(PAGE, list.length - state.shown) + ' more';
+    $empty.hidden = list.length !== 0;
+
+    $hist.querySelectorAll('.col').forEach(function (b) {
+      var on = state.year === parseInt(b.dataset.y, 10);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.classList.toggle('dim', state.year !== null && !on);
+    });
+    $people.querySelectorAll('button').forEach(function (b) {
+      b.setAttribute('aria-pressed', state.person === parseInt(b.dataset.p, 10) ? 'true' : 'false');
+    });
+  }
+})();
+</script>
