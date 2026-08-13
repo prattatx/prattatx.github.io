@@ -1,17 +1,27 @@
 ---
 layout: default
+nav: writing
 ---
-<h1>{{ page.title }}</h1>
-<p class="meta">{{ page.date | date_to_string }}</p>
+<div class="shell">
+  <header class="page-head">
+    <p class="kicker">
+      <a href="/writing/" style="color:var(--accent-text)">Writing</a>
+      <span class="sep">/</span> {{ page.date | date: "%B %-d, %Y" }}
+    </p>
+    <h1>{{ page.title }}</h1>
+    {% if page.summary %}<p class="lede">{{ page.summary }}</p>{% endif %}
+  </header>
 
-<div class="post">
-  {{ content }}
+  <article class="post-body">
+    {{ content }}
+  </article>
+
+  <nav class="case-nav">
+    {% if page.previous %}
+      <a class="prev" href="{{ page.previous.url }}"><span class="k">Previous</span><span class="t">{{ page.previous.title }}</span></a>
+    {% endif %}
+    {% if page.next %}
+      <a class="next" href="{{ page.next.url }}"><span class="k">Next</span><span class="t">{{ page.next.title }}</span></a>
+    {% endif %}
+  </nav>
 </div>
-
-<hr>
-
-<div class="footer">
-	{% include disqus.html %}
-</div>
-
-
