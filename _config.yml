@@ -1,7 +1,23 @@
-name: James Pratt, Horrible Cop
+title: "James H. Pratt, Ph.D."
+author: "James H. Pratt"
+description: "Cognitive psychologist, founder, and AI product leader in Austin. Advisory, fractional AI product leadership, board seats, strategy sprints, and workshops."
+url: "https://prattatx.github.io"
+
+# Set these and they wire themselves in. Leave empty and the site simply omits them.
+ga4: "G-LPYRNPZYB1"   # GA4 measurement ID. The old UA-78948113-1 property is dead and unrelated.
+calendar_url: "https://www.cal.com/james-pratt"   # booking link for the contact CTA
+
 markdown: kramdown
-permalink: /blog/:year/:month/:day/:title
-paginate: 5
+permalink: /writing/:year/:month/:day/:title/
+paginate: 10
+
+sass:
+  style: compressed
+
 exclude:
   - CLAUDE.md
   - README.md
+  - _preview
+  - _gen
+  - build-preview.py
+  - .DS_Store
