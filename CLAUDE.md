@@ -1,163 +1,134 @@
-# CLAUDE.md — AI Assistant Guide for prattatx.github.io
+# CLAUDE.md: prattatx.github.io
 
-## Project Overview
+Personal site for James H. Pratt, Ph.D. Read this before changing anything.
 
-This is a personal website for James Pratt, built with **Jekyll** and hosted on **GitHub Pages**. The site serves as a personal blog, portfolio, and CV. It is a minimal Jekyll static site with no Node.js or Ruby dependency management files — GitHub Pages handles building and serving automatically.
+## What this site is
 
----
+A public credibility surface for **advisory work**, not a job-search site. James is CEO of Fyve
+Health and stays there. The site sells five engagement types, coded A through E throughout the
+markup and matching the Career Management workstation's Portfolio Index:
 
-## Repository Structure
-
-```
-prattatx.github.io/
-├── _config.yml           # Jekyll site configuration
-├── _includes/            # Reusable HTML snippets
-│   ├── analytics.html    # Google Analytics tracking
-│   └── disqus.html       # Disqus comments embed
-├── _layouts/             # Page layout templates (Liquid)
-│   ├── default.html      # Base layout (nav, footer, fonts)
-│   └── post.html         # Blog post layout (includes Disqus)
-├── _posts/               # Blog posts (Markdown)
-│   └── YYYY-MM-DD-slug.md
-├── about/
-│   └── index.html        # About page (placeholder)
-├── blog/
-│   ├── index.html        # Blog listing page
-│   └── atom.xml          # Atom feed
-├── css/
-│   └── main.css          # Site-wide custom styles
-├── cv/
-│   └── index.html        # CV page (placeholder)
-├── index.html            # Homepage
-└── README.md
-```
-
----
-
-## Technology Stack
-
-| Layer | Technology |
+| Code | Engagement |
 |---|---|
-| Static site generator | Jekyll (Ruby) |
-| Templating | Liquid |
-| Markup | Markdown (kramdown dialect) |
-| Styling | CSS3 (custom, no framework) |
-| Fonts | Google Fonts (Open Sans, Work Sans) |
-| Analytics | Google Analytics (UA-78948113-1) |
-| Comments | Disqus (shortname: `prattatx`) |
-| Hosting | GitHub Pages (automatic Jekyll build) |
+| A | Fractional / advisory AI product lead |
+| B | Expert consult |
+| C | Board seat or named advisor |
+| D | Modern-methods strategy sprint |
+| E | Workshops, panels, speaking |
 
----
+Positioning anchors, unchanged from the Portfolio workstation: function flag is **AI Product**,
+story is **AI at consumer scale**, methods over industry, leans seed and early, Austin / remote.
+Never frame James as "just a UX guy."
 
-## Jekyll Configuration (`_config.yml`)
+## Hard content rules
 
-```yaml
-name: James Pratt, Horrible Cop
-markdown: kramdown
-permalink: /blog/:year/:month/:day/:title
-paginate: 5
-```
+1. **Never invent experience, titles, dates, or metrics.** Every claim traces to
+   `Cowork OS/00_Resources/professional-background.md` or the Career Management workstation.
+2. **Patents: 358 granted, 226 in force**, verified 2026-08-07. Never the older "300+."
+3. **Education: M.A. 2000**, not M.S. 1999. **AT&T end date: December 2025.**
+4. **White papers: "lead author."** Not co-author, not primary author.
+5. **wisely.io is not an exit.** It wound down on capital constraints. Say so plainly.
+6. **No em dashes, anywhere.** Use commas, colons, periods, parentheses.
+7. **Banned words:** dive into, game-changing, straightforward, leverage, synergize, circle back,
+   touch base, moreover, furthermore, in conclusion, at the end of the day, needless to say.
+   See `00_Resources/voice-principles.md` in Cowork OS for the full voice spec.
 
-- Site name: **James Pratt, Horrible Cop**
-- Blog URLs follow the pattern `/blog/YYYY/MM/DD/post-title`
-- Pagination: 5 posts per page
-- Markdown processor: kramdown
+## Clearance (approved 2026-08-13)
 
----
+**Published:** the M.A. thesis and its PDF, six peer-reviewed publications, the 358 granted patents,
+three redacted Tessa case studies, five AT&T method-only case studies **as text with all images
+removed**, and the patent-development workshop case study with the client unnamed.
 
-## Development Workflow
+**Do NOT publish, ever, without a fresh yes from James:**
 
-### Local Development
+- Any AT&T case-study image. All five carry AT&T-proprietary or IBM-confidential stamps and are
+  pending permission clearance.
+- The AT&T white paper PDFs. Published-vs-internal status is unconfirmed.
+- PART instrument memos. Private until the venture develops.
+- The Liz User Research plugin. A redacted cut was never made.
+- The Trading Bot. Public framing unconfirmed.
+- Tessa financials, traction, raise terms, team specifics, competitor names, or the internal
+  advisor-politics material.
+- James's phone number.
 
-GitHub Pages uses Jekyll to build the site automatically on push. For local development:
+The `/work/` index has a short "Not published here" section that acknowledges this work exists
+without naming any of it. Keep it that way.
 
-```bash
-# Install Jekyll (requires Ruby)
-gem install jekyll bundler
+## Design
 
-# Serve locally with live reload
-jekyll serve
+Built on the **Personal Brand System** tokens (`Cowork OS/Personal Brand System/`), v1.0, 2026-05-24.
+Cal Sans display, Inter body, indigo `#6366f1`, very dark navy `#0f1117`. Dark mode only; the
+brand book says dark is the default for interactive surfaces.
 
-# Build static output into _site/
-jekyll build
-```
+Two deliberate extensions, logged here rather than invented silently:
 
-The `_site/` directory is gitignored — it is the build output and should never be committed.
+- **`--accent-text: #8b8ef7`.** The brand indigo is 4.2:1 on the dark background, which fails WCAG
+  AA for text. `--accent-text` is 6.6:1 and is used for anything indigo that is *text*. The original
+  `#6366f1` stays for fills, rules, and the playhead, where the 3:1 graphical threshold applies.
+- **`--text-4: #767e92`.** Decorative separators only. Never body copy.
 
-### Adding a Blog Post
+Contrast floors currently met: body text 8.1:1, small mono labels 7.2:1, indigo text 6.6:1. Nothing
+on the site is smaller than 11px. Do not lower either.
 
-1. Create a new file in `_posts/` with the naming convention: `YYYY-MM-DD-post-title.md`
-2. Add front matter at the top:
+### The signal rail
 
-```markdown
----
-layout: post
-title: "Your Post Title"
----
+A fixed-seed waveform down the left edge, drawn in `assets/js/site.js`. Scroll position is the
+playhead. It is deterministic on purpose (same trace every visit) and honours
+`prefers-reduced-motion`. Below 1000px it collapses to a 2px top progress bar. It is the site's one
+decorative gesture, and it is grounded in the actual work: sleep EEG, edge audio, ambient sensing.
+Do not add a second motif.
 
-Post content here in Markdown.
-```
+### Anti-slop rules
 
-3. Commit and push to `master` — GitHub Pages will rebuild automatically.
+No gradient blobs, no glassmorphism, no emoji icons, no stock photography, no three-column feature
+grids with generic line icons. Type carries the design. Indigo is rare enough to mean something.
+Motion only where it clarifies.
 
-### Modifying Layouts
+Charts follow the dataviz rules: one series means one colour, thin marks not thick blocks, solid
+hairline baselines with no gridlines, labels on first/peak/last only, hover enhances rather than
+gates, and a table view always exists. Hero figures use proportional numerals, not `tabular-nums`.
 
-- Edit `_layouts/default.html` for site-wide changes (nav, footer, fonts, head)
-- Edit `_layouts/post.html` for changes specific to blog post pages
-- Edit `_includes/analytics.html` or `_includes/disqus.html` for third-party integrations
+## Architecture
 
-### Modifying Styles
+Jekyll on GitHub Pages. No collections, no plugins, no npm, no Sass. Pages are plain HTML with front
+matter and `layout: default`. That is deliberate: it keeps the site previewable without Ruby, which
+the authoring container does not have.
 
-All styles live in `css/main.css`. There is no CSS preprocessor (no Sass/Less). Write plain CSS3.
+- `_layouts/default.html`: shell: head, rail, masthead, footer
+- `_layouts/post.html`: blog post wrapper
+- `_includes/analytics.html`: renders nothing unless `site.ga4` is set
+- `assets/css/main.css`: the whole design system, sectioned and numbered
+- `assets/js/site.js`: signal rail, scroll reveal, mobile nav. Progressive enhancement only;
+  every page is fully readable with JavaScript off.
+- `assets/data/patents.json`: 358 granted patents, compact array schema
+- `_gen/cases.py`: **source of truth for the case studies.** Edit here, not in `work/*/index.html`,
+  then re-run it. It writes the nine pages and the index together.
+- `_gen/patents.py`: rebuilds the patent JSON from the CSV export
+- `build-preview.py`: single-file preview renderer for working without Jekyll
 
----
+## Gotchas
 
-## Conventions
+- **Do not hand-edit `work/*/index.html`.** `_gen/cases.py` overwrites them.
+- **`build-preview.py` is not Jekyll.** It resolves simple Liquid only. Anything looping over
+  `site.posts` needs a real build to verify.
+- **The patent page reads `window.__PATENTS__` first, then falls back to `fetch`.** That is how the
+  preview works offline. Keep both paths.
+- **The CV PDF is rendered from `/cv/` through the print stylesheet.** If you change the CV page,
+  regenerate the PDF or the two will disagree. Never link the old branded `.docx`: it still says
+  300+ patents.
+- **The two 2016 posts are `published: false`, not deleted.** James has not authorized a delete.
 
-### File Naming
-- Blog posts: `YYYY-MM-DD-kebab-case-title.md` (Jekyll requirement)
-- Layouts/includes: lowercase with hyphens (e.g., `my-component.html`)
-- Pages: placed in their own directory with `index.html` (e.g., `about/index.html`)
+## Assets
 
-### Front Matter
-Every content page must include a `layout` key. Blog posts use `layout: post`, other pages use `layout: default`:
+- `assets/img/james-pratt.{jpg,webp}`: 4:5 portrait, 1000x1250, used on the home contact block and
+  the About page. `-square` and `og.jpg` (1200x630, the social card) are crops of the same source.
+  All generated from one supplied headshot; regenerate all four together if it is ever replaced.
+- The portrait is a dark image on a dark site by design. It carries a 1px border and a 12px radius
+  so it reads as a deliberate object rather than a hole in the page.
 
-```yaml
----
-layout: default
-title: "Page Title"
----
-```
+## Deploy
 
-### Liquid Templating
-- Output: `{{ variable }}`
-- Logic: `{% if %} ... {% endif %}`, `{% for item in list %} ... {% endfor %}`
-- Includes: `{% include filename.html %}`
-- Access site config: `{{ site.name }}`
-- Access page data: `{{ page.title }}`, `{{ page.url }}`, `{{ page.date }}`
-
----
-
-## Incomplete / Placeholder Sections
-
-The following sections exist structurally but need content:
-- **`about/index.html`** — placeholder, needs personal bio content
-- **`cv/index.html`** — placeholder, needs CV/resume content
-- **Data Projects** — mentioned in README but not yet implemented
-
----
-
-## Git Workflow
-
-- Primary branch: `master` (auto-deployed by GitHub Pages)
-- Feature branches: `claude/<description>-<id>` for AI-assisted changes
-- No CI/CD pipelines — GitHub Pages handles deployment on push to `master`
-
----
-
-## External Service IDs
-
-| Service | ID |
-|---|---|
-| Google Analytics | UA-78948113-1 |
-| Disqus shortname | prattatx |
+Push to `master`. GitHub Pages builds and serves. There is a `.github/workflows` file that uploads
+the repo as static content; if Pages is ever switched to that workflow as its source, **Jekyll stops
+running and every page renders raw front matter**. Confirm the Pages source is "Deploy from a
+branch" before touching that workflow.
