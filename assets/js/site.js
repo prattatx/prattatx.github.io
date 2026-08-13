@@ -80,7 +80,6 @@
   }
 
   var topbar = document.querySelector('.rail-top');
-  var masthead = document.querySelector('.masthead');
 
   function scrollProgress() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -97,7 +96,6 @@
       railState.ring.setAttribute('cy', y.toFixed(1));
     }
     if (topbar) topbar.style.transform = 'scaleX(' + p + ')';
-    if (masthead) masthead.classList.toggle('is-stuck', window.scrollY > 8);
   }
 
   var ticking = false;

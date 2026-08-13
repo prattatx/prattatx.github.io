@@ -641,8 +641,7 @@ description: "Nine case studies: patent development, enterprise design-thinking 
 
   <section class="section" style="border-top:0">
     <div class="sec-head">
-      <span class="num">&mdash;</span>
-      <span class="label">Not published here</span>
+      <h2 class="label">Not published here</h2>
     </div>
     <div class="prose">
       <p>
