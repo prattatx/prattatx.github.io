@@ -63,19 +63,27 @@ without naming any of it. Keep it that way.
 > `design.md` wins and this section should be updated to match. The notes below are the origin
 > story and the clearance-relevant constraints, not the live spec.
 
-Built on the **Personal Brand System** tokens (`Cowork OS/Personal Brand System/`), v1.0, 2026-05-24.
-Cal Sans display, Inter body, indigo `#6366f1`, very dark navy `#0f1117`. Dark mode only; the
-brand book says dark is the default for interactive surfaces.
+**The site is light, not dark.** This changed on 2026-08-14 and the brand book has not caught up.
 
-Two deliberate extensions, logged here rather than invented silently:
+Current system (v2): warm off-white paper `#faf8f4`, never pure white. Every neutral sits at hue
+75 to 85, the warm side. **Inter** carries structure (headings, nav, labels, controls), a **serif**
+carries body copy, and **mono is for data only** (patent numbers, years, dates, axis labels,
+counters, code). Accent is indigo `#4f52d4`, which is the value the old print stylesheet already
+used for light surfaces, so the brand hue survived the direction change.
 
-- **`--accent-text: #8b8ef7`.** The brand indigo is 4.2:1 on the dark background, which fails WCAG
-  AA for text. `--accent-text` is 6.6:1 and is used for anything indigo that is *text*. The original
-  `#6366f1` stays for fills, rules, and the playhead, where the 3:1 graphical threshold applies.
-- **`--text-4: #767e92`.** Decorative separators only. Never body copy.
+**Cal Sans is retired.** Do not reintroduce it.
 
-Contrast floors currently met: body text 8.1:1, small mono labels 7.2:1, indigo text 6.6:1. Nothing
-on the site is smaller than 11px. Do not lower either.
+Origin: Personal Brand System tokens v1.0 (`Cowork OS/Personal Brand System/`), 2026-05-24, which
+specified Cal Sans, `#6366f1`, `#0f1117`, and dark-only. James opened the brand lock and that book
+is now out of date. `design.md` is the live spec; the brand book needs reconciling to it.
+
+The direction came from two studied references (structure only, no pixels copied): warm light paper
+and serif body from maggieappleton.com, and the strategy that chrome recedes so the work carries
+the colour from c82.net.
+
+Contrast floors currently met, all computed rather than estimated: headings 14.75:1, body 9.53:1,
+muted labels 5.34:1, indigo as text 7.09:1, control boundaries 3.24:1, white on accent 6.02:1.
+Nothing on the site is smaller than 11px. Do not lower any of these.
 
 ### The signal rail
 
@@ -135,7 +143,18 @@ the authoring container does not have.
 
 ## Deploy
 
-Push to `master`. GitHub Pages builds and serves. There is a `.github/workflows` file that uploads
-the repo as static content; if Pages is ever switched to that workflow as its source, **Jekyll stops
-running and every page renders raw front matter**. Confirm the Pages source is "Deploy from a
-branch" before touching that workflow.
+Push to `master`. GitHub Pages builds and serves.
+
+**Two deployers race on every master push.** This is not a dormant hazard, it is happening now.
+`.github/workflows/static.yml` uploads the repo as raw static content and `pages-build-deployment`
+runs Jekyll. Both fire, both report success. Jekyll has finished last every time (roughly 47s vs
+21s) and therefore wins, which is timing rather than design. **If `static.yml` ever wins, every page
+serves raw front matter.**
+
+Pages is currently `build_type: legacy`, source `master:/`, so Jekyll is the configured builder.
+Verify with:
+
+    gh api repos/prattatx/prattatx.github.io/pages --jq .build_type   # expect: legacy
+
+Deleting `.github/workflows/static.yml` removes the race permanently and costs nothing on a
+legacy-build Pages site. Not done yet; it is James's call.
