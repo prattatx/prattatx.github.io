@@ -56,6 +56,13 @@ without naming any of it. Keep it that way.
 
 ## Design
 
+> **`design.md` at the repo root is the authority for this system.** It codifies what actually
+> ships: the full token table with computed contrast, the four macrostructure families, accent
+> discipline, motion rules, CTA voice, and the section-head pattern. Read it before changing
+> colour, type, spacing, motion, or component voice. Where it and this section disagree,
+> `design.md` wins and this section should be updated to match. The notes below are the origin
+> story and the clearance-relevant constraints, not the live spec.
+
 Built on the **Personal Brand System** tokens (`Cowork OS/Personal Brand System/`), v1.0, 2026-05-24.
 Cal Sans display, Inter body, indigo `#6366f1`, very dark navy `#0f1117`. Dark mode only; the
 brand book says dark is the default for interactive surfaces.

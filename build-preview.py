@@ -6,6 +6,11 @@ Not a Jekyll replacement. It resolves just enough Liquid to produce an
 accurate visual preview that can be opened without a server: fonts, CSS,
 and JS are inlined so the file works anywhere.
 
+Root-relative URLs are rewritten to be relative to the page's own depth, and
+directory links get an explicit index.html, so the output opens correctly
+straight from the filesystem over file:// with no server at all. Depth is
+taken from the SOURCE path, since _preview mirrors the source tree.
+
 Usage: python3 build-preview.py index.html _preview/home.html
 """
 
@@ -87,6 +92,36 @@ def resolve_liquid(html, page):
     return html
 
 
+def relativize(html, src):
+    """Rewrite root-relative href/src/srcset so the file works over file://.
+
+    A page at work/foo/index.html sits two levels down, so /assets/x becomes
+    ../../assets/x. Directory URLs like /work/ become ../../work/index.html,
+    because file:// has no directory index to fall back on.
+    """
+    depth = len([p for p in os.path.dirname(src).split(os.sep) if p])
+    up = "../" * depth if depth else ""
+
+    def fix(m):
+        attr, path = m.group(1), m.group(2)
+        if path.startswith("//"):          # protocol-relative, leave alone
+            return m.group(0)
+        if attr == "srcset" and ("," in path or " " in path):
+            return m.group(0)              # multi-candidate srcset, not handled
+        core, frag = path, ""
+        for sep in ("#", "?"):             # keep fragments and queries intact
+            if sep in core:
+                i = core.index(sep)
+                frag = core[i:] + frag
+                core = core[:i]
+        target = core.lstrip("/")
+        if core.endswith("/") or not target:   # directory or bare root
+            target += "index.html"
+        return '%s="%s%s"' % (attr, up + target, frag)
+
+    return re.sub(r'(href|src|srcset)="(/[^"]*)"', fix, html)
+
+
 def inline_fonts(css):
     def repl(m):
         rel = m.group(1).lstrip("/")
@@ -138,6 +173,8 @@ def main():
                 "</head>",
                 "<script>window.__PATENTS__=%s;</script>\n</head>" % f.read(),
             )
+
+    html = relativize(html, src)
 
     os.makedirs(os.path.join(ROOT, os.path.dirname(out)), exist_ok=True)
     with open(os.path.join(ROOT, out), "w", encoding="utf-8") as f:
