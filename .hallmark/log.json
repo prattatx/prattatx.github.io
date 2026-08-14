@@ -1,0 +1,30 @@
+[
+  {
+    "date": "2026-08-13",
+    "scope": "app",
+    "macrostructure": "Stat-Led (landing) / Long Document (index + document) / Workbench (tool)",
+    "theme": "studied-DNA",
+    "theme_axes": "light / display-sans / cool",
+    "vibe": "warm paper, quiet chrome, the record carries the page",
+    "enrichment": "none",
+    "designed_as_app": true,
+    "design_system": "design.md",
+    "studied": true,
+    "dna_sources": [
+      "https://maggieappleton.com (temperature: warm light paper, serif body)",
+      "https://c82.net (strategy: achromatic chrome, work carries the colour)"
+    ],
+    "brief": "prattatx.github.io v2 · inverted to light warm paper, sans structure over serif body, mono cut to data only, Cal Sans retired"
+  },
+  {
+    "date": "2026-08-13",
+    "scope": "app",
+    "macrostructure": "Stat-Led (landing) / Long Document (index + document) / Workbench (tool)",
+    "theme": "Signal",
+    "theme_axes": "dark / display-sans / cool",
+    "enrichment": "none",
+    "designed_as_app": true,
+    "design_system": "design.md",
+    "brief": "prattatx.github.io v1 · codified the shipped Personal Brand System into design.md rather than repainting"
+  }
+]

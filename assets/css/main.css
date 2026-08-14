@@ -1,18 +1,25 @@
+/* Hallmark · genre: editorial · macrostructure: Stat-Led (landing),
+ * Long Document (index + document), Workbench (tool)
+ * theme: studied-DNA "Signal, light" · design-system: design.md · designed-as-app
+ * DNA-source: url · studied: yes
+ *   maggieappleton.com (temperature: warm light paper, serif body)
+ *   c82.net           (strategy: chrome recedes, the work carries the colour)
+ * paper oklch(98.0% 0.006 85) · accent oklch(51.5% 0.195 276)
+ * fonts: Inter (structure) + Source Serif 4 (body) + system mono (data only)
+ * axes: light paper / display-sans / cool accent (indigo 276)
+ */
+
 /* ============================================================
-   James H. Pratt — site stylesheet
-   Built on Personal Brand System tokens v1.0 (2026-05-24)
-   Direction: "Signal"
+   James H. Pratt: site stylesheet
+   v2, light. Origin: Personal Brand System tokens v1.0 (2026-05-24),
+   redirected by two studied references. Direction: "Signal"
+
+   design.md at the repo root is the source of truth for this system.
+   Read it before changing colour, type, spacing, motion or CTA voice.
    ============================================================ */
 
 /* ---------- 1. Fonts (self-hosted, no third-party CDN) ---------- */
 
-@font-face {
-  font-family: 'Cal Sans';
-  src: url('/assets/fonts/cal-sans-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 @font-face {
   font-family: 'Inter';
   src: url('/assets/fonts/inter-400.woff2') format('woff2');
@@ -37,36 +44,79 @@
 /* ---------- 2. Tokens ---------- */
 
 :root {
-  --font-display: 'Cal Sans', 'SF Pro Display', system-ui, sans-serif;
-  --font-body: 'Inter', 'SF Pro Text', system-ui, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  /* Sans carries structure, serif carries reading. Inverted from v1, and the
+     main reason this no longer reads like a monitoring dashboard.
+     --font-body falls back to Iowan Old Style / Georgia until the
+     Source Serif 4 woff2 lands in assets/fonts/. */
+  --font-display: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+  --font-ui:      'Inter', 'SF Pro Text', system-ui, sans-serif;
+  --font-body:    'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype',
+                  Palatino, Georgia, serif;
+  --font-mono:    ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
 
-  --bg:            #0f1117;
-  --bg-subtle:     #151820;
-  --bg-muted:      #1c2030;
-  --bg-overlay:    #232840;
+  /* Warm off-white, never #fff: pure white reads flat and synthetic. Every
+     neutral below sits at hue 75-85, the warm side. That warmth is the point
+     of v2 and is the thing to preserve if this palette is regenerated.
+     Token names are v1's; design.md carries the name mapping. */
+  --bg:            #faf8f4;   /* paper */
+  --bg-subtle:     #f3f0ea;   /* raised, 1.07:1 */
+  --bg-muted:      #e1dace;   /* sunken, 1.31:1 */
+  --bg-overlay:    #ffffff;   /* overlays lift OFF the paper on light */
 
-  --border:        #2e3547;
-  --border-muted:  #232a3a;
-  --border-strong: #3d4761;
+  --border:        #e0dad0;   /* decorative hairline, never bounds a control */
+  --border-muted:  #ece7dd;
+  --border-strong: #948977;   /* 3.24:1, bounds interactive controls per 1.4.11 */
 
-  --text:          #f0f1f3;   /* 16.7:1 on bg */
-  --text-2:        #a3aabb;   /*  8.1:1 */
-  --text-3:        #98a0b2;   /*  7.2:1 — small mono labels need real contrast */
-  --text-4:        #767e92;   /*  4.7:1 — decorative only, never body copy */
-  --text-inv:      #0f1117;
+  --text:          #26231f;   /* 14.75:1, headings */
+  --text-2:        #46413a;   /*  9.53:1, body copy */
+  --text-3:        #6d665c;   /*  5.34:1, muted labels and separators */
+  --text-inv:      #faf8f4;
 
-  --accent:        #6366f1;   /* fills, rules, playhead */
-  --accent-solid:  #5b5ee8;   /* filled controls: white text on this is 5.0:1 */
-  --accent-text:   #8b8ef7;   /*  6.6:1 — indigo that is legible AS TEXT on dark */
-  --accent-hover:  #a5a7fa;
-  --accent-subtle: rgba(99, 102, 241, 0.12);
-  --accent-border: rgba(99, 102, 241, 0.35);
+  --accent:        #4f52d4;   /* 5.67:1. The value v1's print block already used,
+                                 so the brand hue survives the direction change. */
+  --accent-solid:  #4f52d4;   /* filled controls: white on this is 6.02:1 */
+  --accent-text:   #4341c4;   /* 7.09:1, indigo that is text */
+  --accent-hover:  #3a37b0;   /* 8.41:1, hover goes darker on light */
+  --accent-subtle: rgba(79, 82, 212, 0.07);
+  --accent-border: rgba(79, 82, 212, 0.28);
+
+  /* Status hues, re-derived for light paper. The v1 values (#22c55e, #38bdf8)
+     measured 2.15:1 and 2.02:1 here, effectively invisible. */
+  --ok:            #15803d;   /* 4.73:1, granted / active / in force */
+  --ok-soft:       rgba(21, 128, 61, 0.14);
+  --info:          #0369a1;   /* 5.59:1, reassigned to another owner */
+  --on-accent:     #ffffff;   /* 6.02:1 on --accent-solid */
 
   --s1: .25rem;  --s2: .5rem;   --s3: .75rem;  --s4: 1rem;
   --s5: 1.25rem; --s6: 1.5rem;  --s8: 2rem;    --s10: 2.5rem;
   --s12: 3rem;   --s16: 4rem;   --s20: 5rem;   --s24: 6rem;
   --s32: 8rem;
+
+  /* Type scale. Every size on the site resolves to one of these steps, so the
+     whole page can be retuned from here instead of 39 scattered declarations.
+     11px is the floor. Nothing renders smaller. */
+  --text-2xs:   .6875rem;   /* 11px, the floor */
+  --text-xs:    .75rem;     /* 12px */
+  --text-sm:    .8125rem;   /* 13px */
+  --text-md:    .875rem;    /* 14px */
+  --text-base:  .9375rem;   /* 15px */
+  --text-lg:    1rem;       /* 16px */
+  --text-xl:    1.0625rem;  /* 17px */
+  --text-2xl:   1.125rem;   /* 18px */
+  --text-3xl:   1.25rem;    /* 20px */
+  --text-4xl:   1.375rem;   /* 22px */
+  --text-5xl:   1.5rem;     /* 24px */
+
+  /* Fluid steps, named by role rather than size. */
+  --text-lede:       clamp(1.0625rem, 1.6vw, 1.3125rem);
+  --text-lede-hero:  clamp(1.0625rem, 1.5vw, 1.25rem);
+  --text-quote:      clamp(1.5rem, 3.2vw, 2.25rem);
+  --text-post-h2:    clamp(1.5rem, 3vw, 2rem);
+  --text-stat:       clamp(1.75rem, 3.6vw, 2.75rem);
+  --text-page-h1:    clamp(2.25rem, 5.6vw, 4rem);
+  --text-display-s:  clamp(2.25rem, 6.5vw, 4.25rem);
+  --text-display:    clamp(3rem, 11vw, 7.5rem);
+  --text-display-sm: clamp(2.75rem, 13vw, 4rem);   /* hero, below 680px */
 
   --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
 
@@ -90,17 +140,21 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* clip, not hidden: overflow-x:hidden on body promotes it to a scroll
+   container, which is a known way to break position:sticky descendants
+   (the masthead). clip suppresses the same overflow without that effect. */
+html, body { overflow-x: clip; }
+
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: var(--text-lg);
   font-weight: 400;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'cv05' 1, 'cv11' 1, 'ss01' 1;
-  overflow-x: hidden;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -118,30 +172,75 @@ a {
   border-radius: 2px;
 }
 
-::selection { background: var(--accent); color: #fff; }
+/* --accent-solid, not --accent: white on --accent is 4.47:1 and fails AA.
+   Every other filled control already uses --accent-solid; this was the gap. */
+::selection { background: var(--accent-solid); color: var(--on-accent); }
 
 /* ---------- 4. Type primitives ---------- */
 
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 600;
   line-height: .92;
   letter-spacing: -0.03em;
 }
 
 .mono {
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: var(--text-xs);
   letter-spacing: .12em;
   text-transform: uppercase;
   font-weight: 500;
 }
 
 .lede {
-  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  font-size: var(--text-lede);
   line-height: 1.6;
   color: var(--text-2);
   max-width: 42ch;
+}
+
+/* Document-scale heading, for a prose block that needs a title above it.
+   Named rather than repeated inline so the treatment has exactly one home. */
+.title-lg {
+  font-family: var(--font-ui);
+  font-size: var(--text-5xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: var(--s4);
+}
+
+/* Mono label introducing a data list. Composes with .mono, which already
+   carries the face, size, tracking and case. Recurs on the landing, about and
+   CV pages, so it is named rather than repeated inline five times. */
+.dl-head {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s5);
+}
+.dl + .dl-head { margin-top: var(--s10); }   /* stacked lists in one column */
+.dl-head--break { margin-top: var(--s12); }  /* label opening a new block */
+
+/* Quiet caption under a figure or data list. Unlike .note it carries no rule. */
+.caption {
+  margin-top: var(--s6);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--text-3);
+  max-width: 68ch;
+}
+
+/* Spelled-out engagement names under the letter tags on a case-study meta grid. */
+.eng-names {
+  margin-top: var(--s2);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-3);
 }
 
 .prose p { color: var(--text-2); margin-bottom: var(--s5); max-width: 68ch; }
@@ -169,34 +268,40 @@ a {
 }
 .section:first-of-type { border-top: 0; }
 
-/* Section header: number + label on a hairline */
+/* Rhythm modifiers. The page is not N identical chapters stacked: the
+   reference sections stay compact, and the page opens out toward the close. */
+.section--tight { padding-block: clamp(var(--s8), 3vw, var(--s12)); }
+.section--open {
+  border-top: 0;
+  padding-block: clamp(var(--s16), 7vw, var(--s24)) clamp(var(--s10), 4.5vw, 4.5rem);
+}
+
+/* Section header: a label on a hairline. The label IS the section heading, so
+   it is an <h2>, not a span. No ordinal numbers: these sections are a set, not
+   a sequence, and numbering a set is decoration pretending to be structure. */
 .sec-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--s4);
+  gap: var(--s2) var(--s4);
   padding-bottom: var(--s4);
   margin-bottom: var(--s8);
   border-bottom: 1px solid var(--border);
 }
-.sec-head .num {
-  font-family: var(--font-mono);
-  font-size: .75rem;
-  letter-spacing: .12em;
-  color: var(--accent-text);
-  font-weight: 600;
-}
+/* v2: a real heading, not a 12px mono-cap label. This is the single change
+   that stops the page reading as a dashboard. */
 .sec-head .label {
-  font-family: var(--font-mono);
-  font-size: .75rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  font-weight: 500;
+  font-family: var(--font-ui);
+  font-size: var(--text-3xl);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.2;
 }
 .sec-head .count {
   margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: .75rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
   letter-spacing: .1em;
   color: var(--text-3);
 }
@@ -230,8 +335,10 @@ a {
   );
 }
 .rail svg { position: relative; height: 100%; width: 100%; overflow: visible; }
-.rail .wave-base { stroke: var(--border-strong); stroke-width: 1; fill: none; opacity: .5; }
-.rail .wave-live { stroke: var(--accent); stroke-width: 1.25; fill: none; opacity: .85; }
+/* v2: retuned for light paper. --border-strong is 3.24:1 here, so the base
+   trace needs more opacity than it did against the dark ground to read. */
+.rail .wave-base { stroke: var(--border-strong); stroke-width: 1; fill: none; opacity: .7; }
+.rail .wave-live { stroke: var(--accent); stroke-width: 1.25; fill: none; opacity: .9; }
 .rail .playhead { fill: var(--accent); }
 .rail .playhead-ring {
   fill: none;
@@ -254,30 +361,28 @@ a {
 
 /* ---------- 7. Masthead ---------- */
 
+/* A solid masthead, not a frosted floating bar. The hairline is always there
+   rather than fading in on scroll: an appearing border is part of the stock
+   SaaS-header signature, and the masthead does not react to scroll at all. */
 .masthead {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(15, 17, 23, .72);
-  backdrop-filter: saturate(140%) blur(14px);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--t-base), background var(--t-base);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-muted);
 }
-.masthead.is-stuck { border-bottom-color: var(--border-muted); }
 
 .masthead .shell {
   display: flex;
   align-items: center;
   gap: var(--s6);
-  height: 64px;
+  height: 72px;
 }
 
 .wordmark {
-  font-family: var(--font-mono);
-  font-size: .8125rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
   letter-spacing: .16em;
-  text-transform: uppercase;
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
@@ -292,28 +397,23 @@ a {
   margin-top: -2px;
 }
 
-.nav { margin-left: auto; display: flex; gap: var(--s6); align-items: center; }
+/* The nav speaks the site's own label voice (mono caps, as used by the section
+   heads, the tags, the footer and the wordmark) rather than the 14px medium
+   sans of a stock product bar. No sliding underline: the current page is named
+   in the accent, which is how indigo is used everywhere else here. */
+.nav { margin-left: auto; display: flex; gap: var(--s5); align-items: center; }
 .nav a {
-  font-size: .875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
   font-weight: 500;
-  color: var(--text-2);
-  position: relative;
-  padding-block: var(--s2);
+  color: var(--text-3);
+  padding-block: var(--s3);
   transition: color var(--t-fast);
 }
-.nav a::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 1px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  transition: transform var(--t-base);
-}
 .nav a:hover { color: var(--text); }
-.nav a:hover::after, .nav a[aria-current='page']::after { transform: scaleX(1); }
-.nav a[aria-current='page'] { color: var(--text); }
+.nav a[aria-current='page'] { color: var(--accent-text); }
 
 .nav-toggle {
   display: none;
@@ -322,8 +422,8 @@ a {
   border: 1px solid var(--border-strong);
   border-radius: var(--r-sm);
   color: var(--text);
-  font-family: var(--font-mono);
-  font-size: .75rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
   letter-spacing: .12em;
   text-transform: uppercase;
   padding: var(--s2) var(--s3);
@@ -341,33 +441,33 @@ a {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  font-family: var(--font-mono);
-  font-size: .75rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--text-2);
   margin-bottom: var(--s6);
 }
-.eyebrow .sep { color: var(--text-4); }
+.eyebrow .sep { color: var(--text-3); }
 .status-dot {
   width: 6px; height: 6px;
   border-radius: var(--r-full);
-  background: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, .16);
+  background: var(--ok);
+  box-shadow: 0 0 0 3px var(--ok-soft);
   flex: none;
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(3rem, 11vw, 7.5rem);
+  font-weight: 600;
+  font-size: var(--text-display);
   line-height: .88;
   letter-spacing: -0.035em;
   margin-bottom: var(--s6);
 }
 .hero h1 .quiet { color: var(--text-3); }
 
-.hero .lede { max-width: 54ch; font-size: clamp(1.0625rem, 1.5vw, 1.25rem); }
+.hero .lede { max-width: 54ch; font-size: var(--text-lede-hero); }
 .hero .lede + .lede { margin-top: var(--s5); }
 
 .hero-actions {
@@ -380,10 +480,11 @@ a {
 /* ---------- 9. Buttons ---------- */
 
 .btn {
+  font-family: var(--font-ui);
   display: inline-flex;
   align-items: center;
   gap: var(--s2);
-  font-size: .875rem;
+  font-size: var(--text-md);
   font-weight: 500;
   padding: var(--s3) var(--s5);
   border-radius: var(--r-md);
@@ -394,7 +495,7 @@ a {
 .btn .arrow { transition: transform var(--t-base); }
 .btn:hover .arrow { transform: translateX(3px); }
 
-.btn-primary { background: var(--accent-solid); color: #fff; }
+.btn-primary { background: var(--accent-solid); color: var(--on-accent); }
 .btn-primary:hover { background: var(--accent-hover); }
 
 .btn-ghost { border-color: var(--border-strong); color: var(--text); }
@@ -415,16 +516,15 @@ a {
 .stat:last-child { border-right: 0; }
 .stat .n {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  font-size: var(--text-stat);
   line-height: 1;
   letter-spacing: -0.02em;
   margin-bottom: var(--s2);
 }
 .stat .k {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .11em;
-  text-transform: uppercase;
   color: var(--text-3);
   line-height: 1.5;
 }
@@ -433,6 +533,11 @@ a {
 
 .rows { border-top: 1px solid var(--border-muted); }
 
+/* Rows are read, not clicked: every .row on this site is a <div> with no href.
+   They therefore carry no hover treatment. Decoration that only appears on
+   hover is invisible to touch and keyboard, and it implies an affordance that
+   is not here. The accent stripe and hover wash live on .work-list .item and
+   .card, which are real links. */
 .row {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1.4fr) 132px;
@@ -441,43 +546,28 @@ a {
   padding: var(--s5) 0;
   border-bottom: 1px solid var(--border-muted);
   position: relative;
-  transition: background var(--t-base);
 }
-.row::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--s4) * -1);
-  top: var(--s5);
-  bottom: var(--s5);
-  width: 2px;
-  background: var(--accent);
-  transform: scaleY(0);
-  transform-origin: 50% 0;
-  transition: transform var(--t-base);
-}
-.row:hover::before, .row.is-hot::before { transform: scaleY(1); }
-.row:hover { background: linear-gradient(90deg, var(--accent-subtle), transparent 55%); }
 
 .row .code {
   font-family: var(--font-mono);
-  font-size: .875rem;
+  font-size: var(--text-md);
   color: var(--accent-text);
   font-weight: 600;
   padding-top: 3px;
 }
 .row .title {
-  font-size: 1.0625rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xl);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.35;
 }
-.row .desc { color: var(--text-2); font-size: .9375rem; line-height: 1.65; }
+.row .desc { color: var(--text-2); font-size: var(--text-base); line-height: 1.65; }
 .row .meta {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   text-align: right;
   letter-spacing: .1em;
-  text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
   padding-top: 5px;
@@ -485,9 +575,11 @@ a {
 
 /* ---------- 12. Work cards ---------- */
 
+/* Not three equal tiles. One lead, two supporting: the uneven grid and the
+   natural (unlocked) heights are what keep this off the feature-tile shape. */
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: 1px;
   background: var(--border-muted);
   border: 1px solid var(--border-muted);
@@ -500,13 +592,16 @@ a {
   gap: var(--s4);
   transition: background var(--t-base);
   position: relative;
-  min-height: 260px;
 }
-.card:hover { background: var(--bg-subtle); }
+.card--lead {
+  grid-row: span 2;
+  padding: var(--s8) var(--s6);
+}
+.card:hover, .card:focus-visible { background: var(--bg-subtle); }
 .card .tags { display: flex; gap: var(--s2); flex-wrap: wrap; }
 .tag {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--accent-text);
@@ -517,26 +612,47 @@ a {
 }
 .tag.tag-quiet { color: var(--text-3); border-color: var(--border-strong); }
 .card h3 {
-  font-size: 1.125rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xl);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.015em;
 }
-.card p { color: var(--text-2); font-size: .9375rem; line-height: 1.65; }
+.card--lead h3 { font-size: var(--text-5xl); line-height: 1.2; letter-spacing: -0.02em; }
+.card p { color: var(--text-2); font-size: var(--text-base); line-height: 1.65; }
+.card--lead p { font-size: var(--text-lg); }
+
+/* The affordance rides the title, where the eye already is. Three identical
+   "Case study ->" footers under three identical cards was the tell. */
+.card h3 .arrow {
+  display: inline-block;
+  margin-left: .3em;
+  color: var(--text-3);
+  transition: transform var(--t-base), color var(--t-base);
+}
+.card:hover h3 .arrow,
+.card:focus-visible h3 .arrow { transform: translateX(3px); color: var(--accent); }
+
+/* Retained for cards that are not links and carry a plain closing line. */
 .card .foot {
   margin-top: auto;
   padding-top: var(--s4);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-3);
 }
-.card:hover .foot .arrow { transform: translateX(3px); color: var(--accent); }
-.card .foot .arrow { transition: transform var(--t-base), color var(--t-base); }
+
+@media (max-width: 860px) {
+  .work-grid { grid-template-columns: 1fr; }
+  .card--lead { grid-row: auto; padding: var(--s6); }
+  .card--lead h3 { font-size: var(--text-3xl); }
+  .card--lead p { font-size: var(--text-base); }
+}
 
 /* ---------- 13. Record (patents / research) ---------- */
 
@@ -555,10 +671,10 @@ a {
   padding: var(--s4) 0;
   border-bottom: 1px solid var(--border-muted);
 }
-.dl dt { color: var(--text-2); font-size: 1rem; }
+.dl dt { color: var(--text-2); font-size: var(--text-lg); }
 .dl dd {
   font-family: var(--font-mono);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   color: var(--text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -568,7 +684,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: var(--s2);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--accent-text);
   margin-top: var(--s6);
@@ -580,13 +696,13 @@ a {
 
 .now {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
   gap: var(--s12);
   align-items: start;
 }
 .now-quote {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-family: var(--font-body);
+  font-size: var(--text-quote);
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
@@ -596,8 +712,8 @@ a {
 
 .contact h2 {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.25rem, 6.5vw, 4.25rem);
+  font-weight: 600;
+  font-size: var(--text-display-s);
   line-height: .95;
   letter-spacing: -0.03em;
   margin-bottom: var(--s6);
@@ -610,12 +726,12 @@ a {
   padding-top: var(--s6);
   border-top: 1px solid var(--border-muted);
 }
-.contact-links a { color: var(--text); font-size: 1rem; transition: color var(--t-fast); }
+.contact-links a { color: var(--text); font-size: var(--text-lg); transition: color var(--t-fast); }
 .contact-links a:hover { color: var(--accent-hover); }
 .contact-links .k {
   display: block;
-  font-family: var(--font-mono);
-  font-size: .625rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -627,10 +743,9 @@ a {
 .site-foot {
   border-top: 1px solid var(--border-muted);
   padding-block: var(--s10);
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .08em;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 .site-foot .shell { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); align-items: center; }
@@ -679,8 +794,9 @@ a {
   .nav { display: none; }
   .nav.is-open {
     display: flex;
+    /* top: 100% tracks the masthead's height, which now changes on scroll */
     position: absolute;
-    top: 64px; left: 0; right: 0;
+    top: 100%; left: 0; right: 0;
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
@@ -688,28 +804,52 @@ a {
     border-bottom: 1px solid var(--border);
     padding: var(--s2) var(--s6) var(--s5);
   }
-  .nav.is-open a { padding-block: var(--s3); font-size: 1rem; width: 100%; }
+  .nav.is-open a { padding-block: var(--s4); font-size: var(--text-md); width: 100%; }
   .nav-toggle { display: block; }
   .shell { padding-inline: var(--s5); }
-  .hero h1 { font-size: clamp(2.75rem, 13vw, 4rem); }
+  .hero h1 { font-size: var(--text-display-sm); }
   .eyebrow { flex-wrap: wrap; gap: var(--s2); }
 }
 
 /* ---------- 19. Motion and print ---------- */
 
+/* Reduced motion collapses spatial motion and keeps colour. A blanket
+   transition kill also removes hover and focus colour feedback, which is
+   information rather than decoration, so the property list is narrowed
+   instead of the duration being zeroed across the board. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
-    transition-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color,
+                         box-shadow, outline-color, fill, stroke !important;
+    transition-duration: 150ms !important;
   }
   .js .reveal { opacity: 1; transform: none; }
 }
 
 @media print {
-  body { background: #fff; color: #111117; padding-left: 0; }
+  /* Print palette. Declared once here and consumed by both print blocks (this
+     one and the CV block in section 23). The CV PDF is rendered from /cv/
+     through this stylesheet, so these must stay tokens: a raw hex here is a
+     value that silently will not follow a brand change into the PDF. */
+  :root {
+    --p-paper:       #ffffff;
+    --p-ink:         #111117;
+    --p-body:        #3f3f46;
+    --p-mute:        #52525b;
+    --p-quiet:       #71717a;
+    --p-faint:       #a1a1aa;
+    --p-accent:      #4f52d4;
+    --p-rule:        #ededea;
+    --p-rule-mid:    #e2e2de;
+    --p-rule-strong: #c9c9c4;
+  }
+
+  body { background: var(--p-paper); color: var(--p-ink); padding-left: 0; }
   .rail, .rail-top, .masthead, .hero-actions, .site-foot { display: none; }
-  a { color: #111117; }
+  a { color: var(--p-ink); }
 }
 
 /* ============================================================
@@ -725,18 +865,18 @@ a {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  font-family: var(--font-mono);
-  font-size: .75rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--text-3);
   margin-bottom: var(--s6);
 }
-.page-head .kicker .sep { color: var(--text-4); }
+.page-head .kicker .sep { color: var(--text-3); }
 .page-head h1 {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.25rem, 5.6vw, 4rem);
+  font-weight: 600;
+  font-size: var(--text-page-h1);
   line-height: .98;
   letter-spacing: -0.03em;
   max-width: 20ch;
@@ -755,38 +895,38 @@ a {
 }
 .meta-grid > div { background: var(--bg); padding: var(--s5); }
 .meta-grid dt {
-  font-family: var(--font-mono);
-  font-size: .625rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .13em;
   text-transform: uppercase;
   color: var(--text-3);
   margin-bottom: var(--s2);
 }
-.meta-grid dd { font-size: .9375rem; color: var(--text); line-height: 1.55; }
+.meta-grid dd { font-size: var(--text-base); color: var(--text); line-height: 1.55; }
 .meta-grid dd .tag { margin-right: 4px; }
 
 /* Case study body */
 .case-body { padding-block: clamp(var(--s10), 5vw, 4.5rem); }
 .case-body h2 {
-  font-family: var(--font-mono);
-  font-size: .75rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--accent-text);
+  font-family: var(--font-ui);
+  font-size: var(--text-3xl);
+  letter-spacing: -0.01em;
+  color: var(--text);
   font-weight: 600;
+  line-height: 1.25;
   padding-bottom: var(--s3);
   margin-bottom: var(--s6);
   border-bottom: 1px solid var(--border);
 }
 .case-body h2:not(:first-child) { margin-top: clamp(var(--s10), 4vw, var(--s16)); }
-.case-body p { color: var(--text-2); max-width: 68ch; margin-bottom: var(--s5); font-size: 1.0625rem; }
+.case-body p { color: var(--text-2); max-width: 68ch; margin-bottom: var(--s5); font-size: var(--text-xl); }
 .case-body p:last-child { margin-bottom: 0; }
 .case-body strong { color: var(--text); font-weight: 600; }
 
 .case-body ul { max-width: 68ch; }
 .case-body ul li {
   color: var(--text-2);
-  font-size: 1.0625rem;
+  font-size: var(--text-xl);
   padding-left: var(--s6);
   position: relative;
   margin-bottom: var(--s4);
@@ -806,7 +946,7 @@ a {
   border-left: 2px solid var(--border-strong);
   padding: var(--s2) 0 var(--s2) var(--s5);
   color: var(--text-3);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   max-width: 68ch;
   margin-top: var(--s8);
 }
@@ -823,14 +963,13 @@ a {
 .case-nav a { display: block; max-width: 45%; }
 .case-nav .k {
   display: block;
-  font-family: var(--font-mono);
-  font-size: .625rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .13em;
-  text-transform: uppercase;
   color: var(--text-3);
   margin-bottom: var(--s2);
 }
-.case-nav .t { font-size: .9375rem; font-weight: 500; color: var(--text-2); transition: color var(--t-fast); }
+.case-nav .t { font-size: var(--text-base); font-weight: 500; color: var(--text-2); transition: color var(--t-fast); }
 .case-nav a:hover .t { color: var(--accent-hover); }
 .case-nav .next { text-align: right; margin-left: auto; }
 
@@ -847,16 +986,16 @@ a {
   border-bottom: 1px solid var(--border-muted);
 }
 .filters .flabel {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .13em;
   text-transform: uppercase;
   color: var(--text-3);
   margin-right: var(--s3);
 }
 .filters button {
-  font-family: var(--font-body);
-  font-size: .8125rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--text-2);
   background: none;
@@ -868,14 +1007,14 @@ a {
 }
 .filters button:hover { color: var(--text); border-color: var(--accent-border); }
 .filters button[aria-pressed='true'] {
-  color: #fff;
+  color: var(--on-accent);
   background: var(--accent-solid);
   border-color: var(--accent-solid);
 }
 .filters .fcount {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-size: var(--text-2xs);
   letter-spacing: .1em;
   color: var(--text-3);
 }
@@ -902,27 +1041,34 @@ a {
   transform-origin: 50% 0;
   transition: transform var(--t-base);
 }
-.work-list .item:hover::before { transform: scaleY(1); }
-.work-list .item:hover { background: linear-gradient(90deg, var(--accent-subtle), transparent 55%); }
+/* Focus gets exactly what hover gets: these are links, and the affordance must
+   not be pointer-only. Solid surface rather than a gradient, because
+   transition: background cannot interpolate a gradient and would snap. */
+.work-list .item:hover::before,
+.work-list .item:focus-visible::before { transform: scaleY(1); }
+.work-list .item:hover,
+.work-list .item:focus-visible { background: var(--bg-subtle); }
 .work-list .item h3 {
-  font-size: 1.375rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-4xl);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.25;
   margin-bottom: var(--s3);
 }
 .work-list .item .tags { margin-bottom: var(--s4); }
-.work-list .item p { color: var(--text-2); font-size: 1rem; line-height: 1.65; }
+.work-list .item p { color: var(--text-2); font-size: var(--text-lg); line-height: 1.65; }
 .work-list .item .more {
   display: inline-flex;
   align-items: center;
   gap: var(--s2);
   margin-top: var(--s4);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--accent-text);
 }
-.work-list .item:hover .more .arrow { transform: translateX(3px); }
+.work-list .item:hover .more .arrow,
+.work-list .item:focus-visible .more .arrow { transform: translateX(3px); }
 .work-list .item .more .arrow { transition: transform var(--t-base); }
 .work-list .item[hidden] { display: none; }
 
@@ -933,10 +1079,10 @@ a {
 
 /* Publication rows */
 .row-pub { grid-template-columns: 40px minmax(0, 1fr) 150px; align-items: start; }
-.row-pub .pub p { color: var(--text-2); font-size: 1rem; line-height: 1.6; margin: 0; }
+.row-pub .pub p { color: var(--text-2); font-size: var(--text-lg); line-height: 1.6; margin: 0; }
 .row-pub .pub .pub-meta {
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: var(--text-xs);
   color: var(--text-3);
   margin-top: var(--s3);
   line-height: 1.6;
@@ -957,41 +1103,65 @@ a {
 
 .pat-tools { padding-block: var(--s8) var(--s6); }
 
-/* --- year histogram: one series, one accent, no legend --- */
-.hist {
+/* --- the portfolio field ---
+   Every grant is one mark. 358 of them, stacked by year, so column height is
+   still the count but the unit of the chart is the patent rather than the bar.
+   This is the page's centrepiece: the record drawn, not tabulated. */
+.field {
   display: flex;
   align-items: flex-end;
-  gap: 2px;                       /* 2px surface gap between adjacent bars */
-  height: 132px;
+  gap: 10px;
   max-width: 760px;
   border-bottom: 1px solid var(--border);   /* solid hairline baseline */
+  padding-bottom: 2px;
   margin-bottom: var(--s3);
 }
-.hist .col {
+.field-col {
   flex: 1 1 0;
-  height: 100%;
+  min-width: 0;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column-reverse;   /* marks stack up from the baseline */
+  gap: 2px;
   background: none;
   border: 0;
   padding: 0;
   cursor: pointer;
   position: relative;
-  min-width: 0;
 }
-.hist .bar {
-  width: 100%;
-  max-width: 18px;
+.unit {
+  display: block;
+  height: 6px;
+  border-radius: 1px;
   background: var(--accent);
-  border-radius: 3px 3px 0 0;     /* 3px rounded data-end, anchored to baseline */
-  opacity: .8;
-  transition: opacity var(--t-fast), background var(--t-fast);
+  transition: opacity var(--t-fast);
 }
-.hist .col:hover .bar,
-.hist .col:focus-visible .bar { opacity: 1; background: var(--accent-hover); }
-.hist .col[aria-pressed='true'] .bar { background: var(--accent-hover); opacity: 1; }
-.hist .col.dim .bar { background: var(--border-strong); opacity: .8; }
+.unit.u1 { background: var(--border-strong); }                       /* expired */
+.unit.u2 { background: none; box-shadow: inset 0 0 0 1px var(--accent); } /* too recent */
+.unit.off { opacity: .18; }        /* filtered out, still present and countable */
+
+.field-col:hover .unit,
+.field-col:focus-visible .unit { opacity: 1; }
+.field-col.dim .unit { opacity: .22; }
+
+.field-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  color: var(--text-3);
+  margin-bottom: var(--s4);
+}
+.field-key span { display: inline-flex; align-items: center; gap: 6px; }
+.field-key i {
+  width: 14px; height: 6px;
+  border-radius: 1px;
+  background: var(--accent);
+  font-style: normal;
+}
+.field-key i.k1 { background: var(--border-strong); }
+.field-key i.k2 { background: none; box-shadow: inset 0 0 0 1px var(--accent); }
 
 .hist-tip {
   position: absolute;
@@ -1003,7 +1173,7 @@ a {
   border-radius: var(--r-sm);
   padding: 5px 9px;
   font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-size: var(--text-2xs);
   color: var(--text);
   white-space: nowrap;
   opacity: 0;
@@ -1011,29 +1181,28 @@ a {
   transition: opacity var(--t-fast);
   z-index: 5;
 }
-.hist .col:hover .hist-tip,
-.hist .col:focus-visible .hist-tip { opacity: 1; }
+.field-col:hover .hist-tip,
+.field-col:focus-visible .hist-tip { opacity: 1; }
 /* keep the tooltip inside the viewport at the ends of the strip */
-.hist .col:first-child .hist-tip,
-.hist .col:nth-child(2) .hist-tip { left: 0; transform: none; }
-.hist .col:last-child .hist-tip,
-.hist .col:nth-last-child(2) .hist-tip { left: auto; right: 0; transform: none; }
+.field-col:first-child .hist-tip,
+.field-col:nth-child(2) .hist-tip { left: 0; transform: none; }
+.field-col:last-child .hist-tip,
+.field-col:nth-last-child(2) .hist-tip { left: auto; right: 0; transform: none; }
 
 .hist-axis {
   display: flex;
   max-width: 760px;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-size: var(--text-2xs);
   letter-spacing: .06em;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
 .hist-caption {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .1em;
-  text-transform: uppercase;
   color: var(--text-3);
   margin-bottom: var(--s4);
 }
@@ -1057,15 +1226,15 @@ a {
   border-radius: var(--r-md);
   padding: 10px 14px;
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: .9375rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
 }
 .pat-search::placeholder { color: var(--text-3); }
 .pat-search:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
 
 .pat-count {
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: var(--text-xs);
   letter-spacing: .08em;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
@@ -1077,17 +1246,16 @@ a {
 .pat-table { width: 100%; min-width: 560px; border-collapse: collapse; }
 .pat-table caption {
   text-align: left;
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .12em;
-  text-transform: uppercase;
   color: var(--text-3);
   padding-block: var(--s5) var(--s3);
 }
 .pat-table th {
   text-align: left;
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1100,14 +1268,14 @@ a {
   padding: var(--s4) var(--s4) var(--s4) 0;
   border-bottom: 1px solid var(--border-muted);
   vertical-align: top;
-  font-size: .9375rem;
+  font-size: var(--text-base);
   color: var(--text-2);
   line-height: 1.5;
 }
 .pat-table tr:hover td { background: var(--bg-subtle); }
 .pat-table .c-num {
   font-family: var(--font-mono);
-  font-size: .8125rem;
+  font-size: var(--text-sm);
   color: var(--accent-text);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -1119,8 +1287,8 @@ a {
   color: var(--text-3);
   white-space: nowrap;
 }
-.pat-table .c-status { white-space: nowrap; font-size: .875rem; }
-.pat-table .c-people { font-size: .8125rem; color: var(--text-3); }
+.pat-table .c-status { white-space: nowrap; font-size: var(--text-md); }
+.pat-table .c-people { font-size: var(--text-sm); color: var(--text-3); }
 .dot-status {
   display: inline-block;
   width: 6px; height: 6px;
@@ -1128,9 +1296,9 @@ a {
   margin-right: 7px;
   vertical-align: middle;
 }
-.s0 { background: #22c55e; }
+.s0 { background: var(--ok); }
 .s1 { background: var(--text-3); }
-.s2 { background: var(--color-info, #38bdf8); }
+.s2 { background: var(--info); }
 
 .pat-empty { padding: var(--s12) 0; color: var(--text-3); text-align: center; }
 .pat-more {
@@ -1142,8 +1310,8 @@ a {
   border: 1px solid var(--border-strong);
   border-radius: var(--r-md);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: .875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
   font-weight: 500;
   cursor: pointer;
   transition: border-color var(--t-fast), background var(--t-fast);
@@ -1152,8 +1320,8 @@ a {
 
 .people-cloud { display: flex; flex-wrap: wrap; gap: var(--s2); }
 .people-cloud button {
-  font-family: var(--font-body);
-  font-size: .8125rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
   color: var(--text-2);
   background: none;
   border: 1px solid var(--border-strong);
@@ -1165,7 +1333,7 @@ a {
 .people-cloud button:hover { color: var(--text); border-color: var(--accent-border); }
 .people-cloud button .n {
   font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-size: var(--text-2xs);
   color: var(--text-3);
   margin-left: 6px;
 }
@@ -1174,8 +1342,8 @@ a {
   .pat-table .c-people, .pat-table th.h-people { display: none; }
   .pat-table .c-title { width: auto; min-width: 260px; }
   .pat-table { min-width: 520px; }
-  .hist { height: 96px; }
-  .hist .bar { max-width: 12px; }
+  .field { gap: 5px; }
+  .unit { height: 5px; }
 }
 
 .visually-hidden {
@@ -1200,26 +1368,29 @@ a {
   border-bottom: 1px solid var(--border-muted);
 }
 .cv-entry:first-of-type { border-top: 1px solid var(--border-muted); }
+/* The city is content, not a separator, so it may not use --text-4 (4.7:1,
+   below this site's 7.2:1 floor for small mono). Both steps move up one:
+   the date leads at 8.1:1, the city sits under it at 7.2:1. */
 .cv-when {
   font-family: var(--font-mono);
-  font-size: .8125rem;
-  color: var(--text-3);
+  font-size: var(--text-sm);
+  color: var(--text-2);
   line-height: 1.65;
   padding-top: 3px;
   font-variant-numeric: tabular-nums;
 }
-.cv-when span { color: var(--text-4); }
+.cv-when span { color: var(--text-3); }
 .cv-what h3 {
-  font-size: 1.125rem;
+  font-size: var(--text-2xl);
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.3;
   margin-bottom: var(--s1);
 }
-.cv-what .org { color: var(--accent-text); font-size: .9375rem; margin-bottom: var(--s4); }
+.cv-what .org { color: var(--accent-text); font-size: var(--text-base); margin-bottom: var(--s4); }
 .cv-what .sub {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1228,7 +1399,7 @@ a {
 .cv-what ul { max-width: 74ch; }
 .cv-what ul li {
   color: var(--text-2);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   line-height: 1.65;
   padding-left: var(--s5);
   position: relative;
@@ -1252,7 +1423,7 @@ a {
   padding: var(--s5) 0 var(--s5) var(--s10);
   border-bottom: 1px solid var(--border-muted);
   color: var(--text-2);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   line-height: 1.6;
   max-width: 84ch;
 }
@@ -1261,12 +1432,12 @@ a {
   position: absolute;
   left: 0; top: var(--s5);
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: var(--text-xs);
   color: var(--accent-text);
 }
 .cv-pubs em { font-style: italic; }
 
-.cv-tags { color: var(--text-2); font-size: .9375rem; line-height: 1.8; margin-top: var(--s3); }
+.cv-tags { color: var(--text-2); font-size: var(--text-base); line-height: 1.8; margin-top: var(--s3); }
 .cv .dl dt { color: var(--text); font-weight: 500; }
 
 @media (max-width: 780px) {
@@ -1277,19 +1448,19 @@ a {
 /* Print: the CV page doubles as the PDF source */
 @media print {
   @page { size: letter; margin: 14mm 13mm; }
-  body { background: #fff; color: #111117; font-size: 9pt; line-height: 1.45; padding-left: 0; }
+  body { background: var(--p-paper); color: var(--p-ink); font-size: 9pt; line-height: 1.45; padding-left: 0; }
   .rail, .rail-top, .masthead, .site-foot, .hero-actions, .filters, .pat-tools { display: none !important; }
-  a { color: #111117; box-shadow: none !important; }
-  .page-head { padding-top: 0; padding-bottom: 8pt; border-bottom: 1px solid #c9c9c4; }
-  .page-head h1 { font-size: 22pt; color: #111117; margin-bottom: 6pt; }
+  a { color: var(--p-ink); box-shadow: none !important; }
+  .page-head { padding-top: 0; padding-bottom: 8pt; border-bottom: 1px solid var(--p-rule-strong); }
+  .page-head h1 { font-size: 22pt; color: var(--p-ink); margin-bottom: 6pt; }
   .page-head .lede { font-size: 9.5pt; max-width: none; }
   .page-head .kicker { margin-bottom: 6pt; font-size: 7pt; }
-  .page-head .kicker, .page-head .lede { color: #3f3f46; }
-  .section { padding-block: 9pt; border-top: 1px solid #e2e2de; break-inside: auto; }
-  .sec-head { border-bottom: 1px solid #c9c9c4; margin-bottom: 7pt; padding-bottom: 4pt; }
-  .sec-head .num { color: #4f52d4; }
-  .sec-head .label, .sec-head .count { color: #52525b; }
-  .cv-entry { break-inside: auto; border-bottom: 1px solid #ededea; padding: 6pt 0;
+  .page-head .kicker, .page-head .lede { color: var(--p-body); }
+  .section { padding-block: 9pt; border-top: 1px solid var(--p-rule-mid); break-inside: auto; }
+  .sec-head { border-bottom: 1px solid var(--p-rule-strong); margin-bottom: 7pt; padding-bottom: 4pt; }
+  .sec-head .label { color: var(--p-ink); }
+  .sec-head .count { color: var(--p-mute); }
+  .cv-entry { break-inside: auto; border-bottom: 1px solid var(--p-rule); padding: 6pt 0;
     grid-template-columns: 108px minmax(0, 1fr); gap: 12pt; }
   .cv-what h3 { font-size: 10.5pt; margin-bottom: 0; break-after: avoid; }
   .cv-what .org { break-after: avoid; }
@@ -1307,26 +1478,26 @@ a {
   .split { gap: 18pt; }
   .dl div { padding: 3.5pt 0; }
   .dl dt, .dl dd { font-size: 8.5pt; }
-  .cv-entry:first-of-type { border-top: 1px solid #ededea; }
-  .cv-when, .cv-what .sub { color: #71717a; }
-  .cv-when span { color: #a1a1aa; }
-  .cv-what h3 { color: #111117; }
-  .cv-what .org { color: #4f52d4; }
-  .cv-what ul li, .cv-pubs li, .prose p, .cv-tags { color: #3f3f46; }
-  .cv-what ul li::before { background: none; border-top: 1px solid #a1a1aa; height: 0; width: 7px; top: 6.5pt; }
-  .case-body ul li::before { background: none; border-top: 1px solid #4f52d4; height: 0; }
-  .dot-status { border: 1px solid #71717a; background: none !important; }
-  .cv-pubs li { border-bottom: 1px solid #ededea; break-inside: avoid; }
-  .cv-pubs li::before { color: #4f52d4; }
-  .row { border-bottom: 1px solid #ededea; break-inside: avoid; padding: 8pt 0; }
-  .row .code { color: #4f52d4; }
-  .row .title { color: #111117; }
-  .row .desc, .row .meta { color: #3f3f46; }
-  .dl div { border-bottom: 1px solid #ededea; padding: 5pt 0; }
-  .dl dt { color: #111117; }
-  .dl dd { color: #3f3f46; }
-  .contact-links a { color: #111117; }
-  .contact-links .k { color: #71717a; }
+  .cv-entry:first-of-type { border-top: 1px solid var(--p-rule); }
+  .cv-when, .cv-what .sub { color: var(--p-quiet); }
+  .cv-when span { color: var(--p-faint); }
+  .cv-what h3 { color: var(--p-ink); }
+  .cv-what .org { color: var(--p-accent); }
+  .cv-what ul li, .cv-pubs li, .prose p, .cv-tags { color: var(--p-body); }
+  .cv-what ul li::before { background: none; border-top: 1px solid var(--p-faint); height: 0; width: 7px; top: 6.5pt; }
+  .case-body ul li::before { background: none; border-top: 1px solid var(--p-accent); height: 0; }
+  .dot-status { border: 1px solid var(--p-quiet); background: none !important; }
+  .cv-pubs li { border-bottom: 1px solid var(--p-rule); break-inside: avoid; }
+  .cv-pubs li::before { color: var(--p-accent); }
+  .row { border-bottom: 1px solid var(--p-rule); break-inside: avoid; padding: 8pt 0; }
+  .row .code { color: var(--p-accent); }
+  .row .title { color: var(--p-ink); }
+  .row .desc, .row .meta { color: var(--p-body); }
+  .dl div { border-bottom: 1px solid var(--p-rule); padding: 5pt 0; }
+  .dl dt { color: var(--p-ink); }
+  .dl dd { color: var(--p-body); }
+  .contact-links a { color: var(--p-ink); }
+  .contact-links .k { color: var(--p-quiet); }
 }
 
 /* ============================================================
@@ -1335,19 +1506,19 @@ a {
 
 .post-body { padding-block: clamp(var(--s10), 5vw, 4rem); max-width: 68ch; }
 .post-body p,
-.post-body li { color: var(--text-2); font-size: 1.0625rem; line-height: 1.75; }
+.post-body li { color: var(--text-2); font-size: var(--text-xl); line-height: 1.75; }
 .post-body p { margin-bottom: var(--s6); }
 .post-body h2 {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  font-size: var(--text-post-h2);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--text);
   margin: clamp(var(--s10), 4vw, var(--s16)) 0 var(--s5);
 }
 .post-body h3 {
-  font-size: 1.125rem;
+  font-size: var(--text-2xl);
   font-weight: 600;
   color: var(--text);
   margin: var(--s8) 0 var(--s4);
@@ -1385,7 +1556,7 @@ a {
   position: absolute;
   left: 0; top: .18em;
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: var(--text-xs);
   color: var(--accent-text);
 }
 .post-body hr {
@@ -1422,10 +1593,10 @@ a {
   text-align: left;
   padding: var(--s3) var(--s4) var(--s3) 0;
   border-bottom: 1px solid var(--border-muted);
-  font-size: .9375rem;
+  font-size: var(--text-base);
   color: var(--text-2);
 }
-.post-body th { color: var(--text-3); font-family: var(--font-mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+.post-body th { color: var(--text-3); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; text-transform: uppercase; }
 .post-body img { border-radius: var(--r-md); margin-bottom: var(--s6); }
 
 /* ============================================================
@@ -1444,8 +1615,8 @@ a {
 }
 .portrait-figure { margin-bottom: var(--s8); }
 .portrait-figure figcaption {
-  font-family: var(--font-mono);
-  font-size: .6875rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-3);

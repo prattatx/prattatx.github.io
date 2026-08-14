@@ -513,7 +513,7 @@ def write_case(case):
 
     eng_dd = "".join(
         '<span class="tag" title="%s">%s</span>' % (ENGAGEMENTS[e], e) for e in case["eng"]
-    ) + '<div style="margin-top:.5rem;font-size:.8125rem;color:var(--text-3);line-height:1.5">%s</div>' % (
+    ) + '<div class="eng-names">%s</div>' % (
         ", ".join(ENGAGEMENTS[e] for e in case["eng"])
     )
 
@@ -641,8 +641,7 @@ description: "Nine case studies: patent development, enterprise design-thinking 
 
   <section class="section" style="border-top:0">
     <div class="sec-head">
-      <span class="num">&mdash;</span>
-      <span class="label">Not published here</span>
+      <h2 class="label">Not published here</h2>
     </div>
     <div class="prose">
       <p>
