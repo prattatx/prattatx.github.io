@@ -513,7 +513,7 @@ def write_case(case):
 
     eng_dd = "".join(
         '<span class="tag" title="%s">%s</span>' % (ENGAGEMENTS[e], e) for e in case["eng"]
-    ) + '<div style="margin-top:.5rem;font-size:.8125rem;color:var(--text-3);line-height:1.5">%s</div>' % (
+    ) + '<div class="eng-names">%s</div>' % (
         ", ".join(ENGAGEMENTS[e] for e in case["eng"])
     )
 

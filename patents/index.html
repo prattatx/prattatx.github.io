@@ -21,7 +21,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
 </div>
 
 <div class="shell">
-  <div class="stats" style="margin-top:2.5rem">
+  <div class="stats" style="margin-top:var(--s10)">
     <div class="stat"><div class="n">358</div><div class="k">Granted<br>patents</div></div>
     <div class="stat"><div class="n">2</div><div class="k">Acquired by<br>other companies</div></div>
     <div class="stat"><div class="n">111</div><div class="k">Named<br>co-inventors</div></div>
@@ -32,17 +32,25 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
 <section class="section" style="border-top:0;padding-top:0">
   <div class="shell">
 
-    <div class="pat-tools">
-      <p class="hist-caption" id="hist-label">Granted patents by year</p>
-      <div class="hist" id="hist" role="group" aria-labelledby="hist-label"></div>
+    <figure class="pat-tools">
+      <figcaption class="hist-caption" id="hist-label">
+        Every grant, one mark. 358 patents by year of issue.
+      </figcaption>
+      <p class="field-key" aria-hidden="true">
+        <span><i></i> In force</span>
+        <span><i class="k1"></i> Expired</span>
+        <span><i class="k2"></i> Too recent to index</span>
+      </p>
+      <div class="field" id="field" role="group" aria-labelledby="hist-label"></div>
       <div class="hist-axis" id="hist-axis"></div>
-    </div>
+      <p class="visually-hidden" id="field-summary"></p>
+    </figure>
 
     <div class="pat-filters">
       <label class="visually-hidden" for="pat-q">Search patents</label>
       <input class="pat-search" id="pat-q" type="search"
              placeholder="Search titles, patent numbers, co-inventors" autocomplete="off">
-      <div class="filters" style="padding:0;border:0;gap:.5rem">
+      <div class="filters" style="padding:0;border:0;gap:var(--s2)">
         <button type="button" data-s="all" aria-pressed="true">All</button>
         <button type="button" data-s="0" aria-pressed="false">In force</button>
         <button type="button" data-s="1" aria-pressed="false">Expired</button>
@@ -147,7 +155,9 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
   var $count = document.getElementById('pat-count');
   var $more = document.getElementById('pat-more');
   var $empty = document.getElementById('pat-empty');
-  var $hist = document.getElementById('hist');
+  var $field = document.getElementById('field');
+  var $summary = document.getElementById('field-summary');
+  var unitEls = {};
   var $axis = document.getElementById('hist-axis');
   var $people = document.getElementById('people');
   var $q = document.getElementById('pat-q');
@@ -174,7 +184,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
   }
 
   function init() {
-    buildHist();
+    buildField();
     buildPeople();
 
     $q.addEventListener('input', function () {
@@ -202,25 +212,57 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
     render();
   }
 
-  function buildHist() {
-    var max = Math.max.apply(null, DATA.hist.map(function (h) { return h[1]; }));
+  /* The field. One mark per grant, stacked by year of issue. Column height is
+     still the year count, but the unit is the patent, so the whole portfolio is
+     present on the page rather than summarised into sixteen bars.
+
+     Keyboard gets sixteen stops (one per year column), not 358. The per-patent
+     detail rides a title attribute for pointer users, and the table below is
+     the complete, accessible data view. */
+  function buildField() {
+    var byYear = {};
+    DATA.patents.forEach(function (p, i) {
+      (byYear[p[2]] = byYear[p[2]] || []).push(i);
+    });
+    var years = Object.keys(byYear).map(Number).sort(function (a, b) { return a - b; });
     var peak = DATA.hist.reduce(function (a, b) { return b[1] > a[1] ? b : a; });
 
-    $hist.innerHTML = DATA.hist.map(function (h) {
-      var pct = Math.max(2, Math.round((h[1] / max) * 100));
-      return '<button class="col" type="button" data-y="' + h[0] + '" aria-pressed="false" ' +
-        'aria-label="' + h[0] + ', ' + h[1] + ' patents. Filter to this year.">' +
-        '<span class="hist-tip" aria-hidden="true">' + h[0] + ' &middot; ' + h[1] + '</span>' +
-        '<span class="bar" style="height:' + pct + '%"></span>' +
-        '</button>';
+    /* In force sits on the baseline, too-recent above it, lapsed on top. Without
+       this the statuses speckle and the pattern is unreadable; with it you can
+       see the maintenance-fee pruning in the older years at a glance. */
+    var ORDER = { 0: 0, 2: 1, 1: 2 };
+    years.forEach(function (y) {
+      byYear[y].sort(function (a, b) {
+        return ORDER[DATA.patents[a][3]] - ORDER[DATA.patents[b][3]];
+      });
+    });
+
+    $field.innerHTML = years.map(function (y) {
+      var idx = byYear[y];
+      var inForce = idx.filter(function (i) { return DATA.patents[i][3] === 0; }).length;
+      var marks = idx.map(function (i) {
+        var p = DATA.patents[i];
+        return '<span class="unit u' + p[3] + '" data-i="' + i + '" aria-hidden="true" title="' +
+          esc(p[0] + ' · ' + p[1]) + '"></span>';
+      }).join('');
+      return '<button class="field-col" type="button" data-y="' + y + '" aria-pressed="false" ' +
+        'aria-label="' + y + ', ' + idx.length + ' granted, ' + inForce +
+        ' still in force. Filter to this year.">' +
+        '<span class="hist-tip" aria-hidden="true">' + y + ' &middot; ' + idx.length +
+        ' granted &middot; ' + inForce + ' in force</span>' + marks + '</button>';
     }).join('');
 
     $axis.innerHTML =
-      '<span>' + DATA.hist[0][0] + '</span>' +
+      '<span>' + years[0] + '</span>' +
       '<span>peak ' + peak[0] + ', ' + peak[1] + ' patents</span>' +
-      '<span>' + DATA.hist[DATA.hist.length - 1][0] + '</span>';
+      '<span>' + years[years.length - 1] + '</span>';
 
-    $hist.querySelectorAll('.col').forEach(function (b) {
+    unitEls = {};
+    $field.querySelectorAll('.unit').forEach(function (u) {
+      unitEls[u.dataset.i] = u;
+    });
+
+    $field.querySelectorAll('.field-col').forEach(function (b) {
       b.addEventListener('click', function () {
         var y = parseInt(b.dataset.y, 10);
         state.year = state.year === y ? null : y;
@@ -303,11 +345,21 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
     $more.textContent = 'Show ' + Math.min(PAGE, list.length - state.shown) + ' more';
     $empty.hidden = list.length !== 0;
 
-    $hist.querySelectorAll('.col').forEach(function (b) {
+    var live = Object.create(null);
+    DATA.patents.forEach(function (p, i) { if (matches(p)) live[i] = 1; });
+    Object.keys(unitEls).forEach(function (i) {
+      unitEls[i].classList.toggle('off', !live[i]);
+    });
+
+    $field.querySelectorAll('.field-col').forEach(function (b) {
       var on = state.year === parseInt(b.dataset.y, 10);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
       b.classList.toggle('dim', state.year !== null && !on);
     });
+
+    $summary.textContent = bits.length
+      ? 'Chart shows ' + list.length + ' of 358 grants highlighted, ' + bits.join(', ') + '.'
+      : 'Chart shows all 358 grants, 2011 to 2026, peaking at 36 in 2022.';
     $people.querySelectorAll('button').forEach(function (b) {
       b.setAttribute('aria-pressed', state.person === parseInt(b.dataset.p, 10) ? 'true' : 'false');
     });
