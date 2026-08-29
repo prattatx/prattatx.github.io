@@ -41,13 +41,27 @@
   font-weight: 700; font-style: normal; font-display: swap;
 }
 
+/* Source Serif 4 is variable on the wght axis, so one file per style covers
+   the whole range. Body sits at 400, strong at 600, both from the roman file.
+   OFL 1.1, latin subset, sourced from Google Fonts. */
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/source-serif-4-var.woff2') format('woff2');
+  font-weight: 200 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/assets/fonts/source-serif-4-var-italic.woff2') format('woff2');
+  font-weight: 200 900; font-style: italic; font-display: swap;
+}
+
 /* ---------- 2. Tokens ---------- */
 
 :root {
   /* Sans carries structure, serif carries reading. Inverted from v1, and the
      main reason this no longer reads like a monitoring dashboard.
-     --font-body falls back to Iowan Old Style / Georgia until the
-     Source Serif 4 woff2 lands in assets/fonts/. */
+     Source Serif 4 is self-hosted; the stack behind it is the fallback
+     if the woff2 fails to load. */
   --font-display: 'Inter', 'SF Pro Display', system-ui, sans-serif;
   --font-ui:      'Inter', 'SF Pro Text', system-ui, sans-serif;
   --font-body:    'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype',
