@@ -175,8 +175,8 @@ reading.** That inversion is the main fix for "reads like a dashboard."
 - **Structure and display**: Inter 500/600/700. Already self-hosted, four
   weights present, so no new font files are needed for this role. Tracking
   -0.02em to -0.035em at display sizes. Roman always; no italic headings.
-- **Body**: a text-optimised serif. Target **Source Serif 4** (OFL, free), with
-  a system fallback that works before the woff2 lands:
+- **Body**: **Source Serif 4** (OFL), self-hosted and variable across 200 to 900,
+  so body at 400 and `strong` at 600 come from one roman file. Stack:
   `'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia,
   serif`. Georgia is the universal floor and is genuinely good at body sizes.
 - **Mono** (outlier): unchanged stack, but **scope reduced**. Mono is now for
@@ -381,25 +381,43 @@ All six questions raised when this file was first written are closed.
    for the identical pattern. The `<p>` version is arguably wrong: it labels the
    list below it and should be a heading. Fixing it changes the heading outline
    on both pages, so it wants a deliberate call.
-2. **The serif woff2 is not in the repo.** Source Serif 4 needs adding to
-   `assets/fonts/` and an `@font-face` block alongside Inter's. Until then the
-   fallback resolves to Iowan Old Style on macOS and Georgia elsewhere, which is
-   shippable but not the intended face. This is the largest remaining gap.
-3. **`CLAUDE.md` still says "Dark mode only"** and still describes Cal Sans. It
-   must be updated, or a future session will treat it as authoritative and
-   revert. The pointer block added in v1 helps but does not cover the specifics.
-4. **The record-as-artifact work is done for patents, not for publications.**
-   `/patents/` now leads with the field (see below). `/research/` still renders
-   9 peer-reviewed publications as a plain list, which is the same problem at
-   smaller scale. Nine items may not warrant a drawn view; decide deliberately
-   rather than by default.
-5. **The portrait is a dark image on a now-light page.** It carries a 1px border
-   and a 12px radius, which was tuned to stop it reading as a hole in a dark
-   page. Worth re-checking now that the ground is light.
-6. **`--accent-solid` is now identical to `--accent`.** On light paper one value
+2. **`--accent-solid` is now identical to `--accent`.** On light paper one value
    clears both the graphical and the on-white floors, so the split that v1
    needed is redundant. Kept as a distinct token so call sites did not have to
    change; collapse it if the palette is ever regenerated.
+
+## Resolved after v2 shipped
+
+Kept here because the reasoning constrains future work, not just the outcome.
+
+- **Source Serif 4 is self-hosted.** Two files, roman and italic, each variable
+  across 200 to 900, so body at 400 and `strong` at 600 both come from the roman
+  with no synthetic bolding. The italic is the full variable range rather than a
+  pinned 400 instance, so emphasis inside `strong` is not synthesised either.
+  The roman is preloaded next to inter-400. `assets/fonts/LICENSE-OFL.md` now
+  carries the OFL text for both bundled families.
+- **`CLAUDE.md` corrected** to the light system, and the deploy race documented.
+- **`/research/` is drawn, as three lanes across time.** The deliberate call the
+  old question asked for: nine items do **not** warrant a unit chart, because
+  nine is already legible as a list and the column heights would top out at two.
+  What the list genuinely hid was the shape. Three research lines that ran in
+  sequence, and the years between them. One lane per line, one mark per
+  publication, placed in its year. Marks stay a single accent on purpose:
+  `/patents/` already spends fill, muted and outline on grant status, and
+  reusing those three treatments for a different variable would put the two
+  pages in conflict. **If a third drawn record is ever added, give it a new
+  positional encoding rather than a fourth mark treatment.**
+- **The portrait is mounted.** Measured, its edges meet the paper at 16 to 18:1,
+  which made it the highest-contrast element on the site, above headings at
+  14.75:1. The inherited 1px `--border` cannot resolve against a black edge. The
+  system has no shadows, so depth was not available; the photo is matted instead,
+  paper then `--bg-muted` then image, with concentric radii of 8px inside an 8px
+  mount inside 16px. **The rule this sets: mediate a hard tonal meeting with a
+  surface tone, never by introducing elevation.**
+- **`.github/workflows/static.yml` deleted.** Pages is `build_type: legacy` on
+  `master:/`, so Jekyll is the intended builder. The workflow uploaded the raw
+  repository as a competing Pages artifact on every push to master; had it won
+  the race, every page would have served its front matter as visible text.
 
 ## On changing the look
 

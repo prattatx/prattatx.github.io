@@ -1661,7 +1661,7 @@ a {
   border-radius: 1px;
   background: var(--accent);
 }
-.lane-track i.stack { grid-row: 1; }   /* a second grant in the same year */
+.lane-track i.stack { grid-row: 1; }   /* a second publication in the same year */
 .lane-count {
   font-family: var(--font-mono);
   font-size: var(--text-2xs);

@@ -66,8 +66,8 @@ without naming any of it. Keep it that way.
 **The site is light, not dark.** This changed on 2026-08-14 and the brand book has not caught up.
 
 Current system (v2): warm off-white paper `#faf8f4`, never pure white. Every neutral sits at hue
-75 to 85, the warm side. **Inter** carries structure (headings, nav, labels, controls), a **serif**
-carries body copy, and **mono is for data only** (patent numbers, years, dates, axis labels,
+75 to 85, the warm side. **Inter** carries structure (headings, nav, labels, controls),
+**Source Serif 4** carries body copy, and **mono is for data only** (patent numbers, years, dates, axis labels,
 counters, code). Accent is indigo `#4f52d4`, which is the value the old print stylesheet already
 used for light surfaces, so the brand hue survived the direction change.
 
@@ -145,16 +145,15 @@ the authoring container does not have.
 
 Push to `master`. GitHub Pages builds and serves.
 
-**Two deployers race on every master push.** This is not a dormant hazard, it is happening now.
-`.github/workflows/static.yml` uploads the repo as raw static content and `pages-build-deployment`
-runs Jekyll. Both fire, both report success. Jekyll has finished last every time (roughly 47s vs
-21s) and therefore wins, which is timing rather than design. **If `static.yml` ever wins, every page
-serves raw front matter.**
-
-Pages is currently `build_type: legacy`, source `master:/`, so Jekyll is the configured builder.
-Verify with:
+Pages is `build_type: legacy`, source `master:/`, so `pages-build-deployment` runs Jekyll and
+that is the only deployer. Verify with:
 
     gh api repos/prattatx/prattatx.github.io/pages --jq .build_type   # expect: legacy
 
-Deleting `.github/workflows/static.yml` removes the race permanently and costs nothing on a
-legacy-build Pages site. Not done yet; it is James's call.
+**Do not add a workflow that publishes a Pages artifact.** `.github/workflows/static.yml` used to
+do exactly that, uploading the repo as raw static content on every master push. Both it and Jekyll
+fired and both reported success, so the site served whichever finished last. Jekyll won every time
+on timing alone (roughly 47s vs 21s), never by design. Had the static job won, every page would
+have served its front matter as visible text. It was deleted for that reason. If this ever reads
+`workflow` instead of `legacy`, the site is being served by an artifact builder and pages will
+show raw front matter.
