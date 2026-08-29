@@ -1617,15 +1617,30 @@ a {
    25. Portrait
    ============================================================ */
 
+/* The photograph is a near-black frame: bookshelf behind, black shirt in
+   front. Every edge meets the paper at 16-18:1, which made it the loudest
+   element on the page, above the headings at 14.75:1. The 1px --border it
+   carried over from v1 cannot read against a black edge, so it was doing
+   nothing but describing an edge that was already absolute.
+
+   This system has no shadows, so the photo is mounted the way a print is
+   matted: paper, then the sunken warm tone, then the image. The graduation
+   does the mediating a hairline could not. Radii are concentric, 8px inner
+   plus an 8px mount giving the 16px outer. */
 .portrait {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: var(--r-lg);
-  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   background: var(--bg-subtle);
+}
+.portrait-figure picture {
+  display: block;
+  padding: var(--s2);
+  background: var(--bg-muted);
+  border-radius: var(--r-xl);
 }
 .portrait-figure { margin-bottom: var(--s8); }
 .portrait-figure figcaption {
@@ -1644,7 +1659,6 @@ a {
   gap: var(--s12);
   align-items: start;
 }
-.contact-split .portrait { border-radius: var(--r-lg); }
 @media (max-width: 860px) {
   .contact-split { grid-template-columns: 1fr; gap: var(--s8); }
   .contact-split .portrait-figure { max-width: 220px; }
