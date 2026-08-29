@@ -1614,7 +1614,100 @@ a {
 .post-body img { border-radius: var(--r-md); margin-bottom: var(--s6); }
 
 /* ============================================================
-   25. Portrait
+   25. Publication lanes
+   ============================================================ */
+
+/* --- the research record drawn ---
+   Nine publications is a number you can already read as a list, so this is
+   deliberately not a unit chart trying to make nine look like a lot. What
+   the numbered list cannot show is the shape: three research lines that ran
+   in sequence rather than in parallel, and the years between them. One lane
+   per line, one mark per publication, placed in the year it appeared. The
+   empty columns carry the argument the lede makes in prose.
+
+   The marks stay a single accent on purpose. /patents/ uses fill, muted and
+   outline to mean grant status, and reusing those three treatments here for
+   a different variable would make the two pages contradict each other. The
+   lane label carries the line identity instead, which is stronger than
+   colour anyway. */
+.lines { margin: var(--s5) 0 var(--s8); max-width: 760px; }
+.line-chart { display: grid; gap: var(--s4); margin-top: var(--s5); }
+.line-lane {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr) 2ch;
+  gap: var(--s4);
+  align-items: end;
+}
+.lane-name {
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-bottom: 4px;
+}
+.lane-track {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: 6px 6px;
+  gap: 2px;
+  align-content: end;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 4px;
+}
+.lane-track i {
+  grid-row: 2;            /* marks sit on the baseline */
+  height: 6px;
+  border-radius: 1px;
+  background: var(--accent);
+}
+.lane-track i.stack { grid-row: 1; }   /* a second grant in the same year */
+.lane-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  padding-bottom: 4px;
+}
+.lines-axis {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr) 2ch;
+  gap: var(--s4);
+  margin-top: var(--s2);
+}
+.lines-axis .yrs {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: .06em;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.lines-axis .yrs span { white-space: nowrap; }
+.lines-axis .yrs span:first-child { justify-self: start; }
+.lines-axis .yrs span:last-child  { justify-self: end; }
+
+/* Narrow: the label and its count share a line, the track runs full width
+   beneath them. Left to stack on its own the count reads as a stray numeral
+   floating under the timeline. */
+@media (max-width: 700px) {
+  .line-lane {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--s2) var(--s4);
+    align-items: baseline;
+  }
+  .lane-name  { grid-column: 1; grid-row: 1; padding-bottom: 0; }
+  .lane-count { grid-column: 2; grid-row: 1; padding-bottom: 0; }
+  .lane-track { grid-column: 1 / -1; grid-row: 2; }
+  .lines-axis { grid-template-columns: minmax(0, 1fr); }
+  .lines-axis .yrs { grid-column: 1; }
+}
+
+/* ============================================================
+   26. Portrait
    ============================================================ */
 
 /* The photograph is a near-black frame: bookshelf behind, black shirt in
