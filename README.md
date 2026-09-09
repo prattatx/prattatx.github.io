@@ -15,7 +15,7 @@ program leads, and enterprise buyers.
 /work/             proof index, filterable by engagement type A-E
 /work/<slug>/      nine case studies (generated, see _gen/cases.py)
 /patents/          searchable explorer over 358 granted patents
-/research/         M.A. thesis, dissertation, six publications
+/research/         M.A. thesis, dissertation, nine publications
 /cv/               full CV, doubles as the source for the downloadable PDF
 /writing/          posts from _posts/
 /speaking/         workshops, panels, presentations

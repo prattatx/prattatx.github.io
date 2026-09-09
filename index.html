@@ -31,7 +31,8 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
     </p>
 
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#practice">How I work <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      {% if site.calendar_url %}<a class="btn btn-primary" href="{{ site.calendar_url }}">Book time <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}
+      <a class="btn btn-ghost" href="#practice">How I work <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <a class="btn btn-ghost" href="/work/">See the proof <span class="arrow" aria-hidden="true">&rarr;</span></a>
     </div>
 
@@ -47,7 +48,7 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
     </div>
     <div class="stat">
       <div class="n">2</div>
-      <div class="k">Acquired by<br>other companies</div>
+      <div class="k">Patents now owned<br>by other companies</div>
     </div>
     <div class="stat">
       <div class="n">17</div>
@@ -69,38 +70,33 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
       <span class="count">Five ways to work together</span>
     </div>
 
-    <div class="rows">
+    <div class="rows rows--plain">
 
-      <div class="row">
-        <div class="code">A</div>
+      <div class="row" data-code="A">
         <div class="title">Fractional AI product lead</div>
         <div class="desc">Embed with your team. Set the AI product strategy and roadmap, then stay long enough to watch it survive contact with real users.</div>
         <div class="meta">Ongoing, part time</div>
       </div>
 
-      <div class="row">
-        <div class="code">B</div>
+      <div class="row" data-code="B">
         <div class="title">Expert consult</div>
         <div class="desc">A bounded contract on one specific problem. Consumer-scale AI, UX, and human-factors method, pointed at the place you are stuck.</div>
         <div class="meta">Days to weeks</div>
       </div>
 
-      <div class="row">
-        <div class="code">C</div>
+      <div class="row" data-code="C">
         <div class="title">Board seat or named advisor</div>
         <div class="desc">Backed by 358 granted patents, consumer AI built at Fortune 10 scale, a seat on IEEE P7010, and years judging the SXSW Innovation Awards.</div>
         <div class="meta">Named seat</div>
       </div>
 
-      <div class="row">
-        <div class="code">D</div>
+      <div class="row" data-code="D">
         <div class="title">Modern-methods strategy sprint</div>
         <div class="desc">Project based. I bring AI product and design-thinking method into a team that wants to move fast and has never run it before.</div>
         <div class="meta">Two to six weeks</div>
       </div>
 
-      <div class="row">
-        <div class="code">E</div>
+      <div class="row" data-code="E">
         <div class="title">Workshops, panels, speaking</div>
         <div class="desc">Patent development and design thinking, run as working sessions that end in a decision rather than a deck. Panels on AI, design, research, and IP.</div>
         <div class="meta">Single session</div>
@@ -122,19 +118,19 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
     <div class="work-grid">
 
       <a class="card card--lead" href="/work/patent-development-workshop/">
-        <div class="tags"><span class="tag">E</span><span class="tag">B</span><span class="tag tag-quiet">2025</span></div>
+        <div class="tags"><span class="tag">Workshop</span><span class="tag">Consult</span><span class="tag tag-quiet">2025</span></div>
         <h3>Turning a founder's invention into a patent pipeline<span class="arrow" aria-hidden="true">&rarr;</span></h3>
         <p>A single-day workshop for an early-stage hardware startup. Product dissection, use-journey mapping, my own 10x ideation method, then scored down to a counsel-ready shortlist.</p>
       </a>
 
       <a class="card" href="/work/att-design-thinking-workshop/">
-        <div class="tags"><span class="tag">D</span><span class="tag">E</span><span class="tag tag-quiet">2019</span></div>
+        <div class="tags"><span class="tag">Sprint</span><span class="tag">Workshop</span><span class="tag tag-quiet">2019</span></div>
         <h3>Thirty ideas to one product vision, in a day<span class="arrow" aria-hidden="true">&rarr;</span></h3>
         <p>Conceived, funded, and led a design-thinking program inside a Fortune 10 Chief Data Office. Ten participants, thirty raw ideas, one prioritized developer-hub vision leadership could defend.</p>
       </a>
 
       <a class="card" href="/work/tessa-investor-narrative/">
-        <div class="tags"><span class="tag">A</span><span class="tag">D</span><span class="tag tag-quiet">2026</span></div>
+        <div class="tags"><span class="tag">Fractional</span><span class="tag">Sprint</span><span class="tag tag-quiet">2026</span></div>
         <h3>Making a new category legible to investors<span class="arrow" aria-hidden="true">&rarr;</span></h3>
         <p>The narrative architecture behind a pre-seed ambient-AI deck. One protagonist, then the market, then the wedge. Every claim sourced or labeled an assumption so it held under diligence.</p>
       </a>
@@ -165,7 +161,7 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
           <div><dt>Now owned by other companies</dt><dd>2</dd></div>
           <div><dt>Published applications</dt><dd>504</dd></div>
           <div><dt>Distinct applications</dt><dd>525</dd></div>
-          <div><dt>Rank at AT&amp;T</dt><dd>Top 10</dd></div>
+          <div><dt>Rank at AT&amp;T, company-wide</dt><dd>Top 10</dd></div>
         </dl>
         <a class="link-out" href="/patents/">Search the portfolio <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </div>
@@ -183,6 +179,11 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
       </div>
 
     </div>
+
+    {% if site.calendar_url %}<div class="record-foot">
+      <a class="link-out" href="{{ site.calendar_url }}">Book time <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>{% endif %}
+
   </div>
 </section>
 
@@ -224,17 +225,16 @@ description: "James H. Pratt, Ph.D. Cognitive psychologist, founder, and AI prod
         <h2>Tell me what<br>you are building.</h2>
         <p class="lede">
           I take a small number of engagements at a time, so the fit conversation is short
-          and honest. If your team is early and the AI question is real, happy to chat.
+          and honest. Fifteen minutes is often enough. If your team is early and the AI
+          question is real, happy to chat.
         </p>
 
         <div class="hero-actions">
           {% if site.calendar_url %}<a class="btn btn-primary" href="{{ site.calendar_url }}">Book time <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}
-      <a class="btn btn-ghost" href="mailto:james@fyve.dev">Email me <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
 
         <div class="contact-links">
           <a href="mailto:james@fyve.dev"><span class="k">Advisory</span>james@fyve.dev</a>
-          <a href="mailto:jhp96001@gmail.com"><span class="k">Personal</span>jhp96001@gmail.com</a>
           <a href="https://www.linkedin.com/in/jameshpratt"><span class="k">LinkedIn</span>in/jameshpratt</a>
           <a href="https://orcid.org/0000-0002-7794-0629"><span class="k">ORCID</span>0000-0002-7794-0629</a>
         </div>
