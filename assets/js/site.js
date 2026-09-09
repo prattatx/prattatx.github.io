@@ -133,7 +133,39 @@
         }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    Array.prototype.forEach.call(revealables, function (el) { io.observe(el); });
+
+    Array.prototype.forEach.call(revealables, function (el) {
+      io.observe(el);
+      /* An element already on screen at load must not depend on the observer.
+         The -8% bottom margin lands almost exactly on the stat rail in a 900px
+         viewport, which made the site's strongest asset a load-timing coin
+         flip: on an unlucky paint it stayed at opacity 0 with no second chance.
+         Run its entrance on the next frame instead, so the animation still
+         plays but cannot be missed. */
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.add('in');
+            io.unobserve(el);
+          });
+        });
+      }
+    });
+
+    /* Safety net. Whatever the observer has not delivered once the page has
+       loaded and fonts have settled, paint it if it is on screen. Content is
+       never left permanently invisible because a callback did not fire. */
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        Array.prototype.forEach.call(revealables, function (el) {
+          if (!el.classList.contains('in') &&
+              el.getBoundingClientRect().top < window.innerHeight) {
+            el.classList.add('in');
+            io.unobserve(el);
+          }
+        });
+      }, 300);
+    });
   }
 
   /* ---------- 3. Mobile nav ---------- */
