@@ -173,17 +173,41 @@
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.nav');
   if (toggle && nav) {
+    var closeNav = function (returnFocus) {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+      if (returnFocus) toggle.focus();
+    };
+
     toggle.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.textContent = open ? 'Close' : 'Menu';
     });
+
     nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.textContent = 'Menu';
-      }
+      if (e.target.tagName === 'A') closeNav(false);
+    });
+
+    /* Escape closes the panel and returns focus to the control that opened it,
+       so a keyboard user is never left inside a dismissed menu. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) closeNav(true);
     });
   }
+
+  /* ---------- 4. Booking clicks ---------- */
+
+  /* A booked call is the site's only conversion and nothing measured it, so every
+     judgement about CTA placement was inference. utm_content on each href
+     attributes the click on cal.com's side; this event attributes it here, so
+     click share by position becomes observable instead of argued. */
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    var a = e.target.closest('a[data-cta]');
+    if (a && typeof window.gtag === 'function') {
+      window.gtag('event', 'book_click', { cta_location: a.getAttribute('data-cta') });
+    }
+  });
 })();
