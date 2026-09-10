@@ -186,6 +186,27 @@ a {
   border-radius: 2px;
 }
 
+/* Off-screen until focused. Without it a keyboard visitor tabs the wordmark,
+   the menu toggle, five nav links and the booking button before reaching the
+   content, on every page. */
+.skip-link {
+  position: absolute;
+  top: var(--s4);
+  left: var(--s4);
+  z-index: 100;
+  transform: translateY(-250%);
+  background: var(--bg);
+  color: var(--accent-text);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 500;
+  padding: var(--s3) var(--s5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  transition: transform var(--t-fast);
+}
+.skip-link:focus { transform: translateY(0); }
+
 /* --accent-solid, not --accent: white on --accent is 4.47:1 and fails AA.
    Every other filled control already uses --accent-solid; this was the gap. */
 ::selection { background: var(--accent-solid); color: var(--on-accent); }
@@ -426,7 +447,8 @@ a {
   padding-block: var(--s3);
   transition: color var(--t-fast);
 }
-.nav a:hover { color: var(--text); }
+.nav a:hover,
+.nav a:focus-visible { color: var(--text); }
 .nav a[aria-current='page'] { color: var(--accent-text); }
 
 .nav-toggle {
@@ -507,13 +529,26 @@ a {
   cursor: pointer;
 }
 .btn .arrow { transition: transform var(--t-base); }
-.btn:hover .arrow { transform: translateX(3px); }
+.btn:hover .arrow,
+.btn:focus-visible .arrow { transform: translateX(3px); }
 
 .btn-primary { background: var(--accent-solid); color: var(--on-accent); }
 .btn-primary:hover { background: var(--accent-hover); }
 
 .btn-ghost { border-color: var(--border-strong); color: var(--text); }
 .btn-ghost:hover { border-color: var(--accent-border); background: var(--accent-subtle); }
+
+/* The one filled control in the site chrome. design.md's primary CTA voice at
+   chrome scale: same fill, radius and arrow, one step down in padding and type
+   so it sits inside the 72px bar without crowding the wordmark at 390px. */
+.masthead-cta {
+  font-size: var(--text-sm);
+  /* Tighter than a page CTA horizontally, which is what buys room for the
+     wordmark and menu toggle at 390px. Vertical padding stays full so the
+     site's primary conversion control clears a 44px touch target. */
+  padding: var(--s3) var(--s4);
+  white-space: nowrap;
+}
 
 /* ---------- 10. Stat rail ---------- */
 
@@ -569,6 +604,11 @@ a {
   font-weight: 600;
   padding-top: 3px;
 }
+
+/* Rows that carry no gutter code. The A-E letters were internal Portfolio Index
+   taxonomy with no key on the page, so they moved to data-code and the column
+   they occupied is reclaimed by the title and description. */
+.rows--plain .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 132px; }
 .row .title {
   font-family: var(--font-ui);
   font-size: var(--text-xl);
@@ -704,7 +744,19 @@ a {
   margin-top: var(--s6);
 }
 .link-out .arrow { transition: transform var(--t-base); }
-.link-out:hover .arrow { transform: translateX(3px); }
+.link-out:hover .arrow,
+.link-out:focus-visible .arrow { transform: translateX(3px); }
+
+/* The ask at the record's confidence peak. A full-width hairline separates it
+   from both columns: without one it sits directly under "Search the portfolio"
+   and reads as a third link in the patents column rather than the section's
+   conclusion. Rules carry structure here, so this is the system's own idiom. */
+.record-foot {
+  margin-top: var(--s10);
+  padding-top: var(--s6);
+  border-top: 1px solid var(--border);
+}
+.record-foot .link-out { margin-top: 0; }
 
 /* ---------- 14. Now ---------- */
 
@@ -741,7 +793,8 @@ a {
   border-top: 1px solid var(--border-muted);
 }
 .contact-links a { color: var(--text); font-size: var(--text-lg); transition: color var(--t-fast); }
-.contact-links a:hover { color: var(--accent-hover); }
+.contact-links a:hover,
+.contact-links a:focus-visible { color: var(--accent-hover); }
 .contact-links .k {
   display: block;
   font-family: var(--font-ui);
@@ -764,7 +817,8 @@ a {
 }
 .site-foot .shell { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); align-items: center; }
 .site-foot a { transition: color var(--t-fast); }
-.site-foot a:hover { color: var(--text); }
+.site-foot a:hover,
+.site-foot a:focus-visible { color: var(--text); }
 .site-foot .right { margin-left: auto; }
 
 /* ---------- 17. Reveal (progressive enhancement) ---------- */
@@ -825,6 +879,21 @@ a {
   .eyebrow { flex-wrap: wrap; gap: var(--s2); }
 }
 
+/* Codeless rows collapse to a single column, same as the coded ones do. */
+@media (max-width: 860px) {
+  .rows--plain .row { grid-template-columns: minmax(0, 1fr); }
+  .rows--plain .row .desc,
+  .rows--plain .row .meta { grid-column: 1; }
+}
+
+/* The masthead now carries a booking control alongside the wordmark and the
+   menu toggle. At 390px those three do not fit on the standard --s6 gap, so the
+   chrome tightens and the CTA drops its arrow rather than wrapping the bar. */
+@media (max-width: 680px) {
+  .masthead .shell { gap: var(--s3); }
+  .masthead-cta .arrow { display: none; }
+}
+
 /* ---------- 19. Motion and print ---------- */
 
 /* Reduced motion collapses spatial motion and keeps colour. A blanket
@@ -862,7 +931,7 @@ a {
   }
 
   body { background: var(--p-paper); color: var(--p-ink); padding-left: 0; }
-  .rail, .rail-top, .masthead, .hero-actions, .site-foot { display: none; }
+  .rail, .rail-top, .masthead, .hero-actions, .site-foot, .skip-link { display: none; }
   a { color: var(--p-ink); }
 }
 
@@ -1463,7 +1532,8 @@ a {
 @media print {
   @page { size: letter; margin: 14mm 13mm; }
   body { background: var(--p-paper); color: var(--p-ink); font-size: 9pt; line-height: 1.45; padding-left: 0; }
-  .rail, .rail-top, .masthead, .site-foot, .hero-actions, .filters, .pat-tools { display: none !important; }
+  .rail, .rail-top, .masthead, .site-foot, .hero-actions, .filters, .pat-tools,
+  .skip-link { display: none !important; }
   a { color: var(--p-ink); box-shadow: none !important; }
   .page-head { padding-top: 0; padding-bottom: 8pt; border-bottom: 1px solid var(--p-rule-strong); }
   .page-head h1 { font-size: 22pt; color: var(--p-ink); margin-bottom: 6pt; }

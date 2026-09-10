@@ -35,7 +35,7 @@ Never frame James as "just a UX guy."
 
 ## Clearance (approved 2026-08-13)
 
-**Published:** the M.A. thesis and its PDF, six peer-reviewed publications, the 358 granted patents,
+**Published:** the M.A. thesis and its PDF, nine peer-reviewed publications, the 358 granted patents,
 three redacted Tessa case studies, five AT&T method-only case studies **as text with all images
 removed**, and the patent-development workshop case study with the client unnamed.
 
