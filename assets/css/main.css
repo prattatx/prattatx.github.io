@@ -129,7 +129,7 @@
   --text-stat:       clamp(1.75rem, 3.6vw, 2.75rem);
   --text-page-h1:    clamp(2.25rem, 5.6vw, 4rem);
   --text-display-s:  clamp(2.25rem, 6.5vw, 4.25rem);
-  --text-display:    clamp(3rem, 11vw, 7.5rem);
+  --text-display:    clamp(3rem, 11vw, 6rem);
   --text-display-sm: clamp(2.75rem, 13vw, 4rem);   /* hero, below 680px */
 
   --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
@@ -337,7 +337,7 @@ a {
   margin-left: auto;
   font-family: var(--font-ui);
   font-size: var(--text-xs);
-  letter-spacing: .1em;
+  letter-spacing: .02em;
   color: var(--text-3);
 }
 
@@ -470,7 +470,7 @@ a {
 
 .hero {
   padding-top: clamp(var(--s10), 6vw, 5.5rem);
-  padding-bottom: clamp(var(--s10), 5vw, 4.5rem);
+  padding-bottom: clamp(var(--s8), 4vw, 3.5rem);
 }
 
 .eyebrow {
@@ -573,7 +573,7 @@ a {
 .stat .k {
   font-family: var(--font-ui);
   font-size: var(--text-2xs);
-  letter-spacing: .11em;
+  letter-spacing: .02em;
   color: var(--text-3);
   line-height: 1.5;
 }
@@ -609,6 +609,10 @@ a {
    taxonomy with no key on the page, so they moved to data-code and the column
    they occupied is reclaimed by the title and description. */
 .rows--plain .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 132px; }
+
+/* Every in-page anchor target clears the sticky masthead. Without this an anchor
+   jump lands with its heading tucked under the 72px bar. */
+.section[id] { scroll-margin-top: 88px; }
 .row .title {
   font-family: var(--font-ui);
   font-size: var(--text-xl);
@@ -621,7 +625,7 @@ a {
   font-family: var(--font-ui);
   font-size: var(--text-2xs);
   text-align: right;
-  letter-spacing: .1em;
+  letter-spacing: .02em;
   color: var(--text-3);
   white-space: nowrap;
   padding-top: 5px;
@@ -647,9 +651,13 @@ a {
   transition: background var(--t-base);
   position: relative;
 }
+/* Spans two rows for hierarchy, but its content fills about one, so the bottom
+   half read as an empty container rather than deliberate space. Centring turns
+   the surplus into padding on both sides of the block. */
 .card--lead {
   grid-row: span 2;
   padding: var(--s8) var(--s6);
+  justify-content: center;
 }
 .card:hover, .card:focus-visible { background: var(--bg-subtle); }
 .card .tags { display: flex; gap: var(--s2); flex-wrap: wrap; }
@@ -756,7 +764,7 @@ a {
   padding-top: var(--s6);
   border-top: 1px solid var(--border);
 }
-.record-foot .link-out { margin-top: 0; }
+.record-foot .btn { margin-top: 0; }
 
 /* ---------- 14. Now ---------- */
 
@@ -812,7 +820,7 @@ a {
   padding-block: var(--s10);
   font-family: var(--font-ui);
   font-size: var(--text-2xs);
-  letter-spacing: .08em;
+  letter-spacing: .01em;
   color: var(--text-3);
 }
 .site-foot .shell { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); align-items: center; }
