@@ -133,6 +133,31 @@ def inline_fonts(css):
     return re.sub(r"url\('([^']+\.woff2)'\)", repl, css)
 
 
+MIME = {".png": "image/png", ".webp": "image/webp",
+        ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml"}
+
+
+def inline_images(css):
+    """Inline images referenced from CSS url(), the way fonts already are.
+
+    relativize() only rewrites href/src/srcset in the HTML, so a root-relative
+    url() inside the stylesheet resolves against the filesystem root over
+    file:// and silently fails. A mask that renders in production and not in
+    the preview is worse than no preview at all.
+    """
+    def repl(m):
+        rel = m.group(1).lstrip("/")
+        ext = os.path.splitext(rel)[1].lower()
+        path = os.path.join(ROOT, rel)
+        if ext not in MIME or not os.path.exists(path):
+            return m.group(0)
+        with open(path, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode()
+        return "url('data:%s;base64,%s')" % (MIME[ext], b64)
+
+    return re.sub(r"url\('([^']+)'\)", repl, css)
+
+
 def main():
     src = sys.argv[1] if len(sys.argv) > 1 else "index.html"
     out = sys.argv[2] if len(sys.argv) > 2 else "_preview/home.html"
@@ -148,7 +173,7 @@ def main():
     html = resolve_liquid(html, page_meta)
 
     with open(os.path.join(ROOT, "assets/css/main.css"), encoding="utf-8") as f:
-        css = inline_fonts(f.read())
+        css = inline_images(inline_fonts(f.read()))
     with open(os.path.join(ROOT, "assets/js/site.js"), encoding="utf-8") as f:
         js = f.read()
 

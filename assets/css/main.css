@@ -444,6 +444,58 @@ a {
   );
 }
 .rail svg { position: relative; height: 100%; width: 100%; overflow: visible; }
+
+/* The hero column, filled with evidence rather than texture. Figure 2 of
+   US 12,124,506, one of the 358, drawn where the landing page otherwise leaves
+   roughly 480px of empty paper beside the name.
+
+   Rectilinear on purpose. The first attempt here was a second wandering line
+   opposite the rail, and two organic squiggles read as noise however quiet
+   each one is. A patent block diagram is boxes and rules, which is the
+   vocabulary the rest of the site already speaks.
+
+   Shipped as an alpha mask, not a picture, so the ink takes --border-strong
+   and follows the palette instead of baking in black. Hidden below 1100px,
+   where the 42ch lede closes the gap it lives in. */
+.hero-patent {
+  position: absolute;
+  top: 0;
+  right: var(--s6);
+  width: min(38%, 400px);
+  margin: 0;
+  z-index: 0;
+  display: none;
+}
+.hero-patent-fig {
+  aspect-ratio: 900 / 1104;
+  background-color: var(--border-strong);
+  opacity: .45;
+  -webkit-mask-image: url('/assets/img/us12124506-fig2.png');
+          mask-image: url('/assets/img/us12124506-fig2.png');
+  -webkit-mask-size: contain;      mask-size: contain;
+  -webkit-mask-repeat: no-repeat;  mask-repeat: no-repeat;
+  -webkit-mask-position: top center; mask-position: top center;
+}
+.hero-patent figcaption {
+  margin-top: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  text-align: center;
+}
+.hero-patent figcaption span { display: block; margin-top: 2px; letter-spacing: .04em; }
+.hero .shell { position: relative; }
+.hero .shell > *:not(.hero-patent) { position: relative; z-index: 1; }
+
+/* Gated on mask support as well as width. Without a mask this div would paint
+   as a solid --border-strong rectangle, which is far worse than an empty
+   column, so it stays hidden rather than degrading. */
+@supports ((mask-image: url("#m")) or (-webkit-mask-image: url("#m"))) {
+  @media (min-width: 1100px) { .hero-patent { display: block; } }
+}
 /* v2: retuned for light paper. --border-strong is 3.24:1 here, so the base
    trace needs more opacity than it did against the dark ground to read. */
 .rail .wave-base { stroke: var(--border-strong); stroke-width: 1; fill: none; opacity: .7; }
