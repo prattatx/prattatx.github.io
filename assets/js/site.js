@@ -53,87 +53,6 @@
     }).join('L');
   }
 
-  /* ---------- 1b. The hero field ----------
-     The same signal, given room. The rail is a 1px thread in a gutter nobody
-     reads; the hero has roughly 480px of empty paper to the right of a 42ch
-     lede. This is not a second motif, it is the first one opened out into a
-     multi-channel montage, the shape a real recording takes on paper.
-
-     Deterministic like the rail: one seed, same field every visit. Quiet at
-     the left so it emerges out of the text rather than crowding it, and
-     settling as it falls toward the buttons. Static on purpose: the stat rail
-     is the page's one orchestrated entrance and design.md allows exactly one. */
-
-  function makeChannels(w, h) {
-    var n = Math.max(7, Math.min(13, Math.round(h / 48)));
-    var gap = h / n;
-    var step = 3;
-    var seed = 20000617;
-    function rnd() {
-      seed = (seed * 1103515245 + 12345) % 2147483648;
-      return seed / 2147483648;
-    }
-    var out = [];
-    for (var i = 0; i < n; i++) {
-      var base = (i + 0.5) * gap;
-      // the recording winds down as it falls toward the buttons: the top
-      // channels are busy and nearly touch, the last one is almost a flat line
-      var fall = 1 - i / (n - 1);
-      var act = Math.pow(fall, 0.9);
-      var amp = gap * (0.05 + 1.05 * act);
-      var op = (0.14 + 0.46 * Math.pow(fall, 0.8)).toFixed(3);
-      // each channel gets its own character, or the field reads as ruled paper
-      var f1 = 9 + rnd() * 9;
-      var f2 = 26 + rnd() * 22;
-      var f3 = 55 + rnd() * 40;
-      var ph = rnd() * 6.283;
-      var noise = 0.10 + rnd() * 0.22;
-      var hasBurst = rnd() > 0.45;
-      var bx = 0.35 + rnd() * 0.5;
-      var bw = 0.05 + rnd() * 0.07;
-      var raw = [];
-      for (var x = 0; x <= w; x += step) {
-        var t = x / w;
-        // quiet at the left edge so the field grows out of the lede
-        var env = Math.pow(t, 0.65);
-        var v =
-          Math.sin(t * f1 + ph) * 0.52 +
-          Math.sin(t * f2 + ph * 1.4) * 0.26 +
-          Math.sin(t * f3 + ph * 0.6) * 0.11 +
-          (rnd() - 0.5) * noise;
-        if (hasBurst) {
-          var g = Math.exp(-Math.pow((t - bx) / bw, 2));
-          v += Math.sin(t * 150 + ph) * 0.55 * g;
-        }
-        raw.push(env * v);
-      }
-      var pts = [];
-      for (var j = 0; j < raw.length; j++) {
-        var a = raw[Math.max(0, j - 2)], b = raw[Math.max(0, j - 1)];
-        var c = raw[j];
-        var d2 = raw[Math.min(raw.length - 1, j + 1)];
-        var e = raw[Math.min(raw.length - 1, j + 2)];
-        var sm = (a + 2 * b + 3 * c + 2 * d2 + e) / 9;
-        pts.push((j * step).toFixed(1) + ' ' + (base + sm * amp).toFixed(2));
-      }
-      out.push('<path d="M' + pts.join('L') + '" opacity="' + op + '"/>');
-    }
-    return out.join('');
-  }
-
-  var field = document.querySelector('.hero-field');
-
-  function buildField() {
-    if (!field) return;
-    var w = field.clientWidth;
-    var h = field.clientHeight;
-    // the CSS hides it below 1100px, where the lede would crowd it
-    if (!w || !h || !field.offsetParent) { field.innerHTML = ''; return; }
-    field.innerHTML =
-      '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" ' +
-      'aria-hidden="true" focusable="false">' + makeChannels(w, h) + '</svg>';
-  }
-
   var rail = document.querySelector('.rail');
   var railState = null;
 
@@ -194,12 +113,11 @@
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { buildRail(); buildField(); }, 180);
+    resizeTimer = setTimeout(buildRail, 180);
   });
 
   buildRail();
   drawRail();
-  buildField();
 
   /* ---------- 2. Reveal on scroll ---------- */
 
