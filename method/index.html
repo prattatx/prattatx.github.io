@@ -1,0 +1,93 @@
+---
+layout: default
+nav: method
+title: "Method"
+description: "Widen, Score, Defend. How the AI Effectiveness Audit works: watch the work, allocate the tasks, encode the result so the team can use it."
+---
+
+<div class="shell">
+
+  <header class="page-head">
+    <p class="kicker">Method <span class="sep">/</span> Widen, Score, Defend</p>
+    <h1>Watch the work. Allocate the tasks. Encode the result.</h1>
+    <p class="lede">
+      AI features fail because the model does not know how the work actually happens.
+      Neither does the spec, or the prompt, that somebody wrote for it. The people doing the
+      work cannot articulate the tacit part on demand, so it never gets written down, and
+      the system gets built around a guess.
+    </p>
+  </header>
+
+  <section class="section flow">
+    <div class="sec-head">
+      <h2 class="label">Widen</h2>
+      <span class="count">Watch the work live</span>
+    </div>
+    <p>
+      Naturalistic observation, stimulated recall, probing. I watch people do the actual job
+      with the tools they actually have, then ask the follow-up questions that surface what
+      they could not have told you in a meeting. This produces two things: the context nobody
+      thought to say out loud, and a complete list of every task the system touches.
+    </p>
+  </section>
+
+  <section class="section flow">
+    <div class="sec-head">
+      <h2 class="label">Score</h2>
+      <span class="count">Decide who does what</span>
+    </div>
+    <p>
+      Task by task: human or machine, and if machine, how much of the decision. That second
+      question has a rigorous answer. Thomas Sheridan's levels of automation, first set out
+      for supervisory control of complex systems, describe a scale from the machine offering
+      no assistance, through the machine suggesting one option, to the machine acting and
+      informing the human afterwards only if asked.
+    </p>
+    <p>
+      The choice of level is scored against explicit criteria: consequence if it is wrong,
+      reversibility, volume, and where liability sits. This is function allocation, and it is
+      the work I have been doing since a Navy destroyer program in 2002, where the question
+      was which jobs on the ship the machines should take and which had to stay with the crew.
+    </p>
+  </section>
+
+  <section class="section flow">
+    <div class="sec-head">
+      <h2 class="label">Defend</h2>
+      <span class="count">Make it usable, and make it survive</span>
+    </div>
+    <p>
+      The allocation is only worth something if the team can act on it and if it holds up when
+      challenged. So it ships as prompts and specs the team uses this week, with the reasoning
+      attached to each line so it can be defended to whoever asks. Where the result turns out
+      to be novel, it gets a shortlist your patent counsel can act on.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <h2 class="label">What lands</h2>
+    </div>
+    <div class="rows rows--plain">
+      <div class="row">
+        <div class="title">The observed account</div>
+        <div class="desc">How the work actually happens, including where the current spec is wrong about it.</div>
+      </div>
+      <div class="row">
+        <div class="title">The allocation</div>
+        <div class="desc">Every task, human or machine, at what level, with the reasoning.</div>
+      </div>
+      <div class="row">
+        <div class="title">The encoding</div>
+        <div class="desc">Prompts and specs your team can use immediately.</div>
+      </div>
+      <div class="row">
+        <div class="title">The team read</div>
+        <div class="desc">Where your people are strong with AI and where they are exposed.</div>
+      </div>
+    </div>
+  </section>
+
+  {% if site.calendar_url %}<p><a class="btn btn-primary" data-cta="method" href="{{ site.calendar_url }}?utm_source=prattatx&amp;utm_medium=site&amp;utm_campaign=book&amp;utm_content=method">Book time <span class="arrow" aria-hidden="true">&rarr;</span></a></p>{% endif %}
+
+</div>

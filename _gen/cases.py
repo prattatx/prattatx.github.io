@@ -19,6 +19,13 @@ ENGAGEMENTS = {
     "E": "Workshops and speaking",
 }
 
+# The /work/ pill is an 11px capsule, and the fractional-lead name is a job
+# title rather than a tag: at full length it ran 298px and pushed the tag stack
+# to two rows above almost every card title. The full name still carries on the
+# filter buttons and in each case study's meta grid, which is where a reader
+# who wants the precise engagement type goes.
+ENGAGEMENT_TAGS = dict(ENGAGEMENTS, A="Advisory lead")
+
 CASES = [
     {
         "slug": "patent-development-workshop",
@@ -494,7 +501,7 @@ ORDER = [c["slug"] for c in sorted(CASES, key=lambda c: c["sort"], reverse=True)
 
 
 def tags_html(eng, year=None):
-    out = "".join('<span class="tag" title="%s">%s</span>' % (ENGAGEMENTS[e], e) for e in eng)
+    out = "".join('<span class="tag">%s</span>' % ENGAGEMENT_TAGS[e] for e in eng)
     if year:
         out += '<span class="tag tag-quiet">%s</span>' % year
     return out
@@ -511,9 +518,7 @@ def write_case(case):
         sections.append("      <h2>%s</h2>\n%s" % (
             heading, "\n".join("      " + b for b in blocks)))
 
-    eng_dd = "".join(
-        '<span class="tag" title="%s">%s</span>' % (ENGAGEMENTS[e], e) for e in case["eng"]
-    ) + '<div class="eng-names">%s</div>' % (
+    eng_dd = '<div class="eng-names">%s</div>' % (
         ", ".join(ENGAGEMENTS[e] for e in case["eng"])
     )
 
@@ -607,8 +612,8 @@ def write_index():
 
     buttons = ['        <button type="button" data-f="all" aria-pressed="true">All</button>']
     for k in "ABCDE":
-        buttons.append('        <button type="button" data-f="%s" aria-pressed="false">%s &middot; %s</button>'
-                       % (k, k, ENGAGEMENTS[k]))
+        buttons.append('        <button type="button" data-f="%s" aria-pressed="false">%s</button>'
+                       % (k, ENGAGEMENTS[k]))
 
     html = """---
 layout: default
@@ -646,8 +651,8 @@ description: "Nine case studies: patent development, enterprise design-thinking 
     <div class="prose">
       <p>
         Some work is real but not public. Interface visuals from the enterprise programs are held
-        pending permission clearance. A co-owned assessment venture, a research tooling build for a
-        collaborator, and an autonomous trading agent are all live but not cleared for a public page.
+        pending permission clearance. A research tooling build for a collaborator and an autonomous
+        trading agent are both live but not cleared for a public page.
         Happy to walk through any of it directly.
       </p>
       <p><a href="/#contact">Get in touch</a></p>

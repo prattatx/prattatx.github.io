@@ -26,8 +26,8 @@ SITE = {
     "author": "James H. Pratt",
     "description": (
         "Cognitive psychologist, founder, and AI product leader in Austin. "
-        "Advisory, fractional AI product leadership, board seats, strategy "
-        "sprints, and workshops."
+        "The AI Effectiveness Audit: which tasks your AI should handle, "
+        "and who on your team produces well with it."
     ),
     "url": "https://prattatx.github.io",
     "time": "2026",

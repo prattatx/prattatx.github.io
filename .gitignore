@@ -2,3 +2,5 @@ _site/
 _preview/
 .DS_Store
 node_modules/
+.superpowers/
+docs/
