@@ -278,6 +278,14 @@ a {
   color: var(--text-3);
 }
 
+/* Copy rhythm for a section that runs paragraphs directly inside .shell rather
+   than inside .prose. Bare <p> there matched no measure rule at all and rendered
+   at 122ch with a 0px gap, which is what made the audit block read as one slab.
+   Not .prose itself, because .prose a would restyle the CTA link and button. */
+.flow > p { max-width: 68ch; margin-bottom: var(--s5); }
+.flow > p.lede { max-width: 42ch; }
+.flow > p:last-child { margin-bottom: 0; }
+
 .prose p { color: var(--text-2); margin-bottom: var(--s5); max-width: 68ch; }
 .prose p:last-child { margin-bottom: 0; }
 .prose strong { color: var(--text); font-weight: 600; }
@@ -610,6 +618,11 @@ a {
    they occupied is reclaimed by the title and description. */
 .rows--plain .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 132px; }
 
+/* Two-column variant. A row set whose third column would repeat one word on
+   every row is a glossary wearing a ledger's clothes, and it read as the price
+   ladder further down the page. The PART factors use this. */
+.rows--pair .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+
 /* Every in-page anchor target clears the sticky masthead. Without this an anchor
    jump lands with its heading tucked under the 72px bar. */
 .section[id] { scroll-margin-top: 88px; }
@@ -866,7 +879,12 @@ a {
   .stat:nth-last-child(-n+2) { border-bottom: 0; }
 }
 
-@media (max-width: 680px) {
+/* The seven-item nav needs 906px of masthead: 134 wordmark, 584 links, 116 CTA
+   and the gaps. Below that the CTA is clipped and then the links are, silently,
+   because body carries overflow-x: clip. So the toggle takes over at 940, not at
+   the 680 the five-item nav could afford. Measured, not guessed: at 834 the CTA
+   read as the word "Book" cut by the screen edge, and at 768 it was gone. */
+@media (max-width: 940px) {
   .nav { display: none; }
   .nav.is-open {
     display: flex;
@@ -882,6 +900,9 @@ a {
   }
   .nav.is-open a { padding-block: var(--s4); font-size: var(--text-md); width: 100%; }
   .nav-toggle { display: block; }
+}
+
+@media (max-width: 680px) {
   .shell { padding-inline: var(--s5); }
   .hero h1 { font-size: var(--text-display-sm); }
   .eyebrow { flex-wrap: wrap; gap: var(--s2); }
@@ -1041,6 +1062,11 @@ a {
   max-width: 68ch;
   margin-top: var(--s8);
 }
+/* A note the reader must not skip. The PART compliance line is what keeps the
+   instrument on the unregulated side of EEOC, LL144 and the EU AI Act, and it
+   is also the reassurance a cautious buyer is looking for, so it reads at the
+   body tier rather than the muted one. Case-study asides stay quiet. */
+.note--strong { color: var(--text-2); }
 
 /* Prev / next */
 .case-nav {
@@ -1147,7 +1173,16 @@ a {
   line-height: 1.25;
   margin-bottom: var(--s3);
 }
-.work-list .item .tags { margin-bottom: var(--s4); }
+/* Flex, not block. As inline boxes these pills split into two fragments when a
+   label wraps, and the --r-full radius gets sliced open mid-word. That only
+   started showing when the A-to-E letters became full engagement names. Same
+   rule .card .tags already carries. */
+.work-list .item .tags {
+  display: flex;
+  gap: var(--s2);
+  flex-wrap: wrap;
+  margin-bottom: var(--s4);
+}
 .work-list .item p { color: var(--text-2); font-size: var(--text-lg); line-height: 1.65; }
 .work-list .item .more {
   display: inline-flex;

@@ -39,6 +39,8 @@
       <a class="wordmark" href="/"><span class="dot"></span>James H. Pratt</a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav class="nav" id="nav" aria-label="Primary">
+        <a href="/method/"   {% if page.nav == 'method' %}aria-current="page"{% endif %}>Method</a>
+        <a href="/capabilities/" {% if page.nav == 'capabilities' %}aria-current="page"{% endif %}>Capabilities</a>
         <a href="/work/"     {% if page.nav == 'work' %}aria-current="page"{% endif %}>Work</a>
         <a href="/patents/"  {% if page.nav == 'patents' %}aria-current="page"{% endif %}>Patents</a>
         <a href="/research/" {% if page.nav == 'research' %}aria-current="page"{% endif %}>Research</a>

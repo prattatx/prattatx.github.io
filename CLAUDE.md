@@ -4,21 +4,36 @@ Personal site for James H. Pratt, Ph.D. Read this before changing anything.
 
 ## What this site is
 
-A public credibility surface for **advisory work**, not a job-search site. James is CEO of Fyve
-Health and stays there. The site sells five engagement types, coded A through E throughout the
-markup and matching the Career Management workstation's Portfolio Index:
+A public credibility surface for **one consulting practice**, not a job-search site. James is
+CEO of Fyve Health and stays there.
 
-| Code | Engagement |
-|---|---|
-| A | Fractional / advisory AI product lead |
-| B | Expert consult |
-| C | Board seat or named advisor |
-| D | Modern-methods strategy sprint |
-| E | Workshops, panels, speaking |
+**The site sells the AI Effectiveness Audit**, repositioned 2026-09-15. Two questions answered
+together from watching the work happen: which tasks should the machine do, and who on this team
+actually produces well with AI. It is built on **PART**, an AI-readiness assessment measuring
+Passion, Agency, Rigor and Taste, which James owns outright. The method is named (Widen, Score,
+Defend); the offers are not, because named methods command premium while named offers
+commoditize.
 
-Positioning anchors, unchanged from the Portfolio workstation: function flag is **AI Product**,
-story is **AI at consumer scale**, methods over industry, leans seed and early, Austin / remote.
-Never frame James as "just a UX guy."
+| Tier | What | Price |
+|---|---|---|
+| Front door | One workflow, observed and allocated | $5,000, published |
+| Main | Full engagement across a function | Five figures, scoped |
+| Ongoing | Named advisor or fractional seat | Retainer |
+
+**ICP: organizations integrating AI into knowledge work.** Not stage-gated, not industry-gated.
+Elder care, senior care and healthcare are excluded as a primary market from James's direct
+operating experience.
+
+**The A through E engagement codes are retired**, along with the seed-and-early ICP. Five ICPs
+were derived and withdrawn on 2026-09-14 and 2026-09-15; the reasons each failed are in
+`docs/superpowers/specs/2026-09-14-offers-redesign-DRAFT.md`. Read that before proposing a sixth.
+
+Positioning anchors that still hold: function flag is **AI Product**, story is **AI at consumer
+scale**, methods over industry, Austin / remote. Never frame James as "just a UX guy."
+
+**Never make a PART validity claim.** PART has no criterion validity evidence. Nothing may say
+or imply it predicts performance. Market the assessment; never publish the instrument (construct
+defense, instrument design memo, task specs, item text).
 
 ## Hard content rules
 
@@ -32,6 +47,11 @@ Never frame James as "just a UX guy."
 7. **Banned words:** dive into, game-changing, straightforward, leverage, synergize, circle back,
    touch base, moreover, furthermore, in conclusion, at the end of the day, needless to say.
    See `00_Resources/voice-principles.md` in Cowork OS for the full voice spec.
+8. **17 and 24 measure different things. Never swap one for the other.** `24` is years deciding
+   human or machine, counting from Lockheed Martin, February 2002. `17` is years shipping AI at
+   consumer and enterprise scale, which began later. The stat rail uses 24; the CV's "seventeen
+   years shipping AI" is correct and must not be "updated" to 24. A find-and-replace conflated
+   them on 2026-09-15 and had to be reverted.
 
 ## Clearance (approved 2026-08-13)
 
@@ -122,6 +142,15 @@ the authoring container does not have.
 - `build-preview.py`: single-file preview renderer for working without Jekyll
 
 ## Gotchas
+
+- **Jekyll publishes any root file that has no YAML front matter**, unless `_config.yml`'s
+  `exclude:` list names it. The repo is public and `robots.txt` is `Allow: /`, so an unexcluded
+  working document is served at its own URL. `CLAUDE.md`, `README.md`, `PRODUCT.md`, `design.md`,
+  `docs`, `_gen`, `_preview` and `build-preview.py` are all excluded. **Add anything new of that
+  kind before committing it.** On 2026-09-15 this nearly published the strategy specs, PART's
+  unsigned construct-defense status, and five withdrawn ICPs. When checking, inventory every root
+  entry rather than spot-checking: the same defect was found three times because each pass looked
+  at a narrower slice than the problem.
 
 - **Do not hand-edit `work/*/index.html`.** `_gen/cases.py` overwrites them.
 - **`build-preview.py` is not Jekyll.** It resolves simple Liquid only. Anything looping over

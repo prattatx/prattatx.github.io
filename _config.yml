@@ -1,6 +1,6 @@
 title: "James H. Pratt, Ph.D."
 author: "James H. Pratt"
-description: "Cognitive psychologist, founder, and AI product leader in Austin. Advisory, fractional AI product leadership, board seats, strategy sprints, and workshops."
+description: "Cognitive psychologist, founder, and AI product leader in Austin. The AI Effectiveness Audit: which tasks your AI should handle, and who on your team produces well with it."
 url: "https://prattatx.github.io"
 
 # Set these and they wire themselves in. Leave empty and the site simply omits them.
@@ -21,3 +21,6 @@ exclude:
   - _gen
   - build-preview.py
   - .DS_Store
+  - docs
+  - PRODUCT.md
+  - design.md

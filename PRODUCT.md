@@ -8,22 +8,25 @@ web
 
 ## Users
 
-**Primary: seed and early-stage founders**, evaluating James for a fractional AI product
-leadership engagement (type A) or a modern-methods strategy sprint (type D). When audiences
-conflict, this one wins.
+**Primary: organizations integrating AI into knowledge work.** Not stage-gated, not
+industry-gated. The buyer has AI in the building and has not decided which parts of the
+work it should be doing.
 
-Secondary, confirmed but not optimized for: investors and accelerator or program leads
-(board seats, named advisor roles, expert consults), and enterprise buyers.
+Retired 2026-09-15: the previous ICP (seed and early-stage founders) and the medtech and
+biotech ICP proposed on 2026-09-14. The audit trail for five ICP candidates derived and
+withdrawn is in `docs/superpowers/specs/2026-09-14-offers-redesign-DRAFT.md`.
 
-**The visit is almost always a referral check.** Confirmed 2026-09-09: warm intro and referral
-verification is the real arrival path. LinkedIn click-through, speaking follow-up, and cold
-search were each offered and each declined as not real. The visitor therefore arrives with
-context already: someone told them about James, and they are verifying before a first
-conversation. They are not being introduced to him by this site.
+**Excluded, from James's direct operating experience:** elder care and senior care, and
+healthcare as a primary market. This is practitioner evidence and it outranks the
+research lanes.
 
-Design consequence to carry forward: the site does not have to win attention or explain who
-James is from zero. It has to confirm what the visitor was already told, fast, and then let
-them act.
+**The visit is almost always a referral check.** Confirmed 2026-09-09 and unchanged. Warm
+intro and referral verification is the real arrival path. The visitor arrives with context
+already: someone told them about James, and they are verifying before a first conversation.
+
+Design consequence, unchanged: the site does not have to win attention or explain who James
+is from zero. It has to confirm what the visitor was already told, fast, and then let them
+act.
 
 ## Product Purpose
 
@@ -32,25 +35,23 @@ seeking-work sense. James is CEO of Fyve Health and stays there.
 
 **Success is a booked call on cal.com** (`https://www.cal.com/james-pratt`). Confirmed
 2026-09-09. Passive credibility is not the goal: the booking is. Everything else on the site
-exists to get a verifying founder confident enough to take that step.
+exists to get a verifying buyer confident enough to take that step.
 
-The site sells five engagement types, coded A through E in the markup and matched to the
-Career Management workstation's Portfolio Index:
+The site sells one practice, the AI Effectiveness Audit, on a three-tier ladder:
 
-| Code | Engagement |
-|---|---|
-| A | Fractional / advisory AI product lead |
-| B | Expert consult |
-| C | Board seat or named advisor |
-| D | Modern-methods strategy sprint |
-| E | Workshops, panels, speaking |
+| Tier | What | Price |
+|---|---|---|
+| Front door | One workflow, observed and allocated | $5,000, published |
+| Main | Full engagement across a function | Five figures, scoped |
+| Ongoing | Named advisor or fractional seat | Retainer |
 
-A and D serve the primary user. B, C, and E serve the secondary audiences.
+The A through E engagement codes are retired. They were internal Career Management
+workstation taxonomy.
 
 ## Positioning
 
 Function flag is **AI Product**. Story is **AI at consumer scale**. Methods over industry.
-Leans seed and early. Austin or remote.
+Not stage-gated. Austin or remote.
 
 The mechanism a neighboring advisor could not truthfully copy: 358 granted patents across two
 decades of shipping consumer-scale AI inside a carrier, paired with a cognitive psychology and
@@ -144,7 +145,7 @@ exist to publish.
    here. Promote them as artifacts, not as tables, and let the chrome recede behind them.
 2. **Confirm, do not introduce.** The visitor already knows who James is. Optimize for fast
    verification of a claim they arrived with, not for an origin story.
-3. **The booking is the only conversion.** Every page should leave a verifying founder one
+3. **The booking is the only conversion.** Every page should leave a verifying buyer one
    obvious step from cal.com. No competing calls to action.
 4. **Clearance outranks completeness.** A gap in the public record is correct when the material
    behind it is not cleared. Acknowledge the gap, never fill it.
