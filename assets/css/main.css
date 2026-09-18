@@ -444,6 +444,34 @@ a {
   );
 }
 .rail svg { position: relative; height: 100%; width: 100%; overflow: visible; }
+
+/* The hero field: the rail's signal, opened into the empty right-hand column.
+   Not a second motif, the same one with room. Sits behind the text, takes no
+   pointer events, and is hidden below 1100px where the 42ch lede closes the
+   gap it lives in. Renders nothing with JavaScript off, which is correct:
+   it carries no information the page needs. */
+.hero .shell { position: relative; }
+.hero-field {
+  position: absolute;
+  top: 0;
+  bottom: var(--s12);
+  right: var(--s6);
+  width: min(44%, 520px);
+  pointer-events: none;
+  z-index: 0;
+  display: none;
+}
+.hero-field svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.hero-field path { fill: none; stroke: var(--border-strong); stroke-width: 1; }
+.hero .shell > *:not(.hero-field) { position: relative; z-index: 1; }
+
+@media (min-width: 1100px) {
+  .hero-field { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* nothing to collapse: the field is static. Left explicit so a future
+     change that animates it has to think about this case. */
+}
 /* v2: retuned for light paper. --border-strong is 3.24:1 here, so the base
    trace needs more opacity than it did against the dark ground to read. */
 .rail .wave-base { stroke: var(--border-strong); stroke-width: 1; fill: none; opacity: .7; }
