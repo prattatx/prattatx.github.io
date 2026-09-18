@@ -331,6 +331,27 @@ a {
 .flow > p.lede { max-width: 42ch; }
 .flow > p:last-child { margin-bottom: 0; }
 
+/* The published price is the practice's stated differentiator and it was set as
+   another .lede: same serif, same size as the prose around it, wrapping to
+   "Larger engagements / are scoped". It is a figure, so it reads as one, using
+   the stat rail's vocabulary rather than a new treatment. */
+.price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  color: var(--text-2);
+}
+.price strong {
+  font-size: var(--text-stat);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
 .prose p { color: var(--text-2); margin-bottom: var(--s5); max-width: 68ch; }
 .prose p:last-child { margin-bottom: 0; }
 .prose strong { color: var(--text); font-weight: 600; }
@@ -634,6 +655,13 @@ a {
 /* ---------- 11. Practice list (the five engagements) ---------- */
 
 .rows { border-top: 1px solid var(--border-muted); }
+
+/* When a row set is the last thing in its section, drop the closing rule on the
+   final row. Otherwise that rule and the next section's border-top sit roughly
+   58px apart with nothing between them, and the empty band reads as a blank
+   row. Only applies where .rows is the section's last child, so row sets with
+   copy after them (the homepage offer and ladder) keep their closing rule. */
+.section > .rows:last-child .row:last-child { border-bottom: 0; }
 
 /* Rows are read, not clicked: every .row on this site is a <div> with no href.
    They therefore carry no hover treatment. Decoration that only appears on
