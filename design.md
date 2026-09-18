@@ -249,6 +249,16 @@ visit. Below 1000px it collapses to a 2px top progress bar.
 It is grounded in the actual work (sleep EEG, edge audio, ambient sensing) and
 it is **the site's only decorative gesture. Do not add a second motif.**
 
+**A rejected attempt, kept because the reason generalizes (2026-09-18).** The
+same fixed-seed signal was opened into the hero's empty right column as a
+multi-channel montage, on the argument that the first motif given room is not
+a second motif. That argument is right about the code and wrong about the eye.
+What a reader registers is not the seed, it is the squiggle, and a vertical
+wandering line down the left edge plus a horizontal one beside the name read
+as mess however quiet each is. **The rail owns organic line on this site.**
+Anything else placed against it has to be a different class of mark:
+rectilinear, typographic, or a real drawing.
+
 ## Microinteraction stance
 
 - Silent success. No toasts, no celebratory confirmation, no modals.
@@ -308,6 +318,27 @@ blocks, hairline baselines, no gridlines, labels on first/peak/last, hover
 enhances rather than gates, and a table view always exists. Real counts only,
 never an invented figure.
 
+### The patent figure (shipped 2026-09-18)
+
+The landing hero left roughly 480px of empty paper beside the name, and the
+answer is evidence rather than texture: Figure 2 of US 12,124,506, an acoustic
+monitoring system, one of the 358, with James H. Pratt a named inventor. It is
+a block diagram, so it is boxes and rules, the vocabulary the rest of the site
+already speaks, and it cannot compete with the rail the way a second waveform
+did.
+
+It ships as an **alpha mask**, not a picture: the ink takes `--border-strong`
+and follows the palette instead of baking in black. Sized `min(38%, 400px)` at
+0.45 opacity, hidden below 1100px where the 42ch lede closes the gap it lives
+in, and gated behind `@supports` for mask support, because without a mask the
+element would paint as a solid rectangle, which is worse than an empty column.
+A mono caption names the patent, which is what turns it from decoration into
+a citation.
+
+Source figures come from the published USPTO record. If this is ever swapped,
+check the assignee first: this one is Hyundai and Kia, so it sits outside the
+standing hold on AT&T imagery.
+
 ### The homepage curve (shipped 2026-09-18)
 
 The third drawn record, and it took the new positional encoding the rule above
@@ -344,7 +375,13 @@ label **is** the section heading and ships as `<h2>`.
 - Index and Document families keep an even rhythm: they are lists and documents,
   and varying their spacing is decoration rather than structure.
 - Tool may introduce interactive state, and only Tool may.
-- No family gets hero enrichment. Typography carries every page.
+- Typography carries every page, and nothing arrives in a hero that is not
+  already the site's own evidence. No stock imagery, no gradient field, no
+  abstract ornament bought in to fill space. **Amended 2026-09-18.** The
+  Landing hero carries Figure 2 of US 12,124,506, one of the 358 (see The
+  patent figure below). The rule this replaces read "no family gets hero
+  enrichment" flatly; the line it was actually defending is the one now
+  written above.
 
 ## What pages MUST share
 
