@@ -261,6 +261,51 @@ a {
 .dl + .dl-head { margin-top: var(--s10); }   /* stacked lists in one column */
 .dl-head--break { margin-top: var(--s12); }  /* label opening a new block */
 
+/* The homepage record, drawn. design.md's v2 thesis is that the record is an
+   artifact rather than a table, and /patents/ and /research/ got that treatment
+   while the landing page kept two definition lists. This is the third drawn
+   record, so it takes a new positional encoding: a continuous cumulative line,
+   not the year columns /patents/ owns or the lanes /research/ owns.
+
+   No entrance animation on purpose. The stat rail is the page's one
+   orchestrated entrance and design.md allows exactly one. */
+.record-curve { margin: 0 0 var(--s10); }
+.record-curve svg {
+  display: block;
+  width: 100%;
+  height: clamp(72px, 9vw, 104px);
+  overflow: visible;
+}
+.rc-line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
+.rc-line--partial { stroke-dasharray: 3 3; }
+.rc-base { stroke: var(--border-strong); stroke-width: 1; }
+.rc-val {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-3);
+  text-align: right;
+  margin-bottom: var(--s2);
+}
+.rc-val strong {
+  /* Proportional, not tabular. design.md reserves tabular-nums for columns of
+     figures; this is a single stat callout, which stays proportional. */
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--accent-text);
+}
+.rc-axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .08em;
+  color: var(--text-3);
+  margin-top: var(--s2);
+}
+.record-curve .caption { margin-top: var(--s4); }
+
 /* Quiet caption under a figure or data list. Unlike .note it carries no rule. */
 .caption {
   margin-top: var(--s6);
