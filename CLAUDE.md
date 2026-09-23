@@ -160,7 +160,10 @@ the authoring container does not have.
 - **The CV PDF is rendered from `/cv/` through the print stylesheet.** If you change the CV page,
   regenerate the PDF or the two will disagree. Never link the old branded `.docx`: it still says
   300+ patents.
-- **The two 2016 posts are `published: false`, not deleted.** James has not authorized a delete.
+- **The two 2016 posts were deleted on 2026-09-23**, on James's instruction.
+- **Republished posts set `canonical_url` and `medium_url`.** `canonical_url` overrides the
+  self-canonical in `default.html`; `medium_url` renders the "Originally published on Medium"
+  credit in `post.html`. The three 2025 Medium essays carry both.
 
 ## Assets
 

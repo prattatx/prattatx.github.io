@@ -405,6 +405,31 @@ One series means one colour. Thin marks, not thick blocks. Solid hairline
 baseline, no gridlines. Labels on first, peak and last only. Hover enhances and
 never gates. A table view always exists.
 
+## Post figures (shipped 2026-09-23)
+
+Added for the three Medium essays republished under `/writing/`, the first posts
+on the site to carry images. Written in kramdown as raw `<figure>` blocks so
+the caption survives.
+
+| Element | Rule |
+|---|---|
+| `figure` | `margin: var(--s8) 0`, so a figure breathes like a blockquote, not like a paragraph |
+| `figure img` | Full column width, 1px `--border`, `--r-lg` (12px), no bottom margin |
+| `figcaption` | Inter (`--font-ui`) at `--text-sm` (13px), line-height 1.5, `--text-3` (5.34:1), `--s3` above |
+| bare `img` | Unchanged: `--r-md` and `--s6` below, for an image written without a figure |
+
+- **Captions are sentences, so they stay in sentence case.** The mono-caps label
+  voice is for short chrome labels; a caption running 20 words in caps is
+  unreadable and trips the all-caps-body check.
+- **The hairline border is enough here, and the portrait matte is not needed.**
+  These are mid-tone editorial illustrations, so their edges do not meet the
+  paper hard. If a post image ever has a near-black edge, apply the portrait
+  rule instead: mediate with a surface tone, never elevation.
+- **Images ship as WebP**, at most 1024px wide, `cwebp -q 82 -m 6`, with
+  `loading="lazy"`. One folder per post at `assets/img/writing/<slug>/`, files
+  numbered in reading order. Never hotlink a CDN. The first batch went from
+  6.1MB of PNG to 580KB with no visible loss at 2x.
+
 ## Print
 
 Print is the light surface, and the CV PDF is rendered from `/cv/` through it.

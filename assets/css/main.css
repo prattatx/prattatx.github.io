@@ -1850,6 +1850,20 @@ a {
 }
 .post-body th { color: var(--text-3); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; text-transform: uppercase; }
 .post-body img { border-radius: var(--r-md); margin-bottom: var(--s6); }
+.post-body figure { margin: var(--s8) 0; }
+.post-body figure img {
+  width: 100%;
+  margin-bottom: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.post-body figcaption {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-3);
+  margin-top: var(--s3);
+}
 
 /* ============================================================
    25. Publication lanes
