@@ -170,8 +170,8 @@ the authoring container does not have.
 - `assets/img/james-pratt.{jpg,webp}`: 4:5 portrait, 1000x1250, used on the home contact block and
   the About page. `-square` and `og.jpg` (1200x630, the social card) are crops of the same source.
   All generated from one supplied headshot; regenerate all four together if it is ever replaced.
-- The portrait is a dark image on a dark site by design. It carries a 1px border and a 12px radius
-  so it reads as a deliberate object rather than a hole in the page.
+- The portrait is a dark image on the light paper background. It carries a 1px border and a 12px
+  radius so it reads as a deliberate object rather than a hole in the page.
 
 ## Deploy
 
