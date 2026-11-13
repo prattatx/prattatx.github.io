@@ -2008,3 +2008,139 @@ a {
   .contact-split { grid-template-columns: 1fr; gap: var(--s8); }
   .contact-split .portrait-figure { max-width: 220px; }
 }
+
+/* ============================================================
+   27. Explainer post components
+   ============================================================ */
+
+/* For posts that explain one idea several ways (first: Cognitive Mercantilism,
+   2026-11-12). Diagrams are inline SVG drawn from the tokens; the dial and the
+   chart are progressive enhancement and start hidden, so with JavaScript off the
+   post still reads as text, two diagrams and a table. One accent, used for the
+   selected node, the good outcome, the chart line and the pressed button. */
+.post-body .xp-figure { margin: var(--s8) 0; }
+.post-body .xp-scroll { overflow-x: auto; }
+.post-body .xp-map { display: block; width: 100%; min-width: 520px; height: auto; }
+.post-body .xp-loop { display: block; width: 100%; max-width: 520px; min-width: 440px; height: auto; margin: 0 auto; }
+.post-body .xp-figure text { font-family: var(--font-ui); fill: var(--text); }
+.post-body .xp-strong { font-size: 15px; font-weight: 600; }
+.post-body .xp-mid { font-size: 14px; font-weight: 500; }
+.post-body .xp-small { font-size: 13px; font-weight: 500; fill: var(--text-3) !important; }
+.post-body .xp-data { font-family: var(--font-mono) !important; font-size: 13px; fill: var(--text-2) !important; }
+.post-body .xp-box { fill: var(--bg); stroke: var(--border-strong); stroke-width: 1; }
+.post-body .xp-q { fill: var(--bg-subtle); stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 4 3; }
+.post-body .xp-end { fill: var(--bg-muted); stroke: var(--border-strong); stroke-width: 1; }
+.post-body .xp-good { fill: var(--accent-subtle); stroke: var(--accent); stroke-width: 1.25; }
+.post-body .xp-edge { fill: none; stroke: var(--text-3); stroke-width: 1.25; }
+.post-body .xp-arrow { fill: var(--text-3); }
+.post-body .xp-node { cursor: pointer; outline: none; }
+.post-body .xp-node:hover .xp-box,
+.post-body .xp-node:hover .xp-q,
+.post-body .xp-node.on .xp-box,
+.post-body .xp-node.on .xp-q,
+.post-body .xp-node.on .xp-good { fill: var(--accent-subtle); stroke: var(--accent); stroke-width: 2; stroke-dasharray: none; }
+.post-body .xp-node:focus-visible .xp-box,
+.post-body .xp-node:focus-visible .xp-q,
+.post-body .xp-node:focus-visible .xp-good { stroke: var(--accent); stroke-width: 3; stroke-dasharray: none; }
+.post-body p.xp-info {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text);
+  min-height: 3em;
+  margin: var(--s3) 0 var(--s2);
+}
+.post-body p.xp-cap,
+.post-body p.xp-tip {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-3);
+  margin: var(--s3) 0 0;
+}
+
+/* panels: the dial and the chart */
+.post-body .xp-panel {
+  margin: var(--s8) 0;
+  padding: var(--s5);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  display: grid;
+  gap: var(--s4);
+  min-width: 0;
+}
+.post-body .xp-panel p { margin: 0; }
+.post-body p.xp-label {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+.post-body .xp-seg { display: flex; flex-wrap: wrap; }
+.post-body .xp-seg button {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-right-width: 0;
+  padding: var(--s2) var(--s4);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.post-body .xp-seg button:first-child { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.post-body .xp-seg button:last-child { border-right-width: 1px; border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.post-body .xp-seg button:hover { background: var(--bg-muted); }
+.post-body .xp-seg button[aria-pressed="true"] { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--on-accent); }
+.post-body p.xp-sample { min-height: 8em; }
+.post-body p.xp-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  color: var(--text-3);
+}
+.post-body .xp-stats b { font-family: var(--font-mono); font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; }
+.post-body .xp-verdict { font-weight: 600; }
+.post-body .xp-verdict.is-best { color: var(--accent-text); }
+
+/* chart */
+.post-body .xp-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
+@media (max-width: 560px) { .post-body .xp-controls { grid-template-columns: 1fr; } }
+.post-body .xp-controls label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s2);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  color: var(--text-2);
+}
+.post-body .xp-controls output { font-family: var(--font-mono); font-size: var(--text-lg); color: var(--text); font-variant-numeric: tabular-nums; }
+.post-body .xp-controls input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+.post-body p.xp-formula { font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.6; color: var(--text-2); }
+.post-body .xp-totals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); margin: 0; }
+@media (max-width: 560px) { .post-body .xp-totals { grid-template-columns: 1fr; gap: var(--s2); } }
+.post-body .xp-totals div { min-width: 0; }
+.post-body .xp-totals dt { font-family: var(--font-ui); font-size: var(--text-sm); color: var(--text-3); }
+.post-body .xp-totals dd { margin: 0; font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 600; color: var(--text); overflow-wrap: anywhere; }
+.post-body #xp-chart { display: block; width: 100%; min-width: 440px; height: auto; }
+.post-body #xp-chart .xp-base { stroke: var(--border-strong); stroke-width: 1; }
+.post-body #xp-chart .xp-ref { stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 4 4; }
+.post-body #xp-chart .xp-line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
+.post-body #xp-chart .xp-dot { fill: var(--bg-subtle); stroke: var(--accent); stroke-width: 1.5; }
+.post-body #xp-chart .xp-dot:hover { fill: var(--accent); }
+.post-body #xp-chart text { font-family: var(--font-mono); font-size: 13px; fill: var(--text-3); }
+.post-body #xp-chart .xp-val { fill: var(--text); font-weight: 500; }
+.post-body .xp-table summary { font-family: var(--font-ui); font-size: var(--text-md); color: var(--accent-text); cursor: pointer; }
+.post-body .xp-table table { margin: var(--s3) 0 0; }
+.post-body .xp-table td { font-family: var(--font-mono); font-size: var(--text-md); font-variant-numeric: tabular-nums; }
+
+/* video: a dark frame on light paper, so it takes the portrait's mount */
+.post-body .xp-video { margin: var(--s8) 0; padding: var(--s2); background: var(--bg-muted); border-radius: var(--r-xl); }
+.post-body .xp-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--r-md); background: var(--text); }
+.post-body p.xp-credit { font-size: var(--text-lg); color: var(--text-3); }

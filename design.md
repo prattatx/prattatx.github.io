@@ -430,6 +430,28 @@ the caption survives.
   numbered in reading order. Never hotlink a CDN. The first batch went from
   6.1MB of PNG to 580KB with no visible loss at 2x.
 
+## Explainer post components (shipped 2026-11-12)
+
+Added for "Cognitive Mercantilism, Explained Four Ways", the first post that
+carries inline diagrams, a control and a chart. Styles are section 27 of
+`main.css`, all scoped to `.post-body .xp-*`; the script is per post
+(`assets/js/cognitive-mercantilism.js`), not part of `site.js`.
+
+| Element | Rule |
+|---|---|
+| Inline SVG diagram | Drawn at the post column's width (viewBox about 580 wide, so it renders near 1:1 in the 68ch column). Text in Inter at 13 to 15 viewBox units, so it never renders under the 11px floor. Below that width it scrolls inside `.xp-scroll` rather than shrinking. |
+| Diagram colour | Boxes on paper with a `--border-strong` hairline. The one accent marks the good outcome and the selected node; the bad outcome takes `--bg-muted`. |
+| Panel | `--bg-subtle` with a `--border` hairline and `--r-lg`, holding a control and its output |
+| Segmented control | Inter 13px, `--border-strong` boundary, pressed state on `--accent-solid` with `--on-accent` |
+| Chart | One series in `--accent`, 1.5px line with open dots, solid `--border-strong` baseline, dashed `--text-3` reference line, no gridlines, value labels on peak and last only, and a Table view in a `<details>` |
+| Video | Takes the portrait's mount (`--bg-muted` matte, concentric radii) because the frame is near-black |
+
+- **Progressive enhancement holds.** The dial, the sliders and the chart start
+  `hidden` and the script reveals them. With JavaScript off the post reads as
+  text, two diagrams, the formula and the table at its default setting.
+- **Posts with components are written as `.html` in `_posts`**, not markdown, so
+  kramdown never touches the SVG.
+
 ## Print
 
 Print is the light surface, and the CV PDF is rendered from `/cv/` through it.
