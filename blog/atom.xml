@@ -12,7 +12,7 @@ sitemap: false
   <id>{{ site.url }}/</id>
   <author>
     <name>{{ site.author }}</name>
-    <email>james@fyve.dev</email>
+    <email>{{ site.email }}</email>
   </author>
   {% for post in site.posts %}
   <entry>

@@ -15,6 +15,7 @@ Usage: python3 build-preview.py index.html _preview/home.html
 """
 
 import base64
+import datetime
 import os
 import re
 import sys
@@ -25,13 +26,14 @@ SITE = {
     "title": "James H. Pratt, Ph.D.",
     "author": "James H. Pratt",
     "description": (
-        "Cognitive psychologist, founder, and AI product leader in Austin. "
-        "The AI Effectiveness Audit: which tasks your AI should handle, "
-        "and who on your team produces well with it."
+        "Cognitive psychologist and AI product leader in Austin. 358 granted "
+        "U.S. patents, nine peer-reviewed papers, and twenty-four years deciding "
+        "which work belongs to people and which to machines."
     ),
     "url": "https://prattatx.github.io",
     "time": "2026",
     "calendar_url": "https://www.cal.com/james-pratt",
+    "email": "jhp96001@gmail.com",
     "ga4": "",
 }
 
@@ -48,7 +50,63 @@ def split_front_matter(text):
     return meta, m.group(2)
 
 
+def load_posts():
+    """Title, summary, date and URL for each post, newest first.
+
+    Enough to resolve the landing page's three-post loop. Post bodies are not
+    rendered: a page that needs them still wants a real Jekyll build.
+    """
+    posts = []
+    folder = os.path.join(ROOT, "_posts")
+    for name in sorted(os.listdir(folder), reverse=True):
+        m = re.match(r"(\d{4})-(\d{2})-(\d{2})-(.+)\.(?:md|html)$", name)
+        if not m:
+            continue
+        with open(os.path.join(folder, name), encoding="utf-8") as f:
+            meta, _ = split_front_matter(f.read())
+        y, mo, d, slug = m.groups()
+        posts.append({
+            "title": meta.get("title", slug),
+            "summary": meta.get("summary", ""),
+            "url": "/writing/%s/%s/%s/%s/" % (y, mo, d, slug),
+            "date": datetime.date(int(y), int(mo), int(d)),
+        })
+    return posts
+
+
+def resolve_posts(html):
+    """{% for post in site.posts limit:N %} and {{ site.posts.size }}."""
+    if "site.posts" not in html:
+        return html
+    posts = load_posts()
+
+    def one(body, post):
+        body = re.sub(
+            r"\{%\s*if\s+post\.summary\s*%\}(.*?)\{%\s*else\s*%\}(.*?)\{%\s*endif\s*%\}",
+            lambda m: m.group(1) if post["summary"] else "", body, flags=re.S)
+        body = re.sub(
+            r"\{\{\s*post\.date\s*\|\s*date:\s*\"([^\"]*)\"\s*\}\}",
+            lambda m: post["date"].strftime(m.group(1)), body)
+        for key in ("url", "title", "summary"):
+            body = re.sub(r"\{\{\s*post\.%s\s*\}\}" % key, lambda m: post[key], body)
+        return body
+
+    def loop(m):
+        limit = int(m.group(1)) if m.group(1) else len(posts)
+        return "".join(one(m.group(2), post) for post in posts[:limit])
+
+    html = re.sub(
+        r"\{%\s*for\s+post\s+in\s+site\.posts(?:\s+limit:\s*(\d+))?\s*%\}(.*?)\{%\s*endfor\s*%\}",
+        loop, html, flags=re.S)
+    html = re.sub(
+        r"\{%\s*if\s+site\.posts\.size\s*==\s*1\s*%\}(.*?)\{%\s*else\s*%\}(.*?)\{%\s*endif\s*%\}",
+        lambda m: m.group(1) if len(posts) == 1 else m.group(2), html, flags=re.S)
+    html = re.sub(r"\{\{\s*site\.posts\.size\s*\}\}", str(len(posts)), html)
+    return html
+
+
 def resolve_liquid(html, page):
+    html = resolve_posts(html)
     # {% if site.x %}...{% endif %}
     def sitecond(m):
         return m.group(2) if SITE.get(m.group(1)) else ""

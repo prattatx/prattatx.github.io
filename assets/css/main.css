@@ -101,6 +101,17 @@
   --info:          #0369a1;   /* 5.59:1, reassigned to another owner */
   --on-accent:     #ffffff;   /* 6.02:1 on --accent-solid */
 
+  /* v3. A raised surface for cards and figures: a warm white one step above
+     the paper, so a card reads as lifted without going to pure #fff. */
+  --surface:       #fffdf9;
+  --accent-wash:   #f2f2fb;   /* --accent-subtle flattened onto --surface */
+
+  /* Depth, borrowed from the Notion-Apple system: stacked low-alpha layers,
+     tinted with the ink hue rather than black. Cards and figures only. */
+  --shadow-1: 0 1px 2px rgba(38, 35, 31, .04), 0 3px 9px rgba(38, 35, 31, .04);
+  --shadow-2: 0 1px 2px rgba(38, 35, 31, .05), 0 4px 10px rgba(38, 35, 31, .05),
+              0 14px 32px rgba(38, 35, 31, .07);
+
   --s1: .25rem;  --s2: .5rem;   --s3: .75rem;  --s4: 1rem;
   --s5: 1.25rem; --s6: 1.5rem;  --s8: 2rem;    --s10: 2.5rem;
   --s12: 3rem;   --s16: 4rem;   --s20: 5rem;   --s24: 6rem;
@@ -126,23 +137,25 @@
   --text-lede-hero:  clamp(1.0625rem, 1.5vw, 1.25rem);
   --text-quote:      clamp(1.5rem, 3.2vw, 2.25rem);
   --text-post-h2:    clamp(1.5rem, 3vw, 2rem);
-  --text-stat:       clamp(1.75rem, 3.6vw, 2.75rem);
+  --text-stat:       clamp(2.25rem, 4.6vw, 3.5rem);
   --text-page-h1:    clamp(2.25rem, 5.6vw, 4rem);
   --text-display-s:  clamp(2.25rem, 6.5vw, 4.25rem);
-  --text-display:    clamp(3rem, 11vw, 6rem);
+  --text-display:    clamp(2.75rem, 7.6vw, 5.5rem);
   --text-display-sm: clamp(2.75rem, 13vw, 4rem);   /* hero, below 680px */
 
   --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
 
-  --content: 1080px;
+  --content: 1120px;
   --narrow: 720px;
 
   --t-fast: 100ms cubic-bezier(.4, 0, .2, 1);
   --t-base: 180ms cubic-bezier(.4, 0, .2, 1);
   --t-slow: 320ms cubic-bezier(.4, 0, .2, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);   /* entrances and drawn figures */
 
-  /* the signal rail width, referenced by layout and by the rail itself */
-  --rail: 88px;
+  /* One gutter for every grid on the landing page, so a four-up, a two-up and
+     the hero's halves all share the same column edges. */
+  --gutter: var(--s8);
 }
 
 /* ---------- 3. Reset ---------- */
@@ -267,13 +280,14 @@ a {
    record, so it takes a new positional encoding: a continuous cumulative line,
    not the year columns /patents/ owns or the lanes /research/ owns.
 
-   No entrance animation on purpose. The stat rail is the page's one
-   orchestrated entrance and design.md allows exactly one. */
+   v3: the line draws itself in when it scrolls into view and the figure
+   counts up with it (site.js). The markup is the finished chart, so nothing
+   is lost with JavaScript off or under reduced motion. */
 .record-curve { margin: 0 0 var(--s10); }
 .record-curve svg {
   display: block;
   width: 100%;
-  height: clamp(72px, 9vw, 104px);
+  height: clamp(96px, 13vw, 168px);
   overflow: visible;
 }
 .rc-line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
@@ -305,6 +319,7 @@ a {
   margin-top: var(--s2);
 }
 .record-curve .caption { margin-top: var(--s4); }
+.js .record-curve:not(.is-drawn) .rc-line { opacity: 0; }
 
 /* Quiet caption under a figure or data list. Unlike .note it carries no rule. */
 .caption {
@@ -315,14 +330,6 @@ a {
   max-width: 68ch;
 }
 
-/* Spelled-out engagement names under the letter tags on a case-study meta grid. */
-.eng-names {
-  margin-top: var(--s2);
-  font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--text-3);
-}
-
 /* Copy rhythm for a section that runs paragraphs directly inside .shell rather
    than inside .prose. Bare <p> there matched no measure rule at all and rendered
    at 122ch with a 0px gap, which is what made the audit block read as one slab.
@@ -330,27 +337,6 @@ a {
 .flow > p { max-width: 68ch; margin-bottom: var(--s5); }
 .flow > p.lede { max-width: 42ch; }
 .flow > p:last-child { margin-bottom: 0; }
-
-/* The published price is the practice's stated differentiator and it was set as
-   another .lede: same serif, same size as the prose around it, wrapping to
-   "Larger engagements / are scoped". It is a figure, so it reads as one, using
-   the stat rail's vocabulary rather than a new treatment. */
-.price {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--s2) var(--s4);
-  font-family: var(--font-ui);
-  font-size: var(--text-lg);
-  color: var(--text-2);
-}
-.price strong {
-  font-size: var(--text-stat);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
 
 .prose p { color: var(--text-2); margin-bottom: var(--s5); max-width: 68ch; }
 .prose p:last-child { margin-bottom: 0; }
@@ -371,7 +357,7 @@ a {
 }
 
 .section {
-  padding-block: clamp(var(--s10), 4.5vw, 4.5rem);
+  padding-block: clamp(var(--s12), 6vw, 5.5rem);
   border-top: 1px solid var(--border-muted);
   position: relative;
 }
@@ -415,102 +401,13 @@ a {
   color: var(--text-3);
 }
 
-/* ---------- 6. The signal rail ---------- */
+/* ---------- 6. Scroll progress ---------- */
 
-.rail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: var(--rail);
-  height: 100vh;
-  z-index: 20;
-  pointer-events: none;
-  display: grid;
-  place-items: center;
-}
-.rail::after {
-  /* hairline the waveform sits on */
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  left: calc(var(--rail) / 2);
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--border) 12%,
-    var(--border) 88%,
-    transparent
-  );
-}
-.rail svg { position: relative; height: 100%; width: 100%; overflow: visible; }
-
-/* The hero column, filled with evidence rather than texture. Figure 2 of
-   US 12,124,506, one of the 358, drawn where the landing page otherwise leaves
-   roughly 480px of empty paper beside the name.
-
-   Rectilinear on purpose. The first attempt here was a second wandering line
-   opposite the rail, and two organic squiggles read as noise however quiet
-   each one is. A patent block diagram is boxes and rules, which is the
-   vocabulary the rest of the site already speaks.
-
-   Shipped as an alpha mask, not a picture, so the ink takes --border-strong
-   and follows the palette instead of baking in black. Hidden below 1100px,
-   where the 42ch lede closes the gap it lives in. */
-.hero-patent {
-  position: absolute;
-  top: 0;
-  right: var(--s6);
-  width: min(38%, 400px);
-  margin: 0;
-  z-index: 0;
-  display: none;
-}
-.hero-patent-fig {
-  aspect-ratio: 900 / 1104;
-  background-color: var(--border-strong);
-  opacity: .45;
-  -webkit-mask-image: url('/assets/img/us12124506-fig2.png');
-          mask-image: url('/assets/img/us12124506-fig2.png');
-  -webkit-mask-size: contain;      mask-size: contain;
-  -webkit-mask-repeat: no-repeat;  mask-repeat: no-repeat;
-  -webkit-mask-position: top center; mask-position: top center;
-}
-.hero-patent figcaption {
-  margin-top: var(--s3);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  text-align: center;
-}
-.hero-patent figcaption span { display: block; margin-top: 2px; letter-spacing: .04em; }
-.hero .shell { position: relative; }
-.hero .shell > *:not(.hero-patent) { position: relative; z-index: 1; }
-
-/* Gated on mask support as well as width. Without a mask this div would paint
-   as a solid --border-strong rectangle, which is far worse than an empty
-   column, so it stays hidden rather than degrading. */
-@supports ((mask-image: url("#m")) or (-webkit-mask-image: url("#m"))) {
-  @media (min-width: 1100px) { .hero-patent { display: block; } }
-}
-/* v2: retuned for light paper. --border-strong is 3.24:1 here, so the base
-   trace needs more opacity than it did against the dark ground to read. */
-.rail .wave-base { stroke: var(--border-strong); stroke-width: 1; fill: none; opacity: .7; }
-.rail .wave-live { stroke: var(--accent); stroke-width: 1.25; fill: none; opacity: .9; }
-.rail .playhead { fill: var(--accent); }
-.rail .playhead-ring {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1;
-  opacity: .35;
-}
-
-/* mobile: rail becomes a top scroll line */
+/* v3 retired the left-edge signal rail so the page centres on its grid. What
+   is left of it is this 2px line, which was already the rail's form below
+   1000px. The waveform itself moved to the founder section, where it
+   describes the product instead of decorating the margin. */
 .rail-top {
-  display: none;
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 2px;
@@ -594,43 +491,56 @@ a {
 
 /* ---------- 8. Hero ---------- */
 
+/* Two halves on the page gutter: copy on the left, the sorting figure on the
+   right. The figure's two columns land on the same edges as the third and
+   fourth numbers in the row beneath. */
 .hero {
   padding-top: clamp(var(--s10), 6vw, 5.5rem);
-  padding-bottom: clamp(var(--s8), 4vw, 3.5rem);
+  padding-bottom: clamp(var(--s10), 5vw, 4.5rem);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s12) var(--gutter);
+  align-items: center;
 }
 
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
   font-family: var(--font-ui);
   font-size: var(--text-xs);
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--text-2);
-  margin-bottom: var(--s6);
-}
-.eyebrow .sep { color: var(--text-3); }
-.status-dot {
-  width: 6px; height: 6px;
-  border-radius: var(--r-full);
-  background: var(--ok);
-  box-shadow: 0 0 0 3px var(--ok-soft);
-  flex: none;
+  color: var(--text-3);
+  margin-bottom: var(--s5);
 }
 
 .hero h1 {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: var(--text-display);
-  line-height: .88;
-  letter-spacing: -0.035em;
+  line-height: .94;
+  letter-spacing: -0.04em;
   margin-bottom: var(--s6);
 }
 .hero h1 .quiet { color: var(--text-3); }
+/* Each line is its own clipping box so the name can rise into place. The
+   padding and negative margin give the comma and the "j"-height descenders
+   room inside the clip without changing the line spacing. */
+.hero h1 .line { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+.hero h1 .line > span { display: block; }
 
-.hero .lede { max-width: 54ch; font-size: var(--text-lede-hero); }
-.hero .lede + .lede { margin-top: var(--s5); }
+/* The current role, stated once. Sans, so it reads as a fact about the
+   person rather than as the first line of the prose under it. */
+.hero-role {
+  font-family: var(--font-ui);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: var(--s5);
+}
+
+.hero .lede { max-width: 50ch; font-size: var(--text-lede-hero); }
 
 .hero-actions {
   display: flex;
@@ -638,6 +548,138 @@ a {
   gap: var(--s3);
   margin-top: var(--s8);
 }
+
+/* The hero entrance. Scoped to .js, which the layout sets inline in <head>,
+   so the copy is never hidden on a page whose script did not run. */
+@keyframes rise    { from { opacity: 0; transform: translateY(16px); } }
+@keyframes line-up { from { transform: translateY(105%); } }
+.js .hero-copy > .eyebrow,
+.js .hero-copy > .hero-role,
+.js .hero-copy > .lede,
+.js .hero-copy > .hero-actions { animation: rise 700ms var(--ease-out) both; }
+.js .hero h1 .line > span      { animation: line-up 900ms var(--ease-out) both; }
+.js .hero-copy > .eyebrow              { animation-delay: 60ms; }
+.js .hero h1 .line:nth-child(1) > span { animation-delay: 120ms; }
+.js .hero h1 .line:nth-child(2) > span { animation-delay: 220ms; }
+.js .hero-copy > .hero-role            { animation-delay: 420ms; }
+.js .hero-copy > .lede                 { animation-delay: 520ms; }
+.js .hero-copy > .hero-actions         { animation-delay: 620ms; }
+
+/* ---------- 8b. The sorting figure ---------- */
+
+/* Tasks leave one source, pass a decision point and land with a person or
+   with a machine. The connector is rectilinear, the same boxes-and-rules
+   vocabulary as a patent block diagram. --half is the distance from the
+   stage edge to the centre of a column, so the drops sit over the middle of
+   each list at any width. */
+.sorter { margin: 0; }
+.sorter-stage { position: relative; }
+.sorter-src {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-3);
+  text-align: center;
+  margin-bottom: var(--s2);
+}
+.sorter-tree {
+  position: relative;
+  height: 56px;
+  --half: calc((100% - var(--gutter)) / 4);
+}
+.st { position: absolute; background: var(--border-strong); }
+.st-trunk { left: calc(50% - .5px); top: 0; width: 1px; height: 28px; transform-origin: 50% 0; }
+.st-bar   { left: var(--half); right: var(--half); top: 28px; height: 1px; }
+.st-drop  { top: 28px; width: 1px; height: 28px; transform-origin: 50% 0; }
+.st-drop--l { left: var(--half); }
+.st-drop--r { right: var(--half); }
+.sorter-node {
+  position: absolute;
+  left: calc(50% - 6px);
+  top: 22px;
+  width: 12px; height: 12px;
+  border-radius: var(--r-full);
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+
+.sorter-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+.sorter-h {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text);
+  padding-bottom: var(--s2);
+  margin-bottom: var(--s3);
+  border-bottom: 1px solid var(--text);
+}
+.sorter-n {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+.sorter-col--machine .sorter-h { color: var(--accent-text); border-bottom-color: var(--accent); }
+.sorter ul { display: grid; gap: var(--s2); }
+
+.chip {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+  padding: var(--s3) var(--s4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sorter-col--machine .chip {
+  color: var(--accent-text);
+  background: var(--accent-wash);
+  border-color: var(--accent-border);
+}
+
+.sorter figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin-top: var(--s5);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-3);
+}
+.sorter figcaption a { color: var(--accent-text); white-space: nowrap; }
+.sorter figcaption a:hover,
+.sorter figcaption a:focus-visible { color: var(--accent-hover); }
+.sorter-replay {
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--text-2);
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-full);
+  padding: var(--s1) var(--s3);
+  cursor: pointer;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.sorter-replay:hover,
+.sorter-replay:focus-visible { color: var(--accent-text); border-color: var(--accent-border); background: var(--accent-subtle); }
 
 /* ---------- 9. Buttons ---------- */
 
@@ -676,35 +718,40 @@ a {
   white-space: nowrap;
 }
 
-/* ---------- 10. Stat rail ---------- */
+/* ---------- 10. Shared grids and the numbers ---------- */
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
+/* Every multi-column block on the landing page is one of these two, on the
+   same gutter as the hero. Two columns of .g4 plus one gutter is exactly one
+   column of .g2, so the four numbers and whatever sits beneath them share
+   their edges. */
+.g4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s8) var(--gutter); }
+.g2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s10) var(--gutter); }
+
+.stats { padding-bottom: clamp(var(--s8), 4vw, var(--s12)); }
 .stat {
-  padding: var(--s5) var(--s5) var(--s5) 0;
-  border-right: 1px solid var(--border-muted);
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--text);
 }
-.stat:last-child { border-right: 0; }
 .stat .n {
+  order: -1;   /* the figure leads; the markup keeps dt before dd */
   font-family: var(--font-display);
+  font-weight: 600;
   font-size: var(--text-stat);
   line-height: 1;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--s2);
+  letter-spacing: -0.035em;
+  margin-bottom: var(--s3);
 }
 .stat .k {
   font-family: var(--font-ui);
-  font-size: var(--text-2xs);
-  letter-spacing: .02em;
+  font-size: var(--text-sm);
   color: var(--text-3);
-  line-height: 1.5;
+  line-height: 1.45;
+  max-width: 26ch;
 }
 
-/* ---------- 11. Practice list (the five engagements) ---------- */
+/* ---------- 11. Rows ---------- */
 
 .rows { border-top: 1px solid var(--border-muted); }
 
@@ -743,11 +790,6 @@ a {
    they occupied is reclaimed by the title and description. */
 .rows--plain .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 132px; }
 
-/* Two-column variant. A row set whose third column would repeat one word on
-   every row is a glossary wearing a ledger's clothes, and it read as the price
-   ladder further down the page. The PART factors use this. */
-.rows--pair .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
-
 /* Every in-page anchor target clears the sticky masthead. Without this an anchor
    jump lands with its heading tucked under the 72px bar. */
 .section[id] { scroll-margin-top: 88px; }
@@ -771,33 +813,22 @@ a {
 
 /* ---------- 12. Work cards ---------- */
 
-/* Not three equal tiles. One lead, two supporting: the uneven grid and the
-   natural (unlocked) heights are what keep this off the feature-tile shape. */
-.work-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: 1px;
-  background: var(--border-muted);
-  border: 1px solid var(--border-muted);
-}
+/* v3: an even grid of lifted cards, replacing the one-lead-two-supporting
+   layout. Equal cells keep every card on the page's column edges. */
 .card {
-  background: var(--bg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
   padding: var(--s6);
   display: flex;
   flex-direction: column;
-  gap: var(--s4);
-  transition: background var(--t-base);
-  position: relative;
+  gap: var(--s3);
+  transition: box-shadow var(--t-base), transform var(--t-base);
 }
-/* Spans two rows for hierarchy, but its content fills about one, so the bottom
-   half read as an empty container rather than deliberate space. Centring turns
-   the surplus into padding on both sides of the block. */
-.card--lead {
-  grid-row: span 2;
-  padding: var(--s8) var(--s6);
-  justify-content: center;
-}
-.card:hover, .card:focus-visible { background: var(--bg-subtle); }
+a.card:hover,
+a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+.cards { gap: var(--gutter); }
 .card .tags { display: flex; gap: var(--s2); flex-wrap: wrap; }
 .tag {
   font-family: var(--font-ui);
@@ -813,17 +844,14 @@ a {
 .tag.tag-quiet { color: var(--text-3); border-color: var(--border-strong); }
 .card h3 {
   font-family: var(--font-ui);
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
-.card--lead h3 { font-size: var(--text-5xl); line-height: 1.2; letter-spacing: -0.02em; }
 .card p { color: var(--text-2); font-size: var(--text-base); line-height: 1.65; }
-.card--lead p { font-size: var(--text-lg); }
 
-/* The affordance rides the title, where the eye already is. Three identical
-   "Case study ->" footers under three identical cards was the tell. */
+/* The affordance rides the title, where the eye already is. */
 .card h3 .arrow {
   display: inline-block;
   margin-left: .3em;
@@ -832,27 +860,6 @@ a {
 }
 .card:hover h3 .arrow,
 .card:focus-visible h3 .arrow { transform: translateX(3px); color: var(--accent); }
-
-/* Retained for cards that are not links and carry a plain closing line. */
-.card .foot {
-  margin-top: auto;
-  padding-top: var(--s4);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-ui);
-  font-size: var(--text-2xs);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-
-@media (max-width: 860px) {
-  .work-grid { grid-template-columns: 1fr; }
-  .card--lead { grid-row: auto; padding: var(--s6); }
-  .card--lead h3 { font-size: var(--text-3xl); }
-  .card--lead p { font-size: var(--text-base); }
-}
 
 /* ---------- 13. Record (patents / research) ---------- */
 
@@ -893,25 +900,8 @@ a {
 .link-out:hover .arrow,
 .link-out:focus-visible .arrow { transform: translateX(3px); }
 
-/* The ask at the record's confidence peak. A full-width hairline separates it
-   from both columns: without one it sits directly under "Search the portfolio"
-   and reads as a third link in the patents column rather than the section's
-   conclusion. Rules carry structure here, so this is the system's own idiom. */
-.record-foot {
-  margin-top: var(--s10);
-  padding-top: var(--s6);
-  border-top: 1px solid var(--border);
-}
-.record-foot .btn { margin-top: 0; }
+/* ---------- 14. Founder ---------- */
 
-/* ---------- 14. Now ---------- */
-
-.now {
-  display: grid;
-  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
-  gap: var(--s12);
-  align-items: start;
-}
 .now-quote {
   font-family: var(--font-body);
   font-size: var(--text-quote);
@@ -919,6 +909,59 @@ a {
   letter-spacing: -0.02em;
 }
 .now-quote .accent { color: var(--accent-text); }
+
+.founder { align-items: start; }
+.founder-links { margin-top: var(--s6); border-top: 1px solid var(--border-muted); }
+.founder-links li { border-bottom: 1px solid var(--border-muted); }
+.founder-links a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding: var(--s3) 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  box-shadow: none;
+}
+.founder-links a:hover,
+.founder-links a:focus-visible { color: var(--accent-hover); box-shadow: none; }
+.founder-links .arrow { color: var(--text-3); transition: transform var(--t-base), color var(--t-base); }
+.founder-links a:hover .arrow,
+.founder-links a:focus-visible .arrow { transform: translateX(3px); color: var(--accent); }
+
+/* The waveform that used to run down the page edge, now a figure about the
+   product it came from. Labels are HTML over the SVG so they keep their size
+   when the trace scales. */
+.wave {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  padding: var(--s6);
+}
+.wave-stage { position: relative; padding-top: var(--s8); }
+.wave-labels span {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+  color: var(--accent-text);
+  border-bottom: 1px solid var(--accent);
+}
+.wave svg { display: block; width: 100%; height: clamp(88px, 11vw, 124px); overflow: visible; }
+.wave-line { fill: none; stroke: var(--text-2); stroke-width: 1.25; stroke-linejoin: round; }
+.wave .caption { margin-top: var(--s4); font-family: var(--font-ui); font-size: var(--text-sm); }
+.js .wave:not(.is-drawn) .wave-line,
+.js .wave:not(.is-drawn) .wave-labels span { opacity: 0; }
 
 /* ---------- 15. Contact ---------- */
 
@@ -951,6 +994,20 @@ a {
   margin-bottom: 2px;
 }
 
+/* The landing page's closing block, on the four-up grid: copy across two
+   columns, the links in the third, the portrait in the fourth. */
+.hello { align-items: start; }
+.hello-copy { grid-column: span 2; }
+.hello .contact-links {
+  display: grid;
+  gap: var(--s5);
+  margin-top: 0;
+  padding-top: var(--s2);
+  border-top: 0;
+}
+.hello .contact-links a { font-size: var(--text-base); overflow-wrap: anywhere; }
+.hello .portrait-figure { margin-bottom: 0; }
+
 /* ---------- 16. Footer ---------- */
 
 .site-foot {
@@ -979,14 +1036,19 @@ a {
 
 /* ---------- 18. Responsive ---------- */
 
-@media (min-width: 1000px) {
-  body { padding-left: var(--rail); }
-  .masthead .shell, .shell { max-width: var(--content); }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hello .portrait-figure { max-width: 240px; }
 }
-
-@media (max-width: 999px) {
-  .rail { display: none; }
-  .rail-top { display: block; }
+@media (max-width: 640px) {
+  .g2 { grid-template-columns: minmax(0, 1fr); }
+  .hello { grid-template-columns: minmax(0, 1fr); }
+  .hello-copy { grid-column: auto; }
+  .sorter-cols { gap: var(--s4); }
+  .sorter-tree { --half: calc((100% - var(--s4)) / 4); }
+  .chip { font-size: var(--text-sm); padding: var(--s3); }
+  .sorter figcaption { flex-direction: column; align-items: flex-start; gap: var(--s3); }
 }
 
 @media (max-width: 860px) {
@@ -997,11 +1059,6 @@ a {
   }
   .row .desc { grid-column: 2; }
   .row .meta { grid-column: 2; padding-top: var(--s1); }
-  .now { grid-template-columns: 1fr; gap: var(--s8); }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .stat { border-bottom: 1px solid var(--border-muted); padding-right: var(--s4); }
-  .stat:nth-child(2n) { border-right: 0; }
-  .stat:nth-last-child(-n+2) { border-bottom: 0; }
 }
 
 /* The seven-item nav needs 906px of masthead: 134 wordmark, 584 links, 116 CTA
@@ -1030,7 +1087,6 @@ a {
 @media (max-width: 680px) {
   .shell { padding-inline: var(--s5); }
   .hero h1 { font-size: var(--text-display-sm); }
-  .eyebrow { flex-wrap: wrap; gap: var(--s2); }
 }
 
 /* Codeless rows collapse to a single column, same as the coded ones do. */
@@ -1058,6 +1114,7 @@ a {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-property: opacity, color, background-color, border-color,
                          box-shadow, outline-color, fill, stroke !important;
@@ -1085,7 +1142,7 @@ a {
   }
 
   body { background: var(--p-paper); color: var(--p-ink); padding-left: 0; }
-  .rail, .rail-top, .masthead, .hero-actions, .site-foot, .skip-link { display: none; }
+  .rail-top, .masthead, .hero-actions, .site-foot, .skip-link { display: none; }
   a { color: var(--p-ink); }
 }
 
@@ -1264,8 +1321,8 @@ a {
 .work-list { border-top: 0; }
 .work-list .item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: var(--s8);
+  grid-template-columns: repeat(2, minmax(0, 1fr));   /* the page's two halves */
+  gap: var(--gutter);
   padding: var(--s8) 0;
   border-bottom: 1px solid var(--border-muted);
   position: relative;
@@ -1968,7 +2025,7 @@ a {
    carried over from v1 cannot read against a black edge, so it was doing
    nothing but describing an edge that was already absolute.
 
-   This system has no shadows, so the photo is mounted the way a print is
+   When this was written the system had no shadows, so the photo is mounted the way a print is
    matted: paper, then the sunken warm tone, then the image. The graduation
    does the mediating a hairline could not. Radii are concentric, 8px inner
    plus an 8px mount giving the 16px outer. */
@@ -1997,17 +2054,6 @@ a {
   margin-top: var(--s3);
 }
 
-/* contact block with a portrait beside it */
-.contact-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: var(--s12);
-  align-items: start;
-}
-@media (max-width: 860px) {
-  .contact-split { grid-template-columns: 1fr; gap: var(--s8); }
-  .contact-split .portrait-figure { max-width: 220px; }
-}
 
 /* ============================================================
    27. Explainer post components
@@ -2165,3 +2211,82 @@ a {
 .post-body .xp-video { margin: var(--s8) 0; padding: var(--s2); background: var(--bg-muted); border-radius: var(--r-xl); }
 .post-body .xp-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--r-md); background: var(--text); }
 .post-body p.xp-credit { font-size: var(--text-lg); color: var(--text-3); }
+
+/* ============================================================
+   28. v3 interior pieces: the Approach page and shared bits
+   ============================================================ */
+
+/* A link inside a lede or a sentence set outside .prose. */
+a.inline { color: var(--accent-text); box-shadow: inset 0 -1px 0 var(--accent-border); }
+a.inline:hover,
+a.inline:focus-visible { color: var(--accent-hover); box-shadow: inset 0 -1px 0 var(--accent); }
+
+/* The portrait beside a prose column, held to a size that suits a sidebar. */
+.portrait-figure--side { max-width: 320px; }
+
+/* The film on /method/. The frame is paper-coloured, so unlike the post videos
+   it needs no dark matte: a hairline and the card shadow are enough. */
+.film { margin: clamp(var(--s8), 4vw, var(--s12)) 0 0; }
+.film-mount {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  background: var(--bg);
+}
+.film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.film .caption { font-family: var(--font-ui); font-size: var(--text-sm); margin-top: var(--s3); }
+
+/* The five levels of automation as a scale. An ordered list, because the
+   order is the point. Person-held stops are ink, machine-held stops take the
+   accent, matching the hero figure. */
+.levels {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s4);
+  margin-block: var(--s8) 0;
+  counter-reset: none;
+}
+.levels li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--text);
+}
+.levels .lv-n {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+.levels .lv-t {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+.levels .chip { white-space: normal; margin-top: var(--s2); }
+.levels .is-machine { border-top-color: var(--accent); }
+.levels .is-machine .lv-t { color: var(--accent-text); }
+.levels .is-machine .chip {
+  color: var(--accent-text);
+  background: var(--accent-wash);
+  border-color: var(--accent-border);
+}
+.flow > .levels + .caption { margin: var(--s4) 0 var(--s8); font-family: var(--font-ui); font-size: var(--text-sm); }
+
+@media (max-width: 760px) {
+  .levels { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .levels li {
+    display: grid;
+    grid-template-columns: 2ch minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--s3);
+    padding-block: var(--s3);
+  }
+  .levels .lv-t { min-height: 0; }
+  .levels .chip { margin-top: 0; }
+}
+

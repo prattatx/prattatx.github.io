@@ -4,54 +4,58 @@ Personal site for James H. Pratt, Ph.D. Read this before changing anything.
 
 ## What this site is
 
-A public credibility surface for **one consulting practice**, not a job-search site. James is
-CEO of Fyve Health and stays there.
+A public record of one person, with nothing for sale. Repositioned 2026-11-12, after James
+started a full-time role as Director, AI and Data Science at Charles Schwab on 2026-11-09 and
+could no longer solicit paid work. The earlier positioning (a consulting practice selling the AI
+Effectiveness Audit) is retired; its specs under `docs/superpowers/` are history, not guidance.
 
-**The site sells the AI Effectiveness Audit**, repositioned 2026-09-15. Two questions answered
-together from watching the work happen: which tasks should the machine do, and who on this team
-actually produces well with AI. It is built on **PART**, an AI-readiness assessment measuring
-Passion, Agency, Rigor and Taste, which James owns outright. The method is named (Widen, Score,
-Defend); the offers are not, because named methods command premium while named offers
-commoditize.
+**The site sells nothing.** No offer, price, tier, engagement, retainer, "advisory", "taking on
+work" or "available for" language anywhere. Removed and not to be reintroduced without a fresh
+yes from James: the AI Effectiveness Audit, the PART name and its four factors, the Widen, Score,
+Defend method names, the capabilities page, and the A to E engagement codes. Case studies are
+tagged by kind of work (Research, Product design, Workshop, Strategy, Writing).
 
-| Tier | What | Price |
-|---|---|---|
-| Front door | One workflow, observed and allocated | $5,000, published |
-| Main | Full engagement across a function | Five figures, scoped |
-| Ongoing | Named advisor or fractional seat | Retainer |
+**The idea behind the old offer survives as `/method/`,** "How I decide who does what": an
+explanation of function allocation with no offer attached.
 
-**ICP: organizations integrating AI into knowledge work.** Not stage-gated, not industry-gated.
-Elder care, senior care and healthcare are excluded as a primary market from James's direct
-operating experience.
+**The visitor** has looked James up (a new colleague, an event organizer, someone from his old
+network) and is verifying him. They read the record, maybe the writing, maybe say hello.
 
-**The A through E engagement codes are retired**, along with the seed-and-early ICP. Five ICPs
-were derived and withdrawn on 2026-09-14 and 2026-09-15; the reasons each failed are in
-`docs/superpowers/specs/2026-09-14-offers-redesign-DRAFT.md`. Read that before proposing a sixth.
+**The employer is named as one plain title line** ("Director, AI and Data Science at Charles
+Schwab"): in the home hero, the About page and the CV. Nothing about the work there, ever. The
+footer carries "Views here are my own, not my employer's." Nothing on the site comments on the
+brokerage industry, securities markets or investing, and nothing mentions a trading bot.
+
+**Booking is an open door and appears twice:** the masthead button and the home page's closing
+block, which says in words that James does not take paid work. No other page carries a booking
+button.
+
+**Contact is `site.email` in `_config.yml`.** `james@fyve.dev` is closing; never publish it.
+
+**Fyve Health is past tense:** co-founder, CEO 2025 to 2026. It has a featured "Founder" section
+on the home page because Tessa is the most recent thing James built. The Tessa clearance rules
+below are unchanged.
 
 Positioning anchors that still hold: function flag is **AI Product**, story is **AI at consumer
-scale**, methods over industry, Austin / remote. Never frame James as "just a UX guy."
-
-**Never make a PART validity claim.** PART has no criterion validity evidence. Nothing may say
-or imply it predicts performance. Market the assessment; never publish the instrument (construct
-defense, instrument design memo, task specs, item text).
+scale**, methods over industry, Austin. Never frame James as "just a UX guy."
 
 ## Hard content rules
 
 1. **Never invent experience, titles, dates, or metrics.** Every claim traces to
    `Cowork OS/00_Resources/professional-background.md` or the Career Management workstation.
 2. **Patents: 358 granted, 226 in force**, verified 2026-08-07. Never the older "300+."
-3. **Education: M.A. 2000**, not M.S. 1999. **AT&T end date: December 2025.**
+3. **Education: M.A. 2000**, not M.S. 1999. **AT&T end date: December 2024.**
 4. **White papers: "lead author."** Not co-author, not primary author.
 5. **wisely.io is not an exit.** It wound down on capital constraints. Say so plainly.
 6. **No em dashes, anywhere.** Use commas, colons, periods, parentheses.
 7. **Banned words:** dive into, game-changing, straightforward, leverage, synergize, circle back,
    touch base, moreover, furthermore, in conclusion, at the end of the day, needless to say.
    See `00_Resources/voice-principles.md` in Cowork OS for the full voice spec.
-8. **17 and 24 measure different things. Never swap one for the other.** `24` is years deciding
-   human or machine, counting from Lockheed Martin, February 2002. `17` is years shipping AI at
-   consumer and enterprise scale, which began later. The stat rail uses 24; the CV's "seventeen
-   years shipping AI" is correct and must not be "updated" to 24. A find-and-replace conflated
-   them on 2026-09-15 and had to be reverted.
+8. **12 and 24 measure different things. Never swap one for the other, and never put both in
+   one document.** `12` is years building AI products and platforms, counting from 2014. `24` is
+   years deciding human or machine, counting from Lockheed Martin, February 2002. The stat rail
+   uses 24; the CV uses 12. **17 is retired** (career record, 2026-09-23): it reconciles with no
+   real starting point, so never reintroduce it.
 
 ## Clearance (approved 2026-08-13)
 
@@ -70,6 +74,10 @@ removed**, and the patent-development workshop case study with the client unname
 - Tessa financials, traction, raise terms, team specifics, competitor names, or the internal
   advisor-politics material.
 - James's phone number.
+- Any Tessa traction, buyer, acquisition, or wind-down language, anywhere on the site.
+- The Lockheed 44 and 17 crew figures. Say "cut mission center crew by more than half."
+- Internal AT&T figures: team sizes, the $2.9M budget, or the name of the executive who approved
+  the $110M.
 
 The `/work/` index has a short "Not published here" section that acknowledges this work exists
 without naming any of it. Keep it that way.
@@ -84,6 +92,12 @@ without naming any of it. Keep it that way.
 > story and the clearance-relevant constraints, not the live spec.
 
 **The site is light, not dark.** This changed on 2026-08-14 and the brand book has not caught up.
+
+**v3 (2026-11-12): editorial with motion.** The warm paper, the serif and the indigo stay. What
+changed: the left-edge signal rail is gone, the landing page sits on one shared grid, cards carry
+a soft shadow, and the page moves (a hero figure that sorts tasks between a person and a machine,
+numbers that count up, a patent curve and a waveform that draw themselves). `design.md` > v3 has
+the rules.
 
 Current system (v2): warm off-white paper `#faf8f4`, never pure white. Every neutral sits at hue
 75 to 85, the warm side. **Inter** carries structure (headings, nav, labels, controls),
@@ -105,13 +119,31 @@ Contrast floors currently met, all computed rather than estimated: headings 14.7
 muted labels 5.34:1, indigo as text 7.09:1, control boundaries 3.24:1, white on accent 6.02:1.
 Nothing on the site is smaller than 11px. Do not lower any of these.
 
-### The signal rail
+### Alignment
 
-A fixed-seed waveform down the left edge, drawn in `assets/js/site.js`. Scroll position is the
-playhead. It is deterministic on purpose (same trace every visit) and honours
-`prefers-reduced-motion`. Below 1000px it collapses to a 2px top progress bar. It is the site's one
-decorative gesture, and it is grounded in the actual work: sleep EEG, edge audio, ambient sensing.
-Do not add a second motif.
+James reads deliberate asymmetry as a defect. Every multi-column block on the landing page is
+`.g4` or `.g2` on the `--gutter` token, so the four numbers and whatever sits under them share
+column edges. Before adding a block, check its edges against the numbers row. The 2026-11-12
+rework started from exactly this complaint: a four-part list that did not line up with the four
+numbers above it.
+
+### Motion
+
+Every animated figure ships in its finished state in the HTML and is animated from there, so the
+page is complete with JavaScript off and under `prefers-reduced-motion`. Keep that property.
+The 2px scroll-progress line at the top is what remains of the old left-edge signal rail; the
+waveform now lives in the home page's founder section, where it describes Tessa.
+
+### Copy
+
+James flagged four habits in the old copy as machine-sounding. None of them goes back in:
+
+1. Punchline fragments ("Psychologist first. Everything else came after.").
+2. Not-this-but-that framing ("Sessions that end in a decision, not a deck.").
+3. Long paragraphs that argue a case at the reader.
+4. Lines addressed to a buyer ("Your team has AI.", "Tell me what you are building.").
+
+Write in his first person: state the fact, give the evidence, stop.
 
 ### Anti-slop rules
 
@@ -133,8 +165,9 @@ the authoring container does not have.
 - `_layouts/post.html`: blog post wrapper
 - `_includes/analytics.html`: renders nothing unless `site.ga4` is set
 - `assets/css/main.css`: the whole design system, sectioned and numbered
-- `assets/js/site.js`: signal rail, scroll reveal, mobile nav. Progressive enhancement only;
-  every page is fully readable with JavaScript off.
+- `assets/js/site.js`: scroll progress, the hero sorting figure, count-up numbers, the drawn
+  curve and waveform, scroll reveal, mobile nav. Progressive enhancement only; every page is fully
+  readable with JavaScript off.
 - `assets/data/patents.json`: 358 granted patents, compact array schema
 - `_gen/cases.py`: **source of truth for the case studies.** Edit here, not in `work/*/index.html`,
   then re-run it. It writes the nine pages and the index together.
@@ -167,7 +200,7 @@ the authoring container does not have.
 
 ## Assets
 
-- `assets/img/james-pratt.{jpg,webp}`: 4:5 portrait, 1000x1250, used on the home contact block and
+- `assets/img/james-pratt.{jpg,webp}`: 4:5 portrait, 1000x1250, used on the home closing block and
   the About page. `-square` and `og.jpg` (1200x630, the social card) are crops of the same source.
   All generated from one supplied headshot; regenerate all four together if it is ever replaced.
 - The portrait is a dark image on the light paper background. It carries a 1px border and a 12px

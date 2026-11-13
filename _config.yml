@@ -1,11 +1,12 @@
 title: "James H. Pratt, Ph.D."
 author: "James H. Pratt"
-description: "Cognitive psychologist, founder, and AI product leader in Austin. The AI Effectiveness Audit: which tasks your AI should handle, and who on your team produces well with it."
+description: "Cognitive psychologist and AI product leader in Austin. 358 granted U.S. patents, nine peer-reviewed papers, and twenty-four years deciding which work belongs to people and which to machines."
 url: "https://prattatx.github.io"
 
 # Set these and they wire themselves in. Leave empty and the site simply omits them.
 ga4: "G-LPYRNPZYB1"   # GA4 measurement ID. The old UA-78948113-1 property is dead and unrelated.
-calendar_url: "https://www.cal.com/james-pratt"   # booking link for the contact CTA
+calendar_url: "https://www.cal.com/james-pratt"   # booking link, shown in the masthead and the closing block
+email: "jhp96001@gmail.com"   # the one published address; every mailto reads this
 
 markdown: kramdown
 permalink: /writing/:year/:month/:day/:title/
