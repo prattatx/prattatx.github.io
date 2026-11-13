@@ -1,0 +1,185 @@
+---
+layout: post
+title: "Bloom Filters, Explained Four Ways"
+date: 2026-11-08 09:00:00 -0600
+summary: "A Bloom filter tells you, in very little memory, that an item is definitely not in a set or possibly in it. Here it is as plain text, two diagrams, a sizing calculator and a 61-second narrated video."
+description: "How a Bloom filter works, as plain text, two diagrams, a sizing calculator and a narrated video."
+---
+
+<p>A Bloom filter tells you, in very little memory, that an item is definitely not in a set or possibly in it. Burton Bloom described it in 1970, and it still sits in front of slow lookups in caches and databases. Here it is four ways: plain text, diagrams, a calculator you can change and a short narrated video. Start with whichever suits you.</p>
+
+<div class="xp-figure">
+  <div class="xp-scroll">
+    <svg class="xp-map" viewBox="0 0 580 410" role="group" aria-label="Diagram: an item goes through k hash functions to k bit positions. Adding sets those bits to 1. Checking reads them: any 0 means definitely not, all 1s means possibly in the set.">
+      <defs><marker id="xp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="xp-arrow"/></marker></defs>
+      <g class="xp-node" tabindex="0" role="button" data-target="plain-text" data-info="An item is any value you can hash: a word, a URL, a user ID. The filter never stores the item itself, only bits.">
+        <rect class="xp-box" x="210" y="10" width="160" height="48" rx="24"/>
+        <text class="xp-small" x="290" y="29" text-anchor="middle">Input</text>
+        <text x="290" y="49" text-anchor="middle" class="xp-strong">Item</text>
+      </g>
+      <path class="xp-edge" d="M290 58 V84" marker-end="url(#xp-ah)"/>
+      <g class="xp-node" tabindex="0" role="button" data-target="plain-text" data-info="k hash functions each turn the item into one bit position. The same item always gives the same k positions.">
+        <rect class="xp-box" x="160" y="86" width="260" height="50" rx="4"/>
+        <text class="xp-small" x="290" y="105" text-anchor="middle">k hash functions</text>
+        <text x="290" y="126" text-anchor="middle" class="xp-data">h1(item) … hk(item)</text>
+      </g>
+      <path class="xp-edge" d="M290 136 V164" marker-end="url(#xp-ah)"/>
+      <text class="xp-small" x="300" y="155">k positions</text>
+      <g class="xp-node" tabindex="0" role="button" data-target="the-check" data-info="The bit array has m bits, all 0 at the start. It is the whole filter: m divided by the number of items is the bits per item.">
+        <rect class="xp-box" x="90" y="166" width="400" height="50" rx="4"/>
+        <text class="xp-small" x="104" y="184">Bit array, m bits</text>
+        <text x="104" y="205" class="xp-data">0 1 0 0 1 0 0 0 1 0 1 0 0 0 1 0 0 1 0 0</text>
+      </g>
+      <path class="xp-edge" d="M90 191 H50 V300" marker-end="url(#xp-ah)"/>
+      <text class="xp-small" x="12" y="250">Add</text>
+      <rect class="xp-box" x="10" y="302" width="150" height="50" rx="4"/>
+      <text x="85" y="332" text-anchor="middle" class="xp-mid">Set each bit to 1</text>
+      <path class="xp-edge" d="M490 191 H530 V236" marker-end="url(#xp-ah)"/>
+      <text class="xp-small" x="538" y="218">Check</text>
+      <rect class="xp-q" x="450" y="238" width="120" height="40" rx="20"/>
+      <text x="510" y="263" text-anchor="middle" class="xp-strong">Any bit 0?</text>
+      <path class="xp-edge" d="M480 278 V319 H393" marker-end="url(#xp-ah)"/>
+      <text class="xp-small" x="448" y="308">Yes</text>
+      <g class="xp-node" tabindex="0" role="button" data-target="the-check" data-info="One 0 is proof. If the item had been added, all k of its bits would be 1. So the answer is definitely not, with no false negatives.">
+        <rect class="xp-good" x="200" y="296" width="190" height="46" rx="4"/>
+        <text x="295" y="324" text-anchor="middle" class="xp-strong">Definitely not in set</text>
+      </g>
+      <path class="xp-edge" d="M540 278 V352" marker-end="url(#xp-ah)"/>
+      <text class="xp-small" x="548" y="318">No</text>
+      <g class="xp-node" tabindex="0" role="button" data-target="size" data-info="All 1s can come from other items that share the same bits. That is a false positive. The calculator below shows how often it happens.">
+        <rect class="xp-end" x="430" y="354" width="140" height="44" rx="4"/>
+        <text x="500" y="381" text-anchor="middle" class="xp-strong">Possibly in set</text>
+      </g>
+    </svg>
+  </div>
+  <p class="xp-info" id="xp-nodeinfo" aria-live="polite" data-hint="Select a part of the diagram to see what it does. Select it again to go to the section that covers it."></p>
+  <p class="xp-cap">Figure 1. How an item moves through the filter. Adding and checking use the same k positions. That is why a "no" is always right and a "yes" is only possibly right.</p>
+</div>
+
+<h2 id="plain-text">How a Bloom filter works</h2>
+
+<p>A Bloom filter tells you if an item is possibly in a set. It uses a row of bits and a few hash functions. It never gives a false "no". It can give a false "yes".</p>
+
+<p><strong>Caution: you cannot remove an item from a standard Bloom filter.</strong> If you set a bit back to 0, other items can become false negatives.</p>
+
+<ol>
+  <li>Make a row of m bits. Set all the bits to 0.</li>
+  <li>Select k hash functions. Each function changes an item into one bit position.</li>
+  <li>To add an item, calculate its k positions.</li>
+  <li>Set the bit at each of those positions to 1.</li>
+  <li>To query an item, calculate its k positions again.</li>
+  <li>Look at the bits at those positions.</li>
+  <li>If one bit is 0, the item is not in the set.</li>
+  <li>If all the bits are 1, the item is possibly in the set.</li>
+</ol>
+
+<p>Two different items can share bit positions. Thus, an item that you did not add can find only 1s. That result is a false positive. More bits per item make false positives less frequent.</p>
+
+<div class="xp-panel" id="xp-dial" hidden>
+  <p class="xp-label">The core idea, from loose to strict plain English</p>
+  <div class="xp-seg" role="group" aria-label="Reading level">
+    <button type="button" data-lvl="0">Loose</button><button type="button" data-lvl="1">Medium</button><button type="button" data-lvl="2" aria-pressed="true">Plain</button><button type="button" data-lvl="3">Strict</button>
+  </div>
+  <p class="xp-sample" id="xp-sample"></p>
+  <p class="xp-stats" id="xp-stats"></p>
+</div>
+<script type="application/json" id="xp-dial-data">{
+ "samples": [
+  "So basically a Bloom filter is this clever little structure where you've got a long row of bits and a handful of hash functions, and whenever you add something you just flip a few of those bits on, and later when you ask whether something's in there it'll either tell you no for sure or, well, probably yes, which sounds odd but it saves a ton of memory.",
+  "A Bloom filter is a compact structure built from a row of bits and a few hash functions. Adding an item turns on a few bits, and checking an item looks at those same bits, so it can say no for certain but only maybe for yes.",
+  "A Bloom filter stores a set in a row of bits. To add an item, you turn on a few bits. To check an item, you look at the same bits. If one bit is off, the item is not in the set. If all of them are on, it possibly is.",
+  "The Bloom filter is a row of bits. The Bloom filter uses k hash functions. To add an item, set the k bits to 1. To query an item, examine the k bits. If one bit is 0, the item is not in the set. If all k bits are 1, the item can be in the set."
+ ],
+ "verdicts": ["Hard to follow", "Better, still long", "Clear and natural", "Clear but robotic"],
+ "best": 2
+}</script>
+
+<h2 id="the-check">The check, drawn</h2>
+
+<p>The check is the part people get wrong, because "yes" and "no" are not equally sure. As text: to check an item, the filter runs it through the same k hash functions that it used to add items. It reads the bit at each of the k positions. If any of those bits is 0, the item was never added, because adding it would have set that bit. If all of them are 1, the item is possibly in the set: the bits could also have been set by other items.</p>
+
+<div class="xp-figure">
+  <div class="xp-scroll"><svg class="xp-loop" viewBox="0 0 520 210" role="img" aria-label="Check flow: item, read k bits, any zero gives definitely not, all ones gives possibly, which needs a full lookup">
+    <rect class="xp-box" x="10" y="80" width="110" height="44" rx="22"/>
+    <text x="65" y="107" text-anchor="middle" class="xp-strong">Item</text>
+    <path class="xp-edge" d="M120 102 H168" marker-end="url(#xp-ah)"/>
+    <rect class="xp-box" x="170" y="80" width="140" height="44" rx="4"/>
+    <text x="240" y="107" text-anchor="middle" class="xp-mid">Read k bits</text>
+    <path class="xp-edge" d="M310 92 Q350 30 368 30" marker-end="url(#xp-ah)"/>
+    <text class="xp-small" x="318" y="52">Any 0</text>
+    <rect class="xp-good" x="370" y="10" width="140" height="44" rx="4"/>
+    <text x="440" y="37" text-anchor="middle" class="xp-strong">Definitely not</text>
+    <path class="xp-edge" d="M310 112 Q350 174 368 174" marker-end="url(#xp-ah)"/>
+    <text class="xp-small" x="318" y="164">All 1</text>
+    <rect class="xp-end" x="370" y="152" width="140" height="44" rx="4"/>
+    <text x="440" y="179" text-anchor="middle" class="xp-strong">Possibly: look up</text>
+  </svg></div>
+  <p class="xp-cap">Figure 2. The check as a diagram. Only one of the two answers is a guarantee.</p>
+</div>
+
+<h2 id="size">Size a filter</h2>
+
+<p>How often the filter says "possibly" for an item you never added depends on two choices: bits per item and the number of hash functions. Change them and watch the false positive rate and the memory.</p>
+
+<div class="xp-panel" id="xp-calc">
+  <p class="xp-label">Bloom filter sizing, example values</p>
+  <div class="xp-controls xp-controls-3" id="xp-controls" hidden>
+    <label for="xp-items">Items to store <output id="xp-items-o">1.0 million</output><input type="range" id="xp-items" min="3" max="9" step="0.5" value="6"></label>
+    <label for="xp-bpi">Bits per item <output id="xp-bpi-o">10</output><input type="range" id="xp-bpi" min="1" max="20" step="1" value="10"></label>
+    <label for="xp-kh">Hash functions <output id="xp-kh-o">7</output><input type="range" id="xp-kh" min="1" max="15" step="1" value="7"></label>
+  </div>
+  <p class="xp-formula">false positive rate p = (1 − e<sup>−k/b</sup>)<sup>k</sup> · best k = b × ln 2 · b is bits per item, k is hash functions</p>
+  <dl class="xp-totals">
+    <div><dt>False positives</dt><dd id="xp-t-fp">0.82%</dd></div>
+    <div><dt>Memory</dt><dd id="xp-t-mem">1.25 MB</dd></div>
+    <div><dt>Best k</dt><dd id="xp-t-k">7 (0.82%)</dd></div>
+  </dl>
+  <div class="xp-scroll" id="xp-chart-wrap" hidden><svg id="xp-chart" viewBox="0 0 540 270" role="img" aria-label="Line chart of false positive rate against number of hash functions, log scale"></svg></div>
+  <p class="xp-tip" id="xp-tip" hidden>The dot is your k. The rate axis is a log scale. Point at the chart to read the rate for any k.</p>
+  <details class="xp-table">
+    <summary>Table view</summary>
+    <table>
+      <thead><tr><th>Hash functions (k)</th><th>False positive rate</th></tr></thead>
+      <tbody id="xp-rows">
+        <tr><td>1</td><td>9.52%</td></tr>
+        <tr><td>2</td><td>3.29%</td></tr>
+        <tr><td>3</td><td>1.74%</td></tr>
+        <tr><td>4</td><td>1.18%</td></tr>
+        <tr><td>5</td><td>0.94%</td></tr>
+        <tr><td>6</td><td>0.84%</td></tr>
+        <tr class="is-on"><td>7, your k</td><td>0.82%</td></tr>
+        <tr><td>8</td><td>0.85%</td></tr>
+        <tr><td>9</td><td>0.91%</td></tr>
+        <tr><td>10</td><td>1.02%</td></tr>
+        <tr><td>11</td><td>1.16%</td></tr>
+        <tr><td>12</td><td>1.36%</td></tr>
+        <tr><td>13</td><td>1.60%</td></tr>
+        <tr><td>14</td><td>1.90%</td></tr>
+        <tr><td>15</td><td>2.27%</td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<p>The rate is the standard estimate. Worked by hand: 10 bits per item and 7 hash functions give (1 − e<sup>−0.7</sup>)<sup>7</sup> = 0.82%. Real rates vary a little with the hash functions you use.</p>
+
+<h2 id="video">Watch it fill up</h2>
+
+<p>The video adds three words to a 24-bit filter, checks two words that were never added, and shows the trade-off curve. One of the checks is a false positive.</p>
+
+<div class="xp-video">
+  <video controls preload="none" playsinline poster="/assets/img/writing/bloom-filters/poster.webp" src="/assets/video/writing/bloom-filters/explainer.mp4"></video>
+</div>
+
+<h2 id="when-to-use-one">When to use one</h2>
+
+<p>Put a Bloom filter in front of a lookup that is slow or expensive. Every "no" skips that lookup for certain. Every "possibly" still goes to the lookup, so a false positive costs one extra check and never a wrong answer.</p>
+
+<p>Size it before you build it: about 10 bits per item keeps false positives under 1%.</p>
+
+<hr>
+
+<p class="xp-credit">Source: Burton H. Bloom, <a href="https://doi.org/10.1145/362686.362692">"Space/Time Trade-offs in Hash Coding with Allowable Errors"</a>, Communications of the ACM 13(7), 1970. The words and bit positions in the video and diagrams are illustrations.</p>
+
+<script src="/assets/js/explainer.js" defer></script>
+<script src="/assets/js/bloom-filters.js" defer></script>

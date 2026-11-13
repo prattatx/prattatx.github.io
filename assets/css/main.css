@@ -2033,6 +2033,9 @@ a {
 .post-body .xp-good { fill: var(--accent-subtle); stroke: var(--accent); stroke-width: 1.25; }
 .post-body .xp-edge { fill: none; stroke: var(--text-3); stroke-width: 1.25; }
 .post-body .xp-arrow { fill: var(--text-3); }
+.post-body .xp-big { font-size: 17px; font-weight: 600; }
+.post-body .xp-you { fill: var(--text); }
+.post-body .xp-figure text.xp-you-t { fill: var(--bg); }
 .post-body .xp-node { cursor: pointer; outline: none; }
 .post-body .xp-node:hover .xp-box,
 .post-body .xp-node:hover .xp-q,
@@ -2111,6 +2114,7 @@ a {
 
 /* chart */
 .post-body .xp-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
+.post-body .xp-controls-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 560px) { .post-body .xp-controls { grid-template-columns: 1fr; } }
 .post-body .xp-controls label {
   display: grid;
@@ -2133,12 +2137,29 @@ a {
 .post-body #xp-chart .xp-ref { stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 4 4; }
 .post-body #xp-chart .xp-line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
 .post-body #xp-chart .xp-dot { fill: var(--bg-subtle); stroke: var(--accent); stroke-width: 1.5; }
-.post-body #xp-chart .xp-dot:hover { fill: var(--accent); }
+.post-body #xp-chart .xp-dot:hover,
+.post-body #xp-chart .xp-dot.is-on { fill: var(--accent); }
+.post-body #xp-chart .xp-line-2 { fill: none; stroke: var(--text-3); stroke-width: 1.25; stroke-dasharray: 4 3; }
 .post-body #xp-chart text { font-family: var(--font-mono); font-size: 13px; fill: var(--text-3); }
 .post-body #xp-chart .xp-val { fill: var(--text); font-weight: 500; }
 .post-body .xp-table summary { font-family: var(--font-ui); font-size: var(--text-md); color: var(--accent-text); cursor: pointer; }
 .post-body .xp-table table { margin: var(--s3) 0 0; }
 .post-body .xp-table td { font-family: var(--font-mono); font-size: var(--text-md); font-variant-numeric: tabular-nums; }
+.post-body .xp-table tr.is-on td { color: var(--text); font-weight: 600; }
+
+/* a prompt quoted as the subject of the post, not as page chrome */
+.post-body .xp-prompt {
+  margin: var(--s6) 0 var(--s8);
+  padding: var(--s4) var(--s5);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--r-md);
+  display: grid;
+  gap: var(--s2);
+}
+.post-body .xp-prompt span { font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; color: var(--text-3); }
+.post-body .xp-prompt code { background: none; padding: 0; font-size: var(--text-md); line-height: 1.6; color: var(--text); white-space: normal; }
 
 /* video: a dark frame on light paper, so it takes the portrait's mount */
 .post-body .xp-video { margin: var(--s8) 0; padding: var(--s2); background: var(--bg-muted); border-radius: var(--r-xl); }

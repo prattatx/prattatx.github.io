@@ -434,8 +434,11 @@ the caption survives.
 
 Added for "Cognitive Mercantilism, Explained Four Ways", the first post that
 carries inline diagrams, a control and a chart. Styles are section 27 of
-`main.css`, all scoped to `.post-body .xp-*`; the script is per post
-(`assets/js/cognitive-mercantilism.js`), not part of `site.js`.
+`main.css`, all scoped to `.post-body .xp-*`. Diagram nodes and the plain-English dial are shared in `assets/js/explainer.js`,
+with each post's dial text in a `<script type="application/json" id="xp-dial-data">`
+block; each post's chart is its own script (`assets/js/<slug>.js`). None of it is
+part of `site.js`. Three posts use them: Four Prompting Procedures, Bloom Filters
+and Cognitive Mercantilism.
 
 | Element | Rule |
 |---|---|
@@ -444,6 +447,7 @@ carries inline diagrams, a control and a chart. Styles are section 27 of
 | Panel | `--bg-subtle` with a `--border` hairline and `--r-lg`, holding a control and its output |
 | Segmented control | Inter 13px, `--border-strong` boundary, pressed state on `--accent-solid` with `--on-accent` |
 | Chart | One series in `--accent`, 1.5px line with open dots, solid `--border-strong` baseline, dashed `--text-3` reference line, no gridlines, value labels on peak and last only, and a Table view in a `<details>` |
+| Prompt | A quoted prompt, when prompting is the post's subject: `--bg-subtle` box, 2px accent rule on the left, the prompt in mono |
 | Video | Takes the portrait's mount (`--bg-muted` matte, concentric radii) because the frame is near-black |
 
 - **Progressive enhancement holds.** The dial, the sliders and the chart start
