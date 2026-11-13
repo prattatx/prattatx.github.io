@@ -4,13 +4,66 @@ The locked design system for this site. Every page reads this file before any
 visual change. Do not regenerate it per page: extend or amend it when the system
 needs to grow.
 
-**Status: v2, shipped.** v1 codified the dark system. v2 is a direction change
-derived from two studied references, and is implemented in
-`assets/css/main.css`. Every contrast figure below is computed from the shipped
-hex, not estimated.
+**Status: v3 (2026-11-12).** v1 codified the dark system. v2 was a direction
+change derived from two studied references. v3 keeps v2's palette and type and
+adds a shared grid, depth and motion; see the v3 section directly below. All of
+it is implemented in `assets/css/main.css`. Every contrast figure below is
+computed from the shipped hex, not estimated.
 
 Where this file and the design notes in `CLAUDE.md` disagree, this file wins and
 `CLAUDE.md` should be updated to match.
+
+## v3: editorial with motion (2026-11-12)
+
+The site stopped selling anything on this date (see `CLAUDE.md`), and James
+asked for a design that draws a visitor in. Asked to choose a feel, he picked
+"editorial with motion" over an Apple-style product page and over a dark
+instrument panel. So the warm paper, the serif reading voice and the single
+indigo all stay. Six design systems were compared; the site kept its own and
+borrowed two things from the Notion-Apple system: layered low-alpha shadows and
+its motion durations.
+
+What v3 changes, and what it overrides further down this file:
+
+- **One grid.** Every multi-column block on the landing page is `.g4` or `.g2`
+  on the `--gutter` token (32px). Two columns of `.g4` plus one gutter equal one
+  column of `.g2`, so the four numbers, the hero's two halves, the record's two
+  lists, the cards and the closing block share column edges. James reads
+  deliberate asymmetry as a defect: the uneven one-lead-two-supporting work
+  grid and the 1 to 1.25 writing rows are gone. Content width is 1120px.
+- **The signal rail is retired.** It pushed the page 88px off centre. What
+  remains is the 2px scroll-progress line, at every width. The waveform moved
+  into the founder section as a labelled figure about Tessa. "Do not add a
+  second motif" no longer applies; "the rail owns organic line" becomes "one
+  waveform, in the one place it means something".
+- **Depth.** `--surface` (`#fffdf9`) is a warm white one step above the paper,
+  for cards and figures. `--shadow-1` rests, `--shadow-2` is hover: stacked
+  low-alpha layers tinted with the ink hue. Cards lift 2px on hover. The rule
+  "the system has no shadows" is superseded for cards and figures only; the
+  portrait keeps its mount.
+- **Motion** is rewritten below.
+- **The hero** carries the sorting figure (`.sorter`), which replaces Figure 2
+  of US 12,124,506. The patent image is no longer used.
+- **Case-study tags** name the kind of work (Research, Product design,
+  Workshop, Strategy, Writing), not an engagement type.
+
+### The sorting figure
+
+Eight tasks leave one source, pass a decision point, and land in one of two
+columns: Person or Machine. It is the through-line of the work as one picture.
+
+- The connector is rectilinear (trunk, bar, two drops), the same vocabulary as
+  a patent block diagram. `--half` places the drops over the centre of each
+  column at any width.
+- Person tasks are ink on `--surface`. Machine tasks take the accent:
+  `--accent-text` on `--accent-wash` with an `--accent-border`. A chip is
+  neutral while it travels and takes its column's colour on landing.
+- The two columns sit on the same edges as the third and fourth numbers below.
+- The markup is the sorted state. `site.js` animates each chip from an offset
+  back to zero, so a failure of any kind leaves a finished figure. A Replay
+  button appears when the sort ends.
+- The task labels are illustrative. They must stay generic and must never
+  describe an employer's work.
 
 ### Token name mapping
 
@@ -78,8 +131,9 @@ something.
 Four families. A page picks the family its content belongs to and varies only
 the archetypes that family allows.
 
-- **Landing** (`/`): Stat-Led. Hero, then a stat rail, then labelled sections on
-  a varied rhythm. One page only.
+- **Landing** (`/`): Stat-Led. Hero with the sorting figure, the four numbers,
+  then labelled sections on one grid: the record, selected work, founder,
+  writing, say hello. One page only.
 - **Index** (`/work/`, `/research/`, `/speaking/`, `/writing/`, `/about/`):
   Long Document. Page head, then labelled sections carrying rows, lists or cards.
 - **Document** (9 case studies, `/cv/`, `/presentations/*/`): Long Document,
@@ -225,39 +279,47 @@ Radii: `--r-sm` 4px, `--r-md` 8px, `--r-lg` 12px, `--r-xl` 16px, `--r-full`.
 
 ## Motion
 
-Two easing curves, and only two:
+Three easing curves:
 
-- `cubic-bezier(.4, 0, .2, 1)` for all state transitions, at `--t-fast` 100ms,
+- `cubic-bezier(.4, 0, .2, 1)` for state transitions, at `--t-fast` 100ms,
   `--t-base` 180ms, `--t-slow` 320ms.
-- `cubic-bezier(.16, 1, .3, 1)` at 520ms for the single scroll reveal.
+- `--ease-out`, `cubic-bezier(.16, 1, .3, 1)`, for entrances: 600 to 900ms.
+- `cubic-bezier(.45, 0, .2, 1)` or linear for a stroke that draws itself,
+  1.8 to 2.6s.
 
 Rules:
 
-- Animate `transform` and `opacity` only. Never layout properties. A `height`
-  or `width` transition is drift, however small.
-- **One orchestrated entrance per page.** The stat rail on `/` is it. Sections
-  do not fade in as you scroll; the page settles once and stays settled.
+- Animate `transform`, `opacity` and stroke offset only. Never layout
+  properties. Colour may change on a chip as it lands.
+- **Every animated element ships in its finished state.** The HTML is the end
+  frame; the script animates toward it with a backwards fill and nothing is
+  forwards-filled. With JavaScript off, or under `prefers-reduced-motion`, the
+  page is simply already complete. Count-up numbers hold their final text in
+  the markup for the same reason.
+- **Motion happens once.** Each figure plays the first time it is on screen and
+  then holds still. Nothing loops on its own. The hero figure offers a Replay
+  button; the film on `/method/` has its own controls and starts only when in
+  view.
+- The landing page's entrances, in order: the hero copy rises (the name line
+  by line), the sorting figure plays, the four numbers count up, the patent
+  curve draws while its total counts to 358, the waveform draws and its labels
+  appear as the trace reaches each sound. Section blocks fade up 14px once.
 - Focus rings appear instantly. Never transition `outline`.
-- `prefers-reduced-motion: reduce` collapses everything.
+- `.js` is set on `<html>` by an inline script in the layout's `<head>`, so
+  entrance styles never flash and never hide content when scripts do not run.
 
-### The signal rail
+### The scroll-progress line
 
-A fixed-seed waveform down the left edge, drawn in `assets/js/site.js`, with
-scroll position as the playhead. Deterministic by design: the same trace every
-visit. Below 1000px it collapses to a 2px top progress bar.
+A 2px accent line across the top, scaled by scroll position. It is what is left
+of the v2 signal rail, a fixed-seed waveform that ran down the left edge with
+the scroll position as its playhead. The rail was retired in v3 because it
+moved the whole page off centre.
 
-It is grounded in the actual work (sleep EEG, edge audio, ambient sensing) and
-it is **the site's only decorative gesture. Do not add a second motif.**
-
-**A rejected attempt, kept because the reason generalizes (2026-09-18).** The
-same fixed-seed signal was opened into the hero's empty right column as a
-multi-channel montage, on the argument that the first motif given room is not
-a second motif. That argument is right about the code and wrong about the eye.
-What a reader registers is not the seed, it is the squiggle, and a vertical
-wandering line down the left edge plus a horizontal one beside the name read
-as mess however quiet each is. **The rail owns organic line on this site.**
-Anything else placed against it has to be a different class of mark:
-rectilinear, typographic, or a real drawing.
+**A rejected attempt from v2, kept because the reason generalizes
+(2026-09-18).** The signal was once opened into the hero as a second wandering
+line beside the name, and two organic lines read as mess however quiet each
+was. The lesson holds: one waveform on a page. In v3 that is the labelled trace
+in the founder section.
 
 ## Microinteraction stance
 
@@ -318,7 +380,10 @@ blocks, hairline baselines, no gridlines, labels on first/peak/last, hover
 enhances rather than gates, and a table view always exists. Real counts only,
 never an invented figure.
 
-### The patent figure (shipped 2026-09-18)
+### The patent figure (shipped 2026-09-18, retired 2026-11-12)
+
+Replaced in v3 by the sorting figure. The record below is kept for its
+reasoning about filling a hero with evidence rather than texture.
 
 The landing hero left roughly 480px of empty paper beside the name, and the
 answer is evidence rather than texture: Figure 2 of US 12,124,506, an acoustic
@@ -348,6 +413,10 @@ rate, which a per-year histogram cannot show, and it lands on exactly 358. The
 two definition lists stay beneath it as the accessible companion, which is the
 point: the record section used to be only those lists, on the one page that has
 to convert.
+
+In v3 the line draws itself when it scrolls into view and the total counts up
+with it. The script sets `pathLength` at run time, so the generated markup is
+untouched.
 
 Generated by `_gen/record_curve.py`, never hand-drawn, and the generator
 refuses to emit anything if the cumulative total does not equal the published
@@ -386,11 +455,11 @@ label **is** the section heading and ships as `<h2>`.
 ## What pages MUST share
 
 - The wordmark, the mono chrome voice, and the nav.
-- The accent tokens and their four separate jobs.
-- Cal Sans and Inter, and the mono outlier for labels.
+- The accent tokens and their separate jobs.
+- Inter for structure, Source Serif 4 for reading, mono for data only.
 - The CTA voice: shape, radius, padding rhythm, arrow behaviour.
 - The section-head pattern.
-- One entrance, two easings, `transform` and `opacity` only.
+- The motion rules: finished-state markup, play once, three easings.
 
 ## What pages MAY differ on
 
@@ -542,9 +611,9 @@ move, in the order they would move:
   That is very close together, so the page reads as one plane.
 - **The rhythm.** Section spacing now varies on the landing page only.
 
-What would survive any redesign: the mono label voice, the hairline structure,
-one accent used rarely, tabular figures, the contrast floors, and the signal
-rail as the only motif.
+What would survive any redesign: the hairline structure, one accent used
+rarely, tabular figures, the contrast floors, the shared grid, and figures that
+ship finished and animate toward that state.
 
 ## Exports
 

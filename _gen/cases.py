@@ -11,37 +11,34 @@ import textwrap
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ENGAGEMENTS = {
-    "A": "Fractional / advisory AI product lead",
-    "B": "Expert consult",
-    "C": "Board or advisor",
-    "D": "Strategy sprint",
-    "E": "Workshops and speaking",
+# What kind of work each case study is. These replaced the A to E engagement
+# types on 2026-11-12, when the site stopped offering services: the old codes
+# sorted the work by what a client could buy, these sort it by what was done.
+KINDS = {
+    "R": "Research",
+    "P": "Product design",
+    "W": "Workshop",
+    "S": "Strategy",
+    "T": "Writing",
 }
-
-# The /work/ pill is an 11px capsule, and the fractional-lead name is a job
-# title rather than a tag: at full length it ran 298px and pushed the tag stack
-# to two rows above almost every card title. The full name still carries on the
-# filter buttons and in each case study's meta grid, which is where a reader
-# who wants the precise engagement type goes.
-ENGAGEMENT_TAGS = dict(ENGAGEMENTS, A="Advisory lead")
+KIND_ORDER = "RPWST"
 
 CASES = [
     {
         "slug": "patent-development-workshop",
         "title": "Turning a founder's invention into a patent pipeline",
-        "kicker": "Case study / Consulting engagement",
+        "kicker": "Case study / Workshop",
         "year": "2025",
         "sort": "2025-06",
         "blurb": "A single-day workshop for an early-stage hardware startup. Product dissection, "
                  "use-journey mapping, my own 10x ideation method, then scored down to a "
                  "counsel-ready shortlist.",
-        "role": "Designed and led the workshop as a paid consulting engagement. Set the agenda, "
+        "role": "Designed and led the workshop. Set the agenda, "
                 "facilitated the strategy and ideation segments, and authored the method. "
                 "Colleagues co-facilitated individual segments.",
         "context": "An early-stage hardware startup in the balance and movement-training space. "
                    "Client unnamed.",
-        "eng": ["E", "B"],
+        "kinds": ["W", "S"],
         "date": "June 2025",
         "sanitized": "Method-only. Client unnamed. The client's specific inventions, scoring "
                      "frameworks, and filings are withheld. The facilitation method described is my own.",
@@ -80,10 +77,10 @@ CASES = [
                                       "<li>Bridging product, human-factors thinking, and IP strategy, drawing on a "
                                       "track record as named inventor on 358 granted U.S. patents.</li>"
                                       "</ul>"]),
-            ("Reusable asset", ["<p>The <strong>10x Ideas facilitation guide</strong> (three prompt categories, "
-                                "timed divergent rounds, affinity sorting, patent-filter voting) is a standalone "
-                                "method I can run for any inventive team. It is mine to share. The client's "
-                                "session content is not.</p>"]),
+            ("The method", ["<p>The <strong>10x Ideas facilitation guide</strong> (three prompt categories, "
+                            "timed divergent rounds, affinity sorting, patent-filter voting) is my own "
+                            "method, which is why it can be described here. The client's session content "
+                            "is theirs and is not reproduced.</p>"]),
         ],
     },
     {
@@ -99,7 +96,7 @@ CASES = [
                 "Experience), and led it end to end. Engaged an external firm to facilitate the "
                 "session to my design.",
         "context": "Chief Data Office of a Fortune 10 telecom.",
-        "eng": ["D", "E"],
+        "kinds": ["W", "S"],
         "date": "2019",
         "sanitized": "Method-only. Proprietary tool names, participant names, and specific persona "
                      "detail removed. No confidential employer material reproduced.",
@@ -152,7 +149,7 @@ CASES = [
                  "under diligence.",
         "role": "Authored and designed the investor narrative and deck as founder and CEO.",
         "context": "Pre-seed ambient-AI consumer hardware and software startup. My own company.",
-        "eng": ["A", "D"],
+        "kinds": ["S", "T"],
         "date": "2025 to 2026, iterated across versions",
         "sanitized": "Method-only. Traction, financials, raise terms, and team specifics removed. "
                      "Focus is the narrative architecture and the craft.",
@@ -191,7 +188,7 @@ CASES = [
     },
     {
         "slug": "tessa-competitive-analysis",
-        "title": "A living competitive picture, not a one-off teardown",
+        "title": "Keeping a competitive picture current",
         "kicker": "Case study / Founder work",
         "year": "2026",
         "sort": "2026-02",
@@ -200,7 +197,7 @@ CASES = [
                  "that keeps it current.",
         "role": "Directed and produced the competitive-analysis program as founder and CEO.",
         "context": "Emerging consumer-AI category. My own company.",
-        "eng": ["A", "B", "D"],
+        "kinds": ["R", "S"],
         "date": "2026",
         "sanitized": "Method-only. Competitor names, strategic conclusions, threat assessments, and "
                      "partner targets removed. Focus is the analysis method.",
@@ -248,7 +245,7 @@ CASES = [
                  "safety.",
         "role": "Led the product and UX design analysis and authored the recommendation.",
         "context": "Consumer ambient-AI app. My own company.",
-        "eng": ["A", "D"],
+        "kinds": ["P", "S"],
         "date": "2026",
         "sanitized": "Method-only. Internal strategy, advisor dynamics, financials, and unreleased "
                      "specifics removed. Focus is the product-design reasoning.",
@@ -303,7 +300,7 @@ CASES = [
                 "product direction.",
         "context": "Chief Data Office of a Fortune 10 telecom, designing service and self-service "
                    "analytics systems for internal data analysts.",
-        "eng": ["B", "D", "E"],
+        "kinds": ["R"],
         "date": "2018 to 2019",
         "sanitized": "Method-only. Proprietary tool names, real persona content, and internal data "
                      "removed. No confidential employer material reproduced. Consolidates the North Star "
@@ -360,7 +357,7 @@ CASES = [
                 "designed the protocol, the task flows, and the prototype-driven test plan.",
         "context": "Chief Data Office of a Fortune 10 telecom, validating a data and analytics discovery "
                    "concept before build.",
-        "eng": ["B", "E"],
+        "kinds": ["R"],
         "date": "2019",
         "sanitized": "Method-only. Proprietary tool names, real participant names and IDs, and internal "
                      "data removed. No confidential employer material reproduced.",
@@ -410,7 +407,7 @@ CASES = [
                 "applying human-factors methods without labeling them as such.",
         "context": "Chief Data Office of a Fortune 10 telecom, building self-service data findability "
                    "for internal analysts and data scientists.",
-        "eng": ["A", "D"],
+        "kinds": ["P"],
         "date": "2021",
         "sanitized": "Method-only. No confidential employer material reproduced. Interface visuals are "
                      "withheld pending permission clearance.",
@@ -459,7 +456,7 @@ CASES = [
                 "senior leaders, to produce shared, authoritative artifacts, applying human-factors "
                 "methods to get everyone on the same page without labeling the method as such.",
         "context": "Chief Data Office of a Fortune 10 telecom.",
-        "eng": ["B", "C", "E"],
+        "kinds": ["T", "S"],
         "date": "2017 and following",
         "sanitized": "Describes authorship and method. Proprietary internal detail not reproduced. "
                      "The papers themselves are not published here.",
@@ -500,8 +497,8 @@ CASES = [
 ORDER = [c["slug"] for c in sorted(CASES, key=lambda c: c["sort"], reverse=True)]
 
 
-def tags_html(eng, year=None):
-    out = "".join('<span class="tag">%s</span>' % ENGAGEMENT_TAGS[e] for e in eng)
+def tags_html(kinds, year=None):
+    out = "".join('<span class="tag">%s</span>' % KINDS[k] for k in kinds)
     if year:
         out += '<span class="tag tag-quiet">%s</span>' % year
     return out
@@ -518,9 +515,7 @@ def write_case(case):
         sections.append("      <h2>%s</h2>\n%s" % (
             heading, "\n".join("      " + b for b in blocks)))
 
-    eng_dd = '<div class="eng-names">%s</div>' % (
-        ", ".join(ENGAGEMENTS[e] for e in case["eng"])
-    )
+    kinds_dd = ", ".join(KINDS[k] for k in case["kinds"])
 
     nav = []
     if prev_slug:
@@ -552,7 +547,7 @@ description: "%(blurb)s"
       <dl class="meta-grid">
         <div><dt>Role</dt><dd>%(role)s</dd></div>
         <div><dt>Context</dt><dd>%(context)s</dd></div>
-        <div><dt>Engagement types</dt><dd>%(eng_dd)s</dd></div>
+        <div><dt>Kind of work</dt><dd>%(kinds_dd)s</dd></div>
         <div><dt>Date</dt><dd>%(date)s</dd></div>
       </dl>
     </header>
@@ -576,7 +571,7 @@ description: "%(blurb)s"
         year=case["year"],
         role=case["role"],
         context=case["context"],
-        eng_dd=eng_dd,
+        kinds_dd=kinds_dd,
         date=case["date"],
         sections="\n\n".join(sections),
         sanitized=case["sanitized"],
@@ -593,7 +588,7 @@ def write_index():
     items = []
     for slug in ORDER:
         c = [x for x in CASES if x["slug"] == slug][0]
-        items.append("""      <a class="item" href="/work/%(slug)s/" data-eng="%(engattr)s">
+        items.append("""      <a class="item" href="/work/%(slug)s/" data-kind="%(kindattr)s">
         <div>
           <div class="tags">%(tags)s</div>
           <h3>%(title)s</h3>
@@ -604,16 +599,16 @@ def write_index():
         </div>
       </a>""" % dict(
             slug=c["slug"],
-            engattr=" ".join(c["eng"]),
-            tags=tags_html(c["eng"], c["year"]),
+            kindattr=" ".join(c["kinds"]),
+            tags=tags_html(c["kinds"], c["year"]),
             title=c["title"],
             blurb=c["blurb"],
         ))
 
     buttons = ['        <button type="button" data-f="all" aria-pressed="true">All</button>']
-    for k in "ABCDE":
+    for k in KIND_ORDER:
         buttons.append('        <button type="button" data-f="%s" aria-pressed="false">%s</button>'
-                       % (k, ENGAGEMENTS[k]))
+                       % (k, KINDS[k]))
 
     html = """---
 layout: default
@@ -625,12 +620,12 @@ description: "Nine case studies: patent development, enterprise design-thinking 
 <div class="shell">
 
   <header class="page-head">
-    <p class="kicker">Selected proof <span class="sep">/</span> 9 case studies <span class="sep">/</span> 2017 to 2026</p>
-    <h1>What the work actually looked like</h1>
+    <p class="kicker">Work <span class="sep">/</span> 9 case studies <span class="sep">/</span> 2017 to 2026</p>
+    <h1>Nine case studies</h1>
     <p class="lede">
-      Every one of these is a method-only cut. Client and employer material is sanitized, named
-      clients stay unnamed, and nothing confidential is reproduced. What is left is the part that
-      transfers: how the problem was framed, what method was run, and what changed as a result.
+      Each one is cut down to the method. Client and employer material is removed, clients are
+      unnamed, and nothing confidential is reproduced. What remains is how the problem was
+      framed, what method was run, and what changed as a result.
     </p>
   </header>
 
@@ -650,12 +645,10 @@ description: "Nine case studies: patent development, enterprise design-thinking 
     </div>
     <div class="prose">
       <p>
-        Some work is real but not public. Interface visuals from the enterprise programs are held
-        pending permission clearance. A research tooling build for a collaborator and an autonomous
-        trading agent are both live but not cleared for a public page.
-        Happy to walk through any of it directly.
+        Some of the work is not public. Interface visuals from the enterprise programs are held
+        pending permission, and a research tooling build for a collaborator is not cleared for
+        a public page.
       </p>
-      <p><a href="/#contact">Get in touch</a></p>
     </div>
   </section>
 
@@ -672,7 +665,7 @@ description: "Nine case studies: patent development, enterprise design-thinking 
   function apply(f) {
     var n = 0;
     Array.prototype.forEach.call(items, function (el) {
-      var show = f === 'all' || el.dataset.eng.split(' ').indexOf(f) > -1;
+      var show = f === 'all' || el.dataset.kind.split(' ').indexOf(f) > -1;
       el.hidden = !show;
       if (show) n++;
     });

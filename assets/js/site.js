@@ -1,125 +1,317 @@
 /* ============================================================
-   James H. Pratt — site behaviour
+   James H. Pratt: site behaviour
    Progressive enhancement only. Everything here is optional;
-   the page is fully readable with JavaScript disabled.
+   the page is fully readable with JavaScript disabled, and every
+   animated figure ships in its finished state.
    ============================================================ */
 
 (function () {
   'use strict';
 
+  /* The layout sets this inline in <head> so entrance styles never flash.
+     Repeated here for any page that does not use the default layout. */
   document.documentElement.classList.add('js');
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canAnimate = !reduced && typeof Element.prototype.animate === 'function';
+  var EASE_OUT = 'cubic-bezier(.16, 1, .3, 1)';
 
-  /* ---------- 1. The signal rail ----------
-     A deterministic trace. Same seed, same waveform, every load.
-     Quiet at the edges, active through the middle, the way a real
-     recording looks when someone stops talking at the ends. */
+  /* Run fn once, the first time el is on screen. Falls back to running at once
+     where IntersectionObserver is missing, and a load-time sweep catches
+     anything the observer never reported, so no figure can stay hidden. */
+  var pending = [];
+  function whenSeen(el, fn, threshold) {
+    var done = false;
+    function run() {
+      if (done) return;
+      done = true;
+      fn();
+    }
+    if (!('IntersectionObserver' in window)) { run(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { io.disconnect(); run(); }
+      });
+    }, { threshold: threshold || 0.25 });
+    io.observe(el);
+    pending.push({ el: el, run: function () { io.disconnect(); run(); } });
+  }
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      pending.forEach(function (p) {
+        var r = p.el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.85 && r.bottom > 0) p.run();
+      });
+    }, 400);
+  });
 
-  function makeSignal(height, width) {
-    var cx = width / 2;
-    var step = 2;
-    var pts = [];
-    // fixed-seed LCG so the trace is identical on every visit
-    var seed = 20000617;
-    function rnd() {
-      seed = (seed * 1103515245 + 12345) % 2147483648;
-      return seed / 2147483648;
+  /* Count a figure up from zero to its data-count. The element already holds
+     the final text, so this only ever replaces it with itself at the end. */
+  function countUp(el, duration, delay) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    if (isNaN(target)) return;
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var final = el.textContent;
+    var start = null;
+    var settled = false;
+    function settle() {
+      settled = true;
+      el.textContent = final;
     }
-    var raw = [];
-    for (var y = 0; y <= height; y += step) {
-      var t = y / height;
-      // envelope: quiet at both ends, active through the middle
-      var env = Math.pow(Math.sin(Math.PI * t), 0.85);
-      var v =
-        Math.sin(t * 17.3) * 0.50 +
-        Math.sin(t * 39.1 + 1.1) * 0.28 +
-        Math.sin(t * 71.7 + 2.4) * 0.13 +
-        (rnd() - 0.5) * 0.10;
-      raw.push(v * env);
+    el.textContent = prefix + '0' + suffix;
+    function frame(now) {
+      if (settled) return;
+      if (start === null) start = now + (delay || 0);
+      var t = Math.min(1, Math.max(0, (now - start) / duration));
+      var eased = 1 - Math.pow(1 - t, 4);
+      if (t < 1) {
+        el.textContent = prefix + Math.round(target * eased) + suffix;
+        window.requestAnimationFrame(frame);
+      } else {
+        settle();
+      }
     }
-    // 5-tap smoothing so the trace reads as a signal, not static
-    for (var i = 0; i < raw.length; i++) {
-      var a = raw[Math.max(0, i - 2)], b = raw[Math.max(0, i - 1)];
-      var c = raw[i];
-      var d2 = raw[Math.min(raw.length - 1, i + 1)];
-      var e = raw[Math.min(raw.length - 1, i + 2)];
-      var sm = (a + 2 * b + 3 * c + 2 * d2 + e) / 9;
-      pts.push([cx + sm * (width * 0.40), i * step]);
-    }
-    // catmull-rom style: straight segments at 2px are already smooth enough
-    return 'M' + pts.map(function (p) {
-      return p[0].toFixed(2) + ' ' + p[1].toFixed(1);
-    }).join('L');
+    window.requestAnimationFrame(frame);
+    /* Frames stop in a background tab and timers do not. Whatever happens to
+       the animation, the figure ends on its real value. */
+    setTimeout(settle, (delay || 0) + duration + 400);
   }
 
-  var rail = document.querySelector('.rail');
-  var railState = null;
-
-  function buildRail() {
-    if (!rail) return;
-    var w = rail.clientWidth;
-    var h = rail.clientHeight;
-    if (!w || !h) return;
-    var d = makeSignal(h, w);
-    rail.innerHTML =
-      '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true" focusable="false">' +
-        '<defs><clipPath id="railClip"><rect id="railRect" x="0" y="0" width="' + w + '" height="0"/></clipPath></defs>' +
-        '<path class="wave-base" d="' + d + '"/>' +
-        '<path class="wave-live" d="' + d + '" clip-path="url(#railClip)"/>' +
-        '<circle class="playhead-ring" cx="' + (w / 2) + '" cy="0" r="7"/>' +
-        '<circle class="playhead" cx="' + (w / 2) + '" cy="0" r="2.5"/>' +
-      '</svg>';
-    railState = {
-      h: h,
-      rect: rail.querySelector('#railRect'),
-      dot: rail.querySelector('.playhead'),
-      ring: rail.querySelector('.playhead-ring')
-    };
-    drawRail();
-  }
+  /* ---------- 1. Scroll progress ---------- */
 
   var topbar = document.querySelector('.rail-top');
 
-  function scrollProgress() {
+  function drawProgress() {
+    if (!topbar) return;
     var max = document.documentElement.scrollHeight - window.innerHeight;
-    if (max <= 0) return 0;
-    return Math.min(1, Math.max(0, window.scrollY / max));
-  }
-
-  function drawRail() {
-    var p = scrollProgress();
-    if (railState) {
-      var y = p * railState.h;
-      railState.rect.setAttribute('height', y.toFixed(1));
-      railState.dot.setAttribute('cy', y.toFixed(1));
-      railState.ring.setAttribute('cy', y.toFixed(1));
-    }
-    if (topbar) topbar.style.transform = 'scaleX(' + p + ')';
+    var p = max <= 0 ? 0 : Math.min(1, Math.max(0, window.scrollY / max));
+    topbar.style.transform = 'scaleX(' + p + ')';
   }
 
   var ticking = false;
-  function onScroll() {
+  window.addEventListener('scroll', function () {
     if (ticking) return;
     ticking = true;
     window.requestAnimationFrame(function () {
-      drawRail();
+      drawProgress();
       ticking = false;
     });
+  }, { passive: true });
+  drawProgress();
+
+  /* ---------- 2. The sorting figure ----------
+     Each task leaves the source at the top of the figure, travels down the
+     trunk to the decision point, waits there a beat, then runs along the bar
+     and drops into its column. The chips never leave the DOM positions they
+     ship in: each one is animated from an offset back to zero, so if anything
+     here fails the figure is simply already sorted. */
+
+  var sorter = document.querySelector('[data-sorter]');
+
+  function playSorter() {
+    var tree = sorter.querySelector('.sorter-tree');
+    var node = sorter.querySelector('.sorter-node');
+    var replay = sorter.querySelector('.sorter-replay');
+    var chips = Array.prototype.slice.call(sorter.querySelectorAll('.chip'));
+    var counters = sorter.querySelectorAll('.sorter-n');
+    var timers = [];
+    var running = [];
+
+    chips.sort(function (a, b) {
+      return a.getAttribute('data-order') - b.getAttribute('data-order');
+    });
+
+    function run() {
+      running.forEach(function (a) { a.cancel(); });
+      timers.forEach(clearTimeout);
+      running = [];
+      timers = [];
+      if (replay) replay.hidden = true;
+
+      var treeBox = tree.getBoundingClientRect();
+      var srcX = treeBox.left + treeBox.width / 2;
+      var srcY = treeBox.top - 14;            /* just under the source label */
+      var nodeY = treeBox.top + 28;           /* the bar, where the node sits */
+
+      /* the connector draws first: trunk down, bar out, drops down */
+      [['.st-trunk', 'scaleY(0)', 0],
+       ['.st-bar', 'scaleX(0)', 220],
+       ['.st-drop--l', 'scaleY(0)', 480],
+       ['.st-drop--r', 'scaleY(0)', 480]].forEach(function (step) {
+        var el = sorter.querySelector(step[0]);
+        running.push(el.animate(
+          [{ transform: step[1] }, { transform: 'none' }],
+          { duration: 320, delay: step[2], easing: EASE_OUT, fill: 'backwards' }
+        ));
+      });
+      running.push(node.animate(
+        [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
+        { duration: 300, delay: 200, easing: EASE_OUT, fill: 'backwards' }
+      ));
+
+      Array.prototype.forEach.call(counters, function (c) { c.textContent = '0'; });
+
+      var first = 900;      /* after the connector is drawn */
+      var gap = 430;        /* between tasks */
+      var travel = 1150;
+
+      chips.forEach(function (chip, i) {
+        var box = chip.getBoundingClientRect();
+        var cx = box.left + box.width / 2;
+        var cy = box.top + box.height / 2;
+        var toSrc = 'translate(' + (srcX - cx) + 'px,' + (srcY - cy) + 'px)';
+        var toNode = 'translate(' + (srcX - cx) + 'px,' + (nodeY - cy) + 'px)';
+        var overCol = 'translate(0px,' + (nodeY - cy) + 'px)';
+        var delay = first + i * gap;
+
+        /* Neutral while it travels; it takes its column's colour on landing,
+           which is the implicit final keyframe. */
+        var plain = {
+          backgroundColor: '#fffdf9',
+          borderColor: '#948977',
+          color: '#26231f'
+        };
+        function at(offset, transform, extra) {
+          var k = { offset: offset, transform: transform, easing: EASE_OUT };
+          for (var key in plain) k[key] = plain[key];
+          for (var e in extra) k[e] = extra[e];
+          return k;
+        }
+        running.push(chip.animate([
+          at(0, toSrc + ' scale(.92)', { opacity: 0 }),
+          at(0.12, toSrc, { opacity: 1 }),
+          at(0.36, toNode, { opacity: 1 }),
+          at(0.48, toNode, { opacity: 1 }),
+          at(0.72, overCol, { opacity: 1 }),
+          { offset: 1, transform: 'none', opacity: 1 }
+        ], { duration: travel, delay: delay, fill: 'backwards' }));
+        chip.style.zIndex = String(20 - i);
+
+        /* the decision point answers each task as it arrives */
+        running.push(node.animate(
+          [{ transform: 'scale(1)' }, { transform: 'scale(1.45)' }, { transform: 'scale(1)' }],
+          { duration: 300, delay: delay + travel * 0.36, easing: 'ease-out' }
+        ));
+
+        var counter = chip.closest('.sorter-col').querySelector('.sorter-n');
+        timers.push(setTimeout(function () {
+          counter.textContent = String(parseInt(counter.textContent, 10) + 1);
+        }, delay + travel * 0.9));
+      });
+
+      timers.push(setTimeout(function () {
+        Array.prototype.forEach.call(counters, function (c) {
+          c.textContent = c.getAttribute('data-n');
+        });
+        chips.forEach(function (chip) { chip.style.zIndex = ''; });
+        if (replay) replay.hidden = false;
+      }, first + chips.length * gap + travel));
+    }
+
+    if (replay) replay.addEventListener('click', run);
+    run();
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  if (sorter && canAnimate) {
+    /* wait for fonts so the measured chip positions are the final ones */
+    var startSorter = function () { whenSeen(sorter, playSorter, 0.3); };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startSorter, startSorter);
+    } else {
+      startSorter();
+    }
+  }
 
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildRail, 180);
-  });
+  /* ---------- 3. The numbers ---------- */
 
-  buildRail();
-  drawRail();
+  var stats = document.querySelector('.stats');
+  if (stats && canAnimate) {
+    whenSeen(stats, function () {
+      Array.prototype.forEach.call(stats.querySelectorAll('[data-count]'), function (el, i) {
+        el.parentNode.animate(
+          [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 600, delay: i * 90, easing: EASE_OUT, fill: 'backwards' }
+        );
+        countUp(el, 1400, i * 90);
+      });
+    }, 0.4);
+  }
 
-  /* ---------- 2. Reveal on scroll ---------- */
+  /* ---------- 4. Drawn figures ----------
+     A stroke is drawn by normalising its length to 1 and sliding a dash
+     offset from 1 to 0. Nothing is forwards-filled, so when the animation
+     ends the element returns to its own styles, a plain solid line. */
+
+  function drawStroke(el, duration, delay) {
+    el.setAttribute('pathLength', '1');
+    return el.animate(
+      [{ strokeDasharray: '1', strokeDashoffset: 1 }, { strokeDasharray: '1', strokeDashoffset: 0 }],
+      { duration: duration, delay: delay || 0, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'backwards' }
+    );
+  }
+
+  var curve = document.querySelector('.record-curve');
+  if (curve) {
+    if (!canAnimate) {
+      curve.classList.add('is-drawn');
+    } else {
+      whenSeen(curve, function () {
+        var main = curve.querySelector('.rc-line:not(.rc-line--partial)');
+        var partial = curve.querySelector('.rc-line--partial');
+        var total = curve.querySelector('.rc-val strong');
+        curve.classList.add('is-drawn');
+        if (main) drawStroke(main, 1800);
+        if (partial) {
+          partial.animate([{ opacity: 0 }, { opacity: 1 }],
+            { duration: 400, delay: 1800, fill: 'backwards' });
+        }
+        if (total && !total.hasAttribute('data-count')) {
+          total.setAttribute('data-count', parseInt(total.textContent, 10));
+        }
+        if (total) countUp(total, 1800, 0);
+      }, 0.5);
+    }
+  }
+
+  var wave = document.querySelector('[data-wave]');
+  if (wave) {
+    if (!canAnimate) {
+      wave.classList.add('is-drawn');
+    } else {
+      whenSeen(wave, function () {
+        var line = wave.querySelector('.wave-line');
+        var labels = wave.querySelectorAll('.wave-labels span');
+        var duration = 2600;
+        wave.classList.add('is-drawn');
+        /* linear, so each label can appear as the trace reaches its sound */
+        line.setAttribute('pathLength', '1');
+        line.animate(
+          [{ strokeDasharray: '1', strokeDashoffset: 1 }, { strokeDasharray: '1', strokeDashoffset: 0 }],
+          { duration: duration, easing: 'linear', fill: 'backwards' }
+        );
+        Array.prototype.forEach.call(labels, function (label) {
+          var at = parseFloat(label.style.left) / 100;
+          label.animate(
+            [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 420, delay: duration * at, easing: EASE_OUT, fill: 'backwards' }
+          );
+        });
+      }, 0.5);
+    }
+  }
+
+  /* The film on /method/ starts when it is on screen, and not at all under
+     reduced motion. It is muted and carries its own controls. */
+  var film = document.querySelector('[data-film] video');
+  if (film && !reduced) {
+    whenSeen(film, function () {
+      var started = film.play();
+      if (started && started.catch) started.catch(function () {});
+    }, 0.5);
+  }
+
+  /* ---------- 5. Reveal on scroll ---------- */
 
   var revealables = document.querySelectorAll('.reveal');
   if (reduced || !('IntersectionObserver' in window)) {
@@ -136,12 +328,10 @@
 
     Array.prototype.forEach.call(revealables, function (el) {
       io.observe(el);
-      /* An element already on screen at load must not depend on the observer.
-         The -8% bottom margin lands almost exactly on the stat rail in a 900px
-         viewport, which made the site's strongest asset a load-timing coin
-         flip: on an unlucky paint it stayed at opacity 0 with no second chance.
-         Run its entrance on the next frame instead, so the animation still
-         plays but cannot be missed. */
+      /* An element already on screen at load must not depend on the observer:
+         on an unlucky paint it stays at opacity 0 with no second chance. Run
+         its entrance on the next frame instead, so the animation still plays
+         but cannot be missed. */
       if (el.getBoundingClientRect().top < window.innerHeight) {
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
@@ -168,7 +358,7 @@
     });
   }
 
-  /* ---------- 3. Mobile nav ---------- */
+  /* ---------- 6. Mobile nav ---------- */
 
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.nav');
@@ -197,12 +387,10 @@
     });
   }
 
-  /* ---------- 4. Booking clicks ---------- */
+  /* ---------- 7. Booking clicks ---------- */
 
-  /* A booked call is the site's only conversion and nothing measured it, so every
-     judgement about CTA placement was inference. utm_content on each href
-     attributes the click on cal.com's side; this event attributes it here, so
-     click share by position becomes observable instead of argued. */
+  /* utm_content on each booking href attributes the click on cal.com's side;
+     this event attributes it here, by position on the page. */
   document.addEventListener('click', function (e) {
     if (!e.target || !e.target.closest) return;
     var a = e.target.closest('a[data-cta]');

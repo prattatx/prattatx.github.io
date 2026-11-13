@@ -8,45 +8,25 @@ web
 
 ## Users
 
-**Primary: organizations integrating AI into knowledge work.** Not stage-gated, not
-industry-gated. The buyer has AI in the building and has not decided which parts of the
-work it should be doing.
+**Someone who has looked James up and is verifying him.** A new colleague, an event
+organizer, a person from his old network, a journalist. They arrive with a name and usually a
+reason, and they want to confirm who he is.
 
-Retired 2026-09-15: the previous ICP (seed and early-stage founders) and the medtech and
-biotech ICP proposed on 2026-09-14. The audit trail for five ICP candidates derived and
-withdrawn is in `docs/superpowers/specs/2026-09-14-offers-redesign-DRAFT.md`.
+Repositioned 2026-11-12. The earlier user (an organization buying an AI Effectiveness Audit) is
+retired along with every offer on the site: James started a full-time role on 2026-11-09 and
+does not solicit paid work.
 
-**Excluded, from James's direct operating experience:** elder care and senior care, and
-healthcare as a primary market. This is practitioner evidence and it outranks the
-research lanes.
-
-**The visit is almost always a referral check.** Confirmed 2026-09-09 and unchanged. Warm
-intro and referral verification is the real arrival path. The visitor arrives with context
-already: someone told them about James, and they are verifying before a first conversation.
-
-Design consequence, unchanged: the site does not have to win attention or explain who James
-is from zero. It has to confirm what the visitor was already told, fast, and then let them
-act.
+Design consequence: the site does not have to explain who James is from zero or persuade
+anyone to buy. It has to make the record easy to check, and be good enough to look at that the
+visitor stays to read it.
 
 ## Product Purpose
 
-A public credibility surface for advisory work. Not a job-search site, not a portfolio in the
-seeking-work sense. James is CEO of Fyve Health and stays there.
+A public record of one person: the patents, the research, the case studies, the writing, and a
+short account of the work behind them. Not a practice, not a job-search site.
 
-**Success is a booked call on cal.com** (`https://www.cal.com/james-pratt`). Confirmed
-2026-09-09. Passive credibility is not the goal: the booking is. Everything else on the site
-exists to get a verifying buyer confident enough to take that step.
-
-The site sells one practice, the AI Effectiveness Audit, on a three-tier ladder:
-
-| Tier | What | Price |
-|---|---|---|
-| Front door | One workflow, observed and allocated | $5,000, published |
-| Main | Full engagement across a function | Five figures, scoped |
-| Ongoing | Named advisor or fractional seat | Retainer |
-
-The A through E engagement codes are retired. They were internal Career Management
-workstation taxonomy.
+**Success is that the visitor finds what they came to check,** and can say hello if they want
+to. There is no conversion to optimize.
 
 ## Positioning
 
@@ -62,8 +42,8 @@ researcher without shipping scars.
 
 ## Operating Context
 
-- The visitor is mid-diligence on a person, not shopping a category. They usually have a name,
-  a recommendation, and a specific problem already in mind.
+- The visitor is checking a person, not shopping a category. They usually have a name and a
+  reason already in mind.
 - Reading is often quick and often on the way to a decision that involves someone else: a
   co-founder, a partner, a program director.
 - The record (patents, publications, case studies) is what a referral check actually goes
@@ -88,12 +68,8 @@ keeps the site previewable without Ruby, which the authoring container does not 
   each other. Regenerate the PDF whenever the CV page changes.
 - `build-preview.py` resolves only simple Liquid. Anything looping `site.posts` needs a real
   Jekyll build to verify.
-- Two config switches wire themselves in when set and vanish when blank: `calendar_url` and
-  `ga4` (`G-LPYRNPZYB1`, with `anonymize_ip`).
-
-**Undecided, do not invent:** whether the site should carry any conversion instrumentation
-beyond GA4 pageviews. Nothing currently measures whether a visit produced a booking, so the
-stated success condition is not yet observable.
+- Config values the pages read: `calendar_url` and `ga4` (`G-LPYRNPZYB1`, with `anonymize_ip`),
+  which vanish when blank, and `email`, the one published address.
 
 ## Brand Commitments
 
@@ -106,7 +82,7 @@ stated success condition is not yet observable.
 - Every factual claim traces to `Cowork OS/00_Resources/professional-background.md` or the
   Career Management workstation. Never invent experience, titles, dates, or metrics.
 - Fixed facts: **358 granted patents, 226 in force**, verified 2026-08-07 (never the older
-  "300+"). Education is **M.A. 2000**, not M.S. 1999. AT&T end date is **December 2025**. White
+  "300+"). Education is **M.A. 2000**, not M.S. 1999. AT&T end date is **December 2024**. White
   papers are **"lead author."** wisely.io **is not an exit**: it wound down on capital
   constraints and should be said plainly.
 - Visual authority is `design.md` at the repo root, which supersedes the Personal Brand System
@@ -131,8 +107,7 @@ clearance note and the README was the stale figure, and both were corrected to n
 the citable number.
 
 **Absences that must not be fabricated:** no testimonials, no client logos, no named
-enterprise references, no engagement pricing, no traction or revenue figures. None of these
-exist to publish.
+enterprise references, no traction or revenue figures. None of these exist to publish.
 
 ## Product Principles
 
@@ -140,8 +115,8 @@ exist to publish.
    here. Promote them as artifacts, not as tables, and let the chrome recede behind them.
 2. **Confirm, do not introduce.** The visitor already knows who James is. Optimize for fast
    verification of a claim they arrived with, not for an origin story.
-3. **The booking is the only conversion.** Every page should leave a verifying buyer one
-   obvious step from cal.com. No competing calls to action.
+3. **Nothing is for sale.** Booking is an open door in two places, the masthead and the home
+   page's closing block, and the copy says James does not take paid work.
 4. **Clearance outranks completeness.** A gap in the public record is correct when the material
    behind it is not cleared. Acknowledge the gap, never fill it.
 5. **Every claim is traceable.** No number, title, or date ships without a source in the Career

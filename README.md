@@ -4,25 +4,26 @@ Personal site for James H. Pratt, Ph.D. Jekyll on GitHub Pages, no build step be
 
 ## What it is for
 
-A public credibility surface for advisory work: fractional AI product leadership, expert consults,
-board seats, strategy sprints, and workshops. Audience is founders, investors, accelerator and
-program leads, and enterprise buyers.
+A public record of who James is, for someone who has looked him up and wants to verify him. It
+sells nothing: no offers, prices or services (repositioned 2026-11-12). See `CLAUDE.md`.
 
 ## Structure
 
 ```
-/                  home: positioning, the five engagement types, proof, record, contact
-/work/             proof index, filterable by engagement type A-E
+/                  home: hero figure, four numbers, the record, selected work, founder, writing, say hello
+/method/           "How I decide who does what": function allocation, with a short film
+/work/             case study index, filterable by kind of work
 /work/<slug>/      nine case studies (generated, see _gen/cases.py)
 /patents/          searchable explorer over 358 granted patents
 /research/         M.A. thesis, dissertation, nine publications
 /cv/               full CV, doubles as the source for the downloadable PDF
 /writing/          posts from _posts/
-/speaking/         workshops, panels, presentations
+/speaking/         talks, panels, judging
 /about/            bio
 ```
 
-`/blog/` redirects to `/writing/` and `/presentations/` redirects to `/speaking/`.
+`/blog/` redirects to `/writing/`, `/presentations/` to `/speaking/`, and `/capabilities/` (removed
+2026-11-12) to `/about/`.
 
 ## Editing
 
@@ -45,8 +46,9 @@ the patent JSON inlined, so it opens with no server:
 python3 build-preview.py index.html _preview/home.html
 ```
 
-It resolves only enough Liquid for an accurate visual preview. Anything using `{% for %}` over
-`site.posts` (the writing index, the feed, the sitemap) needs a real Jekyll build to see.
+It resolves only enough Liquid for an accurate visual preview. It handles the landing page's
+`{% for post in site.posts limit:3 %}` loop from post front matter, but not post bodies: the feed,
+the sitemap and the posts themselves still need a real Jekyll build to see.
 
 ## Regenerating the CV PDF
 
@@ -62,10 +64,12 @@ margin:{top:'13mm',bottom:'13mm',left:'12mm',right:'12mm'}});await b.close();})(
 
 ## Config switches
 
-`_config.yml` has two keys that wire themselves in when set and are simply omitted when empty:
+`_config.yml` has three keys the pages read:
 
-- `calendar_url`: set to `https://www.cal.com/james-pratt`. Drives the "Book time" button on the
-  home contact block, About, Speaking, the CV, and the footer.
+- `calendar_url`: set to `https://www.cal.com/james-pratt`. Drives the "Say hello" button in the
+  masthead and "Book a time" in the home page's closing block, the only two places booking appears.
+  Blank it and both vanish.
+- `email`: the one published address. Every `mailto:` on the site reads it.
 - `ga4`: set to `G-LPYRNPZYB1`. Loads gtag.js asynchronously from `_includes/analytics.html`,
   with `anonymize_ip` on. Blank it out and the script stops shipping entirely, no other edit needed.
   Note this is a GA4 property and has nothing to do with the old `UA-78948113-1` tag that used to be

@@ -21,6 +21,7 @@
   <meta name="theme-color" content="#faf8f4">
   <meta name="color-scheme" content="light">
 
+  <script>document.documentElement.className += ' js';</script>
   <link rel="preload" href="/assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/source-serif-4-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/main.css">
@@ -31,7 +32,6 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="rail" aria-hidden="true"></div>
   <div class="rail-top" aria-hidden="true"></div>
 
   <header class="masthead">
@@ -39,15 +39,14 @@
       <a class="wordmark" href="/"><span class="dot"></span>James H. Pratt</a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav class="nav" id="nav" aria-label="Primary">
-        <a href="/method/"   {% if page.nav == 'method' %}aria-current="page"{% endif %}>Method</a>
-        <a href="/capabilities/" {% if page.nav == 'capabilities' %}aria-current="page"{% endif %}>Capabilities</a>
+        <a href="/method/"   {% if page.nav == 'method' %}aria-current="page"{% endif %}>Approach</a>
         <a href="/work/"     {% if page.nav == 'work' %}aria-current="page"{% endif %}>Work</a>
         <a href="/patents/"  {% if page.nav == 'patents' %}aria-current="page"{% endif %}>Patents</a>
         <a href="/research/" {% if page.nav == 'research' %}aria-current="page"{% endif %}>Research</a>
         <a href="/writing/"  {% if page.nav == 'writing' %}aria-current="page"{% endif %}>Writing</a>
         <a href="/about/"    {% if page.nav == 'about' %}aria-current="page"{% endif %}>About</a>
       </nav>
-      {% if site.calendar_url %}<a class="btn btn-primary masthead-cta" data-cta="masthead" href="{{ site.calendar_url }}?utm_source=prattatx&amp;utm_medium=site&amp;utm_campaign=book&amp;utm_content=masthead">Book time <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}
+      {% if site.calendar_url %}<a class="btn btn-primary masthead-cta" data-cta="masthead" href="{{ site.calendar_url }}?utm_source=prattatx&amp;utm_medium=site&amp;utm_campaign=book&amp;utm_content=masthead">Say hello <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}
     </div>
   </header>
 
@@ -59,12 +58,11 @@
     <div class="shell">
       <span>&copy; {{ site.time | date: '%Y' }} James H. Pratt</span>
       <span>Austin, Texas</span>
-      <a href="mailto:james@fyve.dev">james@fyve.dev</a>
-      {% if site.calendar_url %}<a data-cta="footer" href="{{ site.calendar_url }}?utm_source=prattatx&amp;utm_medium=site&amp;utm_campaign=book&amp;utm_content=footer">Book time</a>{% endif %}
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
       <a href="https://www.linkedin.com/in/jameshpratt">LinkedIn</a>
       <a href="https://github.com/prattatx">GitHub</a>
       <a href="https://orcid.org/0000-0002-7794-0629">ORCID</a>
-      <span class="right">Set in Inter and Source Serif 4. Jekyll, hand-written CSS, no frameworks.</span>
+      <span class="right">Views here are my own, not my employer's.</span>
     </div>
   </footer>
 
