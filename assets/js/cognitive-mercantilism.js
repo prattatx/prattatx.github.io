@@ -1,53 +1,8 @@
-/* Cognitive Mercantilism post: Figure 1 nodes, the plain-English dial, and the
-   elasticity chart. Progressive enhancement only: with JavaScript off the post
-   shows the plain text, both diagrams, and the table at the default setting. */
+/* Cognitive Mercantilism post: the elasticity chart. Diagram nodes and the dial
+   are in explainer.js. Progressive enhancement only: with JavaScript off the
+   post shows the formula and the table at the default setting. */
 (() => {
   const $ = id => document.getElementById(id);
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Figure 1: first select shows the note, a second select jumps to the section
-  const info = $("xp-nodeinfo");
-  if (info) {
-    info.textContent = "Select a box to see what it means. Select it again to go to the section that covers it.";
-    document.querySelectorAll(".xp-node").forEach(n => {
-      const act = () => {
-        if (n.classList.contains("on")) {
-          const t = $(n.dataset.target);
-          if (t) t.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-          return;
-        }
-        document.querySelectorAll(".xp-node").forEach(m => m.classList.remove("on"));
-        n.classList.add("on");
-        info.textContent = n.dataset.info;
-      };
-      n.addEventListener("click", act);
-      n.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); }
-      });
-    });
-  }
-
-  // Plain-English dial: the same idea at four levels, with live sentence stats
-  const dial = $("xp-dial");
-  if (dial) {
-    const samples = [
-      "So Rao's basic point, riffing on Joyce Appleby's history of capitalism, is that a lot of the AI panic going around is really the same old zero-sum thinking the mercantilists had about gold and land, except now it's about brains, where people assume there's only so much intelligence to go around and that if machines make it cheap, most of us end up as useless minds with nothing to do.",
-      "Rao argues that much AI panic repeats an old mistake. Mercantilists thought wealth was a fixed stock of land and gold, so one nation's gain was another's loss, and cognitive mercantilists think the same about intelligence, which leads them to fear that cheap AI will leave most minds with nothing to do.",
-      "Rao says that much AI panic repeats an old mistake. Mercantilists thought that wealth was a fixed stock of land and gold. Cognitive mercantilists think the same about intelligence. So they fear that cheap AI will leave most minds with nothing to do. Rao asks a different question: how much intelligence can people find uses for?",
-      "The panic about AI repeats an old error. Mercantilists thought that wealth was a fixed quantity. Cognitive mercantilists think that intelligence is a fixed quantity. They think that cheap AI will make most minds useless. Rao asks a different question. The question is: how much intelligence can people use?"
-    ];
-    const verdicts = ["Hard to follow", "Better, still long", "Clear and natural", "Clear but robotic"];
-    const show = i => {
-      const s = samples[i], sents = s.split(/(?<=[.?])\s+/), words = sents.map(x => x.split(/\s+/).length);
-      const avg = (words.reduce((a, b) => a + b, 0) / sents.length).toFixed(1);
-      $("xp-sample").textContent = s;
-      $("xp-stats").innerHTML = `<span>Sentences <b>${sents.length}</b></span><span>Average words per sentence <b>${avg}</b></span><span>Longest <b>${Math.max(...words)}</b></span><span class="xp-verdict${i === 2 ? " is-best" : ""}">${verdicts[i]}</span>`;
-      dial.querySelectorAll("[data-lvl]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.lvl === i)));
-    };
-    dial.querySelectorAll("[data-lvl]").forEach(b => b.addEventListener("click", () => show(+b.dataset.lvl)));
-    show(2);
-    dial.hidden = false;
-  }
 
   // Elasticity chart: uses = p^-e, work for minds = 100 * p^(1-e)
   const svg = $("xp-chart");

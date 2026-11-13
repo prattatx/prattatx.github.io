@@ -1,0 +1,226 @@
+---
+layout: post
+title: "Four Prompting Procedures"
+date: 2026-10-30 09:00:00 -0500
+summary: "Andrej Karpathy shared four prompts that change the shape of the answer a language model gives you: plain technical English, a diagram, an interactive HTML page and a narrated explainer video. Each one here as a short procedure, with a working example."
+description: "Andrej Karpathy's four prompts for text, diagrams, HTML pages and narrated video, each written as a procedure with a working example."
+---
+
+<p>Andrej Karpathy <a href="https://x.com/karpathy/status/2105819303471976479">shared four prompts</a> that change the shape of the answer you get from a language model. Below, each one is a short procedure with the prompt itself and a working example of what it produces. The text follows ASD-STE100 at about 80%, which is what the first procedure tells you to do.</p>
+
+<p><strong>Always check the output before you use it.</strong> The model does the legwork. You are responsible for the result.</p>
+
+<div class="xp-figure">
+  <div class="xp-scroll">
+    <svg class="xp-map" viewBox="0 0 580 384" role="group" aria-label="Decision diagram: choose the output type for what the reader must do">
+      <defs><marker id="xp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="xp-arrow"/></marker></defs>
+      <rect class="xp-you" x="190" y="10" width="200" height="42" rx="4"/>
+      <text x="290" y="36" text-anchor="middle" class="xp-strong xp-you-t">You: set the goal</text>
+      <path class="xp-edge" d="M290 52 V84" marker-end="url(#xp-ah)"/>
+      <rect class="xp-q" x="130" y="86" width="320" height="44" rx="22"/>
+      <text x="290" y="113" text-anchor="middle" class="xp-strong">What must the reader do?</text>
+      <path class="xp-edge" d="M290 130 V152 H80 V182" marker-end="url(#xp-ah)"/>
+      <path class="xp-edge" d="M220 152 V182" marker-end="url(#xp-ah)"/>
+      <path class="xp-edge" d="M290 152 H500 V182" marker-end="url(#xp-ah)"/>
+      <path class="xp-edge" d="M360 152 V182" marker-end="url(#xp-ah)"/>
+      <g class="xp-node" tabindex="0" role="button" data-target="ste" data-info="Explain it in ASD-STE100, about 80% strict. Use it when the reader needs a clear explanation in words.">
+        <rect class="xp-box" x="15" y="184" width="130" height="72" rx="4"/>
+        <text class="xp-small" x="80" y="207" text-anchor="middle">Read it</text>
+        <text x="80" y="236" text-anchor="middle" class="xp-big">STE text</text>
+      </g>
+      <g class="xp-node" tabindex="0" role="button" data-target="diagram" data-info="Ask for a diagram instead of a paragraph. Use it when the reader must see how parts connect.">
+        <rect class="xp-box" x="155" y="184" width="130" height="72" rx="4"/>
+        <text class="xp-small" x="220" y="207" text-anchor="middle">See structure</text>
+        <text x="220" y="236" text-anchor="middle" class="xp-big">Diagram</text>
+      </g>
+      <g class="xp-node" tabindex="0" role="button" data-target="html" data-info="Ask for the output in HTML. Use it when the reader must change inputs and see the result.">
+        <rect class="xp-box" x="295" y="184" width="130" height="72" rx="4"/>
+        <text class="xp-small" x="360" y="207" text-anchor="middle">Try values</text>
+        <text x="360" y="236" text-anchor="middle" class="xp-big">HTML page</text>
+      </g>
+      <g class="xp-node" tabindex="0" role="button" data-target="video" data-info="Ask for a 3Blue1Brown style explainer with narration. Use it when the idea unfolds over time.">
+        <rect class="xp-box" x="435" y="184" width="130" height="72" rx="4"/>
+        <text class="xp-small" x="500" y="207" text-anchor="middle">Follow a sequence</text>
+        <text x="500" y="236" text-anchor="middle" class="xp-big">Video</text>
+      </g>
+      <path class="xp-edge" d="M80 256 V296 H500 V256"/>
+      <path class="xp-edge" d="M220 256 V296 M360 256 V296"/>
+      <path class="xp-edge" d="M290 296 V328" marker-end="url(#xp-ah)"/>
+      <rect class="xp-you" x="190" y="330" width="200" height="42" rx="4"/>
+      <text x="290" y="356" text-anchor="middle" class="xp-strong xp-you-t">You: check the result</text>
+    </svg>
+  </div>
+  <p class="xp-info" id="xp-nodeinfo" aria-live="polite" data-hint="Select an output type to see when to use it. Select it again to go to its procedure."></p>
+  <p class="xp-cap">Figure 1. Select the output type. The human tasks are at the top and the bottom. The model does the work between them.</p>
+</div>
+
+<h2 id="ste">Explain it in ASD-STE100</h2>
+
+<p>ASD-STE100 is Simplified Technical English. It is a controlled language for aerospace maintenance documents. Language models know its rules well. Text that follows the rules is easy to read.</p>
+
+<p><strong>Caution: do not ask for 100% compliance.</strong> Full compliance makes the text sound robotic. Ask for about 80%.</p>
+
+<ol>
+  <li>Write the topic that you want explained.</li>
+  <li>Tell the model to use ASD-STE100.</li>
+  <li>Tell the model to follow the rules about 80% of the time.</li>
+  <li>Read the answer. If a sentence is unclear, ask for that sentence again.</li>
+</ol>
+
+<div class="xp-prompt"><span>Prompt</span><code>Explain [topic] in ASD-STE100. Follow the rules about 80% so it still sounds natural.</code></div>
+
+<div class="xp-panel" id="xp-dial" hidden>
+  <p class="xp-label">The same explanation at four compliance levels</p>
+  <div class="xp-seg" role="group" aria-label="Compliance level">
+    <button type="button" data-lvl="0">0%</button><button type="button" data-lvl="1">50%</button><button type="button" data-lvl="2" aria-pressed="true">80%</button><button type="button" data-lvl="3">100%</button>
+  </div>
+  <p class="xp-sample" id="xp-sample"></p>
+  <p class="xp-stats" id="xp-stats"></p>
+</div>
+<script type="application/json" id="xp-dial-data">{
+ "samples": [
+  "So basically, a heat pump is kind of like an air conditioner that's running in reverse, where it's pulling heat that's already floating around in the outside air, even when it's freezing, and pushing it inside, which is why it ends up being way more efficient than just burning something to make heat from scratch.",
+  "A heat pump works like an air conditioner in reverse. It pulls heat from the outside air, even when it is cold, and moves it into the house, which makes it more efficient than burning fuel to create new heat.",
+  "A heat pump moves heat. It does not make heat. In winter, it takes heat from the outside air and moves it into the house. This works even when the air is cold. Moving heat uses less energy than making it, so the pump is efficient.",
+  "The heat pump moves heat. The heat pump does not make heat. In cold weather, the heat pump removes heat from the outdoor air. The heat pump moves this heat into the building. This procedure uses less energy than combustion."
+ ],
+ "verdicts": ["Hard to follow", "Better, still long", "Clear and natural", "Clear but robotic"],
+ "best": 2
+}</script>
+
+<h3>The main rules</h3>
+
+<table>
+  <thead><tr><th>Rule</th><th>What it says</th></tr></thead>
+  <tbody>
+    <tr><td>Length</td><td>Procedure sentences: 20 words maximum. Descriptive sentences: 25 words maximum.</td></tr>
+    <tr><td>One step</td><td>Write one instruction in each sentence. Use the imperative: "Remove the cover."</td></tr>
+    <tr><td>Voice</td><td>Use the active voice. Say who or what does the action.</td></tr>
+    <tr><td>Words</td><td>Use approved words. Give each word one meaning only.</td></tr>
+    <tr><td>Order</td><td>Put warnings and cautions before the step they apply to.</td></tr>
+    <tr><td>Paragraph</td><td>Keep a paragraph to one topic and six sentences or fewer.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="diagram">Ask for a diagram</h2>
+
+<p>Clear text still has to be read, one line at a time. A diagram shows the full structure at one time. The reader can process it faster.</p>
+
+<ol>
+  <li>Write the topic.</li>
+  <li>Tell the model to make a diagram, not a paragraph.</li>
+  <li>Make sure that each box and each arrow has a label.</li>
+  <li>If the diagram has too many parts, ask for a smaller diagram for each part.</li>
+</ol>
+
+<div class="xp-prompt"><span>Prompt</span><code>Instead of writing this out, create a diagram that explains [topic].</code></div>
+
+<p>Here is the same information both ways. As text: each month, you add the same amount of money to the account. At the end of each month, the account earns interest on the full balance. The interest becomes part of the balance. The next month, the account earns interest on the money that you added and on the old interest. This is compounding.</p>
+
+<div class="xp-figure">
+  <div class="xp-scroll"><svg class="xp-loop" viewBox="0 0 520 210" role="img" aria-label="Compounding loop: balance, times one plus r, plus new money, bigger balance, back to balance">
+    <rect class="xp-good" x="190" y="12" width="140" height="44" rx="22"/>
+    <text x="260" y="39" text-anchor="middle" class="xp-strong">Balance</text>
+    <rect class="xp-box" x="370" y="84" width="140" height="44" rx="4"/>
+    <text x="440" y="111" text-anchor="middle" class="xp-data">× (1 + r)</text>
+    <rect class="xp-box" x="190" y="154" width="140" height="44" rx="4"/>
+    <text x="260" y="181" text-anchor="middle" class="xp-mid">+ new money</text>
+    <rect class="xp-box" x="10" y="84" width="140" height="44" rx="4"/>
+    <text x="80" y="111" text-anchor="middle" class="xp-mid">Bigger balance</text>
+    <path class="xp-edge" d="M330 34 Q440 34 440 82" marker-end="url(#xp-ah)"/>
+    <path class="xp-edge" d="M440 128 Q440 176 332 176" marker-end="url(#xp-ah)"/>
+    <path class="xp-edge" d="M190 176 Q80 176 80 130" marker-end="url(#xp-ah)"/>
+    <path class="xp-edge" d="M80 84 Q80 34 188 34" marker-end="url(#xp-ah)"/>
+    <text class="xp-small" x="260" y="112" text-anchor="middle">Every month</text>
+  </svg></div>
+  <p class="xp-cap">Figure 2. The same paragraph as a diagram.</p>
+</div>
+
+<h2 id="html">Ask for the output in HTML</h2>
+
+<p>Language models are very good at front-end code. When you ask for HTML, you get a page that you can use, not only read. The video that relayed Karpathy's post used a SIP calculator as the example. A SIP is a fixed investment that you make each month.</p>
+
+<ol>
+  <li>Write what the page must do.</li>
+  <li>Name the inputs that the reader must change, for example sliders.</li>
+  <li>Name the result that the page must show, for example a chart for each year.</li>
+  <li>Open the page and move each input. Make sure that the result changes correctly.</li>
+</ol>
+
+<div class="xp-prompt"><span>Prompt</span><code>Make the output in HTML. Build a SIP calculator that shows compounding year by year, with sliders and animations.</code></div>
+
+<div class="xp-panel" id="xp-calc">
+  <p class="xp-label">SIP calculator, example values</p>
+  <div class="xp-controls xp-controls-3" id="xp-controls" hidden>
+    <label for="xp-amt">Monthly investment <output id="xp-amt-o">$500</output><input type="range" id="xp-amt" min="100" max="5000" step="100" value="500"></label>
+    <label for="xp-rate">Annual return <output id="xp-rate-o">10%</output><input type="range" id="xp-rate" min="1" max="15" step="0.5" value="10"></label>
+    <label for="xp-yrs">Years <output id="xp-yrs-o">20</output><input type="range" id="xp-yrs" min="1" max="40" step="1" value="20"></label>
+  </div>
+  <dl class="xp-totals">
+    <div><dt>You put in</dt><dd id="xp-t-in">$120,000</dd></div>
+    <div><dt>Growth</dt><dd id="xp-t-gr">$262,848</dd></div>
+    <div><dt>Final value</dt><dd id="xp-t-fv">$382,848</dd></div>
+  </dl>
+  <div class="xp-scroll" id="xp-chart-wrap" hidden><svg id="xp-chart" viewBox="0 0 540 270" role="img" aria-label="Line chart of the balance and the money put in, year by year"></svg></div>
+  <p class="xp-tip" id="xp-tip" hidden>The solid line is the balance. The dashed line is the money you put in. The gap between them is growth. Point at a year to read it.</p>
+  <details class="xp-table">
+    <summary>Table view</summary>
+    <table>
+      <thead><tr><th>Year</th><th>Put in</th><th>Growth</th><th>Balance</th></tr></thead>
+      <tbody id="xp-rows">
+        <tr><td>1</td><td>$6,000</td><td>$335</td><td>$6,335</td></tr>
+        <tr><td>2</td><td>$12,000</td><td>$1,334</td><td>$13,334</td></tr>
+        <tr><td>3</td><td>$18,000</td><td>$3,065</td><td>$21,065</td></tr>
+        <tr><td>4</td><td>$24,000</td><td>$5,606</td><td>$29,606</td></tr>
+        <tr><td>5</td><td>$30,000</td><td>$9,041</td><td>$39,041</td></tr>
+        <tr><td>6</td><td>$36,000</td><td>$13,464</td><td>$49,464</td></tr>
+        <tr><td>7</td><td>$42,000</td><td>$18,979</td><td>$60,979</td></tr>
+        <tr><td>8</td><td>$48,000</td><td>$25,700</td><td>$73,700</td></tr>
+        <tr><td>9</td><td>$54,000</td><td>$33,752</td><td>$87,752</td></tr>
+        <tr><td>10</td><td>$60,000</td><td>$43,276</td><td>$103,276</td></tr>
+        <tr><td>11</td><td>$66,000</td><td>$54,425</td><td>$120,425</td></tr>
+        <tr><td>12</td><td>$72,000</td><td>$67,371</td><td>$139,371</td></tr>
+        <tr><td>13</td><td>$78,000</td><td>$82,300</td><td>$160,300</td></tr>
+        <tr><td>14</td><td>$84,000</td><td>$99,420</td><td>$183,420</td></tr>
+        <tr><td>15</td><td>$90,000</td><td>$118,962</td><td>$208,962</td></tr>
+        <tr><td>16</td><td>$96,000</td><td>$141,178</td><td>$237,178</td></tr>
+        <tr><td>17</td><td>$102,000</td><td>$166,349</td><td>$268,349</td></tr>
+        <tr><td>18</td><td>$108,000</td><td>$194,784</td><td>$302,784</td></tr>
+        <tr><td>19</td><td>$114,000</td><td>$226,825</td><td>$340,825</td></tr>
+        <tr><td>20</td><td>$120,000</td><td>$262,848</td><td>$382,848</td></tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<p>The calculator adds money at the start of each month and compounds monthly. Real returns change from year to year. This is not financial advice.</p>
+
+<h2 id="video">Ask for an explainer video</h2>
+
+<p>This is the format that Karpathy is most bullish on: a custom explainer video on any topic. The video below was made with this prompt, and its topic is these four procedures. Narration needs a text-to-speech key, such as one from ElevenLabs. Keep the key in a local file, not in the chat.</p>
+
+<ol>
+  <li>Write the topic.</li>
+  <li>Ask for a 3Blue1Brown style video: dark background, shapes that move, few words on screen.</li>
+  <li>Tell the model where your ElevenLabs key is.</li>
+  <li>Watch the full video. Make sure that the narration and the animation agree.</li>
+</ol>
+
+<div class="xp-prompt"><span>Prompt</span><code>Create a 3Blue1Brown style video explainer on [topic]. Use my ElevenLabs API key for audio narration.</code></div>
+
+<div class="xp-video">
+  <video controls preload="none" playsinline poster="/assets/img/writing/four-prompting-procedures/poster.webp" src="/assets/video/writing/four-prompting-procedures/explainer.mp4"></video>
+</div>
+
+<h2 id="the-bigger-point">The bigger point</h2>
+
+<p>Language models will do more of the legwork. Human work moves up into oversight. Intelligence and code are now cheap, so Karpathy suggests that you ask for large, custom, throwaway software that did not make sense to build before.</p>
+
+<p>Push the limits. Then check what comes back.</p>
+
+<hr>
+
+<p class="xp-credit">Source: <a href="https://x.com/karpathy/status/2105819303471976479">Andrej Karpathy's post on X</a>. Found via <a href="https://youtube.com/shorts/HO1KKD0w3ls">"Prompt AI like engineers"</a>, a YouTube Short. The heat pump text and the calculator values are illustrations, not data from the post.</p>
+
+<script src="/assets/js/explainer.js" defer></script>
+<script src="/assets/js/four-prompting-procedures.js" defer></script>
