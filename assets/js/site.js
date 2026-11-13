@@ -127,7 +127,8 @@
       timers.forEach(clearTimeout);
       running = [];
       timers = [];
-      if (replay) replay.hidden = true;
+      if (replay) replay.setAttribute('aria-disabled', 'true');
+      sorter.classList.add('is-ready');
 
       var treeBox = tree.getBoundingClientRect();
       var srcX = treeBox.left + treeBox.width / 2;
@@ -150,7 +151,14 @@
         { duration: 300, delay: 200, easing: EASE_OUT, fill: 'backwards' }
       ));
 
-      Array.prototype.forEach.call(counters, function (c) { c.textContent = '0'; });
+      /* A chip is neutral while it travels. The values are the design tokens,
+         read from the page so they follow the stylesheet. */
+      var root = window.getComputedStyle(document.documentElement);
+      var plain = {
+        backgroundColor: root.getPropertyValue('--surface').trim(),
+        borderColor: root.getPropertyValue('--border-strong').trim(),
+        color: root.getPropertyValue('--text').trim()
+      };
 
       var first = 900;      /* after the connector is drawn */
       var gap = 430;        /* between tasks */
@@ -165,28 +173,24 @@
         var overCol = 'translate(0px,' + (nodeY - cy) + 'px)';
         var delay = first + i * gap;
 
-        /* Neutral while it travels; it takes its column's colour on landing,
-           which is the implicit final keyframe. */
-        var plain = {
-          backgroundColor: '#fffdf9',
-          borderColor: '#948977',
-          color: '#26231f'
-        };
+        /* It takes its column's colour on landing, which is the implicit
+           final keyframe. */
         function at(offset, transform, extra) {
           var k = { offset: offset, transform: transform, easing: EASE_OUT };
           for (var key in plain) k[key] = plain[key];
           for (var e in extra) k[e] = extra[e];
           return k;
         }
-        running.push(chip.animate([
+        var flight = chip.animate([
           at(0, toSrc + ' scale(.92)', { opacity: 0 }),
           at(0.12, toSrc, { opacity: 1 }),
           at(0.36, toNode, { opacity: 1 }),
           at(0.48, toNode, { opacity: 1 }),
           at(0.72, overCol, { opacity: 1 }),
           { offset: 1, transform: 'none', opacity: 1 }
-        ], { duration: travel, delay: delay, fill: 'backwards' }));
-        chip.style.zIndex = String(20 - i);
+        ], { duration: travel, delay: delay, fill: 'backwards' });
+        running.push(flight);
+        chip.style.zIndex = String(10 + i);
 
         /* the decision point answers each task as it arrives */
         running.push(node.animate(
@@ -194,22 +198,39 @@
           { duration: 300, delay: delay + travel * 0.36, easing: 'ease-out' }
         ));
 
+        /* The count follows the animation itself, not a clock beside it, so
+           the two cannot drift apart when a browser slows a hidden tab. */
         var counter = chip.closest('.sorter-col').querySelector('.sorter-n');
-        timers.push(setTimeout(function () {
+        var landed = function () {
           counter.textContent = String(parseInt(counter.textContent, 10) + 1);
-        }, delay + travel * 0.9));
+          if (i === chips.length - 1) finish();
+        };
+        if (flight.finished) {
+          flight.finished.then(landed, function () {});   /* rejected on Replay */
+        } else {
+          timers.push(setTimeout(landed, delay + travel));
+        }
       });
 
-      timers.push(setTimeout(function () {
-        Array.prototype.forEach.call(counters, function (c) {
-          c.textContent = c.getAttribute('data-n');
-        });
-        chips.forEach(function (chip) { chip.style.zIndex = ''; });
-        if (replay) replay.hidden = false;
-      }, first + chips.length * gap + travel));
+      Array.prototype.forEach.call(counters, function (c) { c.textContent = '0'; });
     }
 
-    if (replay) replay.addEventListener('click', run);
+    function finish() {
+      Array.prototype.forEach.call(counters, function (c) {
+        c.textContent = c.getAttribute('data-n');
+      });
+      chips.forEach(function (chip) { chip.style.zIndex = ''; });
+      if (replay) {
+        replay.hidden = false;
+        replay.removeAttribute('aria-disabled');
+      }
+    }
+
+    if (replay) {
+      replay.addEventListener('click', function () {
+        if (replay.getAttribute('aria-disabled') !== 'true') run();
+      });
+    }
     run();
   }
 
@@ -221,6 +242,8 @@
     } else {
       startSorter();
     }
+  } else if (sorter) {
+    sorter.classList.add('is-ready');
   }
 
   /* ---------- 3. The numbers ---------- */
@@ -239,15 +262,16 @@
   }
 
   /* ---------- 4. Drawn figures ----------
-     A stroke is drawn by normalising its length to 1 and sliding a dash
-     offset from 1 to 0. Nothing is forwards-filled, so when the animation
-     ends the element returns to its own styles, a plain solid line. */
+     A figure is drawn by wiping its <svg> box in from the left with
+     clip-path. The clip is on the HTML box, not on a stroke, so it does not
+     depend on how a browser measures a dashed, non-scaling stroke. The
+     negative insets leave room for strokes that sit on the box edge.
+     Nothing is forwards-filled: when the wipe ends the clip is gone. */
 
-  function drawStroke(el, duration, delay) {
-    el.setAttribute('pathLength', '1');
+  function wipeIn(el, duration, easing) {
     return el.animate(
-      [{ strokeDasharray: '1', strokeDashoffset: 1 }, { strokeDasharray: '1', strokeDashoffset: 0 }],
-      { duration: duration, delay: delay || 0, easing: 'cubic-bezier(.45, 0, .2, 1)', fill: 'backwards' }
+      [{ clipPath: 'inset(-8px 100% -8px -8px)' }, { clipPath: 'inset(-8px -8px -8px -8px)' }],
+      { duration: duration, easing: easing, fill: 'backwards' }
     );
   }
 
@@ -257,19 +281,14 @@
       curve.classList.add('is-drawn');
     } else {
       whenSeen(curve, function () {
-        var main = curve.querySelector('.rc-line:not(.rc-line--partial)');
-        var partial = curve.querySelector('.rc-line--partial');
+        var chart = curve.querySelector('svg');
         var total = curve.querySelector('.rc-val strong');
         curve.classList.add('is-drawn');
-        if (main) drawStroke(main, 1800);
-        if (partial) {
-          partial.animate([{ opacity: 0 }, { opacity: 1 }],
-            { duration: 400, delay: 1800, fill: 'backwards' });
-        }
+        if (chart) wipeIn(chart, 2000, 'cubic-bezier(.45, 0, .2, 1)');
         if (total && !total.hasAttribute('data-count')) {
           total.setAttribute('data-count', parseInt(total.textContent, 10));
         }
-        if (total) countUp(total, 1800, 0);
+        if (total) countUp(total, 2000, 0);
       }, 0.5);
     }
   }
@@ -280,16 +299,12 @@
       wave.classList.add('is-drawn');
     } else {
       whenSeen(wave, function () {
-        var line = wave.querySelector('.wave-line');
+        var trace = wave.querySelector('svg');
         var labels = wave.querySelectorAll('.wave-labels span');
         var duration = 2600;
         wave.classList.add('is-drawn');
-        /* linear, so each label can appear as the trace reaches its sound */
-        line.setAttribute('pathLength', '1');
-        line.animate(
-          [{ strokeDasharray: '1', strokeDashoffset: 1 }, { strokeDasharray: '1', strokeDashoffset: 0 }],
-          { duration: duration, easing: 'linear', fill: 'backwards' }
-        );
+        /* linear, so each label appears as the trace reaches its sound */
+        if (trace) wipeIn(trace, duration, 'linear');
         Array.prototype.forEach.call(labels, function (label) {
           var at = parseFloat(label.style.left) / 100;
           label.animate(
@@ -302,8 +317,22 @@
   }
 
   /* The film on /method/ starts when it is on screen, and not at all under
-     reduced motion. It is muted and carries its own controls. */
+     reduced motion. It starts muted with captions on, carries its own
+     controls, plays once and then returns to its poster frame. */
   var film = document.querySelector('[data-film] video');
+  var filmSound = document.querySelector('[data-film] .film-sound');
+  if (film) film.addEventListener('ended', function () { film.load(); });
+  if (film && filmSound) {
+    /* Browsers only let a film start on its own if it is muted. This button
+       is the visitor asking for it, so it may start again with the sound on. */
+    filmSound.hidden = false;
+    filmSound.addEventListener('click', function () {
+      film.muted = false;
+      film.currentTime = 0;
+      var started = film.play();
+      if (started && started.catch) started.catch(function () {});
+    });
+  }
   if (film && !reduced) {
     whenSeen(film, function () {
       var started = film.play();
@@ -398,4 +427,9 @@
       window.gtag('event', 'book_click', { cta_location: a.getAttribute('data-cta') });
     }
   });
+
+  /* Reached only if nothing above threw. The layout's inline script checks
+     this and, if it is missing, drops the .js class so no entrance style can
+     leave content hidden. */
+  window.siteReady = true;
 })();

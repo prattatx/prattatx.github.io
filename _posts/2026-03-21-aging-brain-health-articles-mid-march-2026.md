@@ -2,6 +2,8 @@
 layout: post
 title: "Aging & Brain Health: What I'm Reading (Mid-March 2026)"
 date: 2026-03-21
+summary: "Six items on aging and brain health from mid-March 2026: brain age from sleep EEG, dementia studies run in people's homes, a 10-million-patient records platform, blood and spinal-fluid biomarkers, and type 1 diabetes as a dementia risk."
+description: "Six items on aging and brain health from mid-March 2026: brain age from sleep EEG, dementia studies run in people's homes, a 10-million-patient records platform, blood and spinal-fluid biomarkers, and type 1 diabetes as a dementia risk."
 ---
 
 A quick roundup of research and news that caught my attention this week. The through-line: noninvasive signals are getting more credible as early-warning tools, large-scale real-world datasets are reshaping how we study dementia, and biomarkers are moving closer to symptoms rather than just pathology.

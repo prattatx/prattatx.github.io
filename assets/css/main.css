@@ -319,7 +319,7 @@ a {
   margin-top: var(--s2);
 }
 .record-curve .caption { margin-top: var(--s4); }
-.js .record-curve:not(.is-drawn) .rc-line { opacity: 0; }
+.js .record-curve:not(.is-drawn) svg { opacity: 0; }
 
 /* Quiet caption under a figure or data list. Unlike .note it carries no rule. */
 .caption {
@@ -680,6 +680,11 @@ a {
 }
 .sorter-replay:hover,
 .sorter-replay:focus-visible { color: var(--accent-text); border-color: var(--accent-border); background: var(--accent-subtle); }
+.sorter-replay[aria-disabled='true'] { opacity: .5; cursor: default; }
+/* Until the sort starts, the tasks have not arrived yet. Without this the
+   finished figure shows for a moment and then empties. */
+.js .sorter:not(.is-ready) .chip,
+.js .sorter:not(.is-ready) .sorter-n { opacity: 0; }
 
 /* ---------- 9. Buttons ---------- */
 
@@ -960,7 +965,7 @@ a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px);
 .wave svg { display: block; width: 100%; height: clamp(88px, 11vw, 124px); overflow: visible; }
 .wave-line { fill: none; stroke: var(--text-2); stroke-width: 1.25; stroke-linejoin: round; }
 .wave .caption { margin-top: var(--s4); font-family: var(--font-ui); font-size: var(--text-sm); }
-.js .wave:not(.is-drawn) .wave-line,
+.js .wave:not(.is-drawn) svg,
 .js .wave:not(.is-drawn) .wave-labels span { opacity: 0; }
 
 /* ---------- 15. Contact ---------- */
@@ -1047,7 +1052,7 @@ a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px);
   .hello-copy { grid-column: auto; }
   .sorter-cols { gap: var(--s4); }
   .sorter-tree { --half: calc((100% - var(--s4)) / 4); }
-  .chip { font-size: var(--text-sm); padding: var(--s3); }
+  .chip { font-size: var(--text-sm); padding: var(--s3); white-space: normal; }
   .sorter figcaption { flex-direction: column; align-items: flex-start; gap: var(--s3); }
 }
 
@@ -1143,6 +1148,14 @@ a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px);
 
   body { background: var(--p-paper); color: var(--p-ink); padding-left: 0; }
   .rail-top, .masthead, .hero-actions, .site-foot, .skip-link { display: none; }
+  /* Entrance states are for the screen. A page printed before it was scrolled
+     must not come out with its sections and figures still waiting to appear. */
+  .js .reveal { opacity: 1; transform: none; }
+  .js .record-curve:not(.is-drawn) svg,
+  .js .wave:not(.is-drawn) svg,
+  .js .wave:not(.is-drawn) .wave-labels span,
+  .js .sorter:not(.is-ready) .chip,
+  .js .sorter:not(.is-ready) .sorter-n { opacity: 1; }
   a { color: var(--p-ink); }
 }
 
@@ -2235,7 +2248,34 @@ a.inline:focus-visible { color: var(--accent-hover); box-shadow: inset 0 -1px 0 
   background: var(--bg);
 }
 .film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
-.film .caption { font-family: var(--font-ui); font-size: var(--text-sm); margin-top: var(--s3); }
+.film .caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  max-width: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  margin-top: var(--s3);
+}
+.film-sound {
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  padding: var(--s2) var(--s4);
+  cursor: pointer;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.film-sound:hover,
+.film-sound:focus-visible { color: var(--accent-text); border-color: var(--accent-border); background: var(--accent-subtle); }
+@media (max-width: 640px) {
+  .film .caption { flex-direction: column; align-items: flex-start; gap: var(--s3); }
+}
 
 /* The five levels of automation as a scale. An ordered list, because the
    order is the point. Person-held stops are ink, machine-held stops take the
