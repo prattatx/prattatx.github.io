@@ -19,14 +19,18 @@ description: "How I decide which work belongs to people and which to machines: w
 
   <figure class="film" data-film>
     <div class="film-mount">
-      <video muted loop playsinline controls preload="metadata"
+      <video muted playsinline controls preload="metadata"
              poster="/assets/video/approach/human-or-machine.jpg"
              width="1920" height="1080"
-             aria-label="A 30-second silent animation of the three steps described below">
+             aria-label="A short narrated animation of the three steps described below">
         <source src="/assets/video/approach/human-or-machine.mp4" type="video/mp4">
+        <track kind="captions" src="/assets/video/approach/human-or-machine.vtt" srclang="en" label="English" default>
       </video>
     </div>
-    <figcaption class="caption">The three steps as a 30-second animation, without sound. The same content follows as text.</figcaption>
+    <figcaption class="caption">
+      <span>The three steps as a 42-second narrated film. It starts without sound, with captions on. The same content follows as text.</span>
+      <button class="film-sound" type="button" hidden>Play with sound</button>
+    </figcaption>
   </figure>
 
   <section class="section flow">
@@ -63,7 +67,7 @@ description: "How I decide which work belongs to people and which to machines: w
       <li class="is-machine"><span class="lv-n">4</span><span class="lv-t">Machine acts, person is told</span><span class="chip">Read the request</span></li>
       <li class="is-machine"><span class="lv-n">5</span><span class="lv-t">Machine does it</span><span class="chip">File the result</span></li>
     </ol>
-    <p class="caption">Five stops on the scale, each with an example task from a job that answers customer requests.</p>
+    <p class="caption">Five stops on the scale, each with an example task from a job that answers customer requests. At stops 1 and 2 a person makes the decision. At stops 3 to 5 the machine does.</p>
 
     <p>
       I score each task against four things: what it costs if the result is wrong, whether it

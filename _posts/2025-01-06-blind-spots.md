@@ -4,6 +4,8 @@ title: "Blind Spots: How AI Mirrors and Magnifies Human Bias"
 date: 2025-01-06 16:20:45 +0000
 canonical_url: https://insights.fyve.dev/blind-spots-how-ai-mirrors-and-magnifies-human-bias-5874085ba8bc
 medium_url: https://insights.fyve.dev/blind-spots-how-ai-mirrors-and-magnifies-human-bias-5874085ba8bc
+summary: "Machine learning models take on the biases in their training data, and human judgment has biases of its own. A comparison of the two, and ways to design for both."
+description: "Machine learning models take on the biases in their training data, and human judgment has biases of its own. A comparison of the two, and ways to design for both."
 ---
 
 In the rapidly evolving landscape of artificial intelligence, bias in machine learning models has emerged as a critical concern that demands our attention. Credit card fraud, medical differences between the sexes, self-driving car bias based on income, and job selection bias on demographics impact everyone when AI is trained with biased data. These biases, often subtle yet profound, stem from training data with historical inequities, societal prejudices, and sampling limits.

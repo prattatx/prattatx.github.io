@@ -21,7 +21,14 @@
   <meta name="theme-color" content="#faf8f4">
   <meta name="color-scheme" content="light">
 
-  <script>document.documentElement.className += ' js';</script>
+  <script>
+    /* Entrance styles hang off .js. If site.js fails to load or throws, this
+       takes the class away again so nothing stays hidden. */
+    (function (d) {
+      d.classList.add('js');
+      setTimeout(function () { if (!window.siteReady) d.classList.remove('js'); }, 4000);
+    })(document.documentElement);
+  </script>
   <link rel="preload" href="/assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/source-serif-4-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/main.css">
