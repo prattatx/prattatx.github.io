@@ -127,9 +127,15 @@ Write in his first person: state the fact, give the evidence, stop.
 
 James wants to read as someone who leads teams, not as an individual contributor.
 
-- **Case studies:** "I" for the direction and the decisions, "we" for the work a team did. Each
-  ends with a "How I led it" section. Never state a team size or a reporting line: the career
+- **Case studies:** keep "I" rare. James read a page full of "I" as unnatural (2026-11-14). Role
+  lines and leadership bullets start with a verb ("Set the research plan..."), the team is named
+  wherever it did the work, and "we" carries the execution. Each case has a "Leading the team"
+  card; never title it "How I led it". Never state a team size or a reporting line: the career
   record does not settle when his direct team started.
+- **Case study layout reads across, then down** (James, 2026-11-14: "people read left to right
+  then top to bottom"). The problem runs full width; under it the approach is on the left and
+  the outcome, then the leadership card, on the right. Whatever the layout, reading across and
+  then down must give the sections in their order: problem, approach, outcome, leadership.
 - **`/method/` and its film:** "we" throughout ("How we decide who does what"). "I" only for his
   own history, such as first leading the work at Lockheed Martin in 2002.
 - **Patents:** co-inventors are not shown in the table. The table has a Category column and a

@@ -74,10 +74,13 @@ columns: Person or Machine. It is the through-line of the work as one picture.
   marks the result. They reuse the chip from the hero figure.
 - **Case study layout.** The page head and the body both sit on the two halves of the page
   grid. Head: title and lede left, the facts of the case (role, context, kind, date) as a card
-  right. Body: the problem and the approach left; the outcome, a "How I led it" card and the
-  clearance note right. The right half is sticky above 900px, because it is usually the
-  shorter one. Before this, title and text both ran down the left with the right half bare,
-  which James flagged as unbalanced.
+  right. Body, read across and then down: the problem runs the full width in large type as the
+  opening statement; under it the approach takes the left half, and the outcome with a "Leading
+  the team" card under it takes the right half; the clearance note closes the page. The right
+  half holds two short sections because together they stand about as tall as the approach. Two
+  earlier versions were rejected: one stacked problem and approach on the left against outcome
+  and leadership on the right, which read out of order; one paired problem with approach in a
+  row, which left a gap under the short problem.
 - **The Approach page** (section 30). Every step is the two halves of the page grid: text
   left, a figure of that step right. The five-stop scale is the one full-width figure. Before
   this, text ran at 68ch beside full-width figures and the page read as unfinished.
