@@ -65,6 +65,21 @@ columns: Person or Machine. It is the through-line of the work as one picture.
 - The task labels are illustrative. They must stay generic and must never
   describe an employer's work.
 
+### Round two (2026-11-14)
+
+- **Case study figures** (section 29 of `main.css`, markup from `_gen/cases.py`). One card per
+  case, between the page head and the text. Five part types: `steps` (a numbered sequence),
+  `funnel` (a few counts), `converge` (inputs on the left, results on the right), `grid` (rows
+  read on the same columns) and `paths` (named flows as chains of chips). The accent always
+  marks the result. They reuse the chip from the hero figure.
+- **The Approach page** (section 30). Every step is the two halves of the page grid: text
+  left, a figure of that step right. The five-stop scale is the one full-width figure. Before
+  this, text ran at 68ch beside full-width figures and the page read as unfinished.
+- **The patents field runs the full page width**, like the filter row and table under it. It
+  used to stop at 760px.
+- **The category filter on `/patents/` is a native `<select>`**, so it works by keyboard and on
+  a phone without script of its own.
+
 ### Token name mapping
 
 v2 kept v1's token *names* rather than renaming to `--paper` / `--ink`, because
@@ -583,7 +598,12 @@ Kept here because the reasoning constrains future work, not just the outcome.
   The roman is preloaded next to inter-400. `assets/fonts/LICENSE-OFL.md` now
   carries the OFL text for both bundled families.
 - **`CLAUDE.md` corrected** to the light system, and the deploy race documented.
-- **`/research/` is drawn, as three lanes across time.** The deliberate call the
+- **`/research/` is drawn as one numbered timeline (2026-11-14).** It replaced the three lanes
+  described next, which James could not read: the marks were unlabelled, so nothing connected a
+  mark to a paper. Now each of the nine marks carries the number of its row in the list below
+  and links to it, the three line names sit above the years they cover, and every year from
+  1999 to 2013 is on the axis. The reasoning below about one accent still holds.
+- **Superseded: `/research/` was drawn as three lanes across time.** The deliberate call the
   old question asked for: nine items do **not** warrant a unit chart, because
   nine is already legible as a list and the column heights would top out at two.
   What the list genuinely hid was the shape. Three research lines that ran in

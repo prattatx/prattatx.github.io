@@ -7,14 +7,18 @@ Only rows with Status == "Granted" are published. Granted U.S. patents are
 public record; nothing here is confidential.
 
 Compact schema keeps the payload small:
-  p = [number, title, year, statusIdx, assigneeIdx, [inventorIdx, ...]]
+  p = [number, title, year, statusIdx, assigneeIdx, [inventorIdx, ...], categoryIdx]
 """
 
 import csv
 import json
 import os
 import re
+import sys
 from collections import Counter
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from patent_categories import CATEGORIES, categorize  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = "/mnt/user-data/uploads/Cowork OS/00_Resources/2026-08-07-james-pratt-patents-confirmed.csv"
@@ -100,7 +104,12 @@ def main():
             STATUS_MAP.get(r["Legal status"].strip(), 2),
             asg_idx[a],
             sorted(ppl),
+            categorize(r["Title"].strip()),
         ])
+    unsorted = sorted({p[1] for p in patents if p[6] is None})
+    if unsorted:
+        sys.exit("no category for:\n  " + "\n  ".join(unsorted) +
+                 "\nadd a rule in _gen/patent_categories.py")
 
     patents.sort(key=lambda p: (-p[2], p[0]))
 
@@ -129,6 +138,7 @@ def main():
         "status": STATUS,
         "assignees": assignees,
         "inventors": inventors,
+        "categories": CATEGORIES,
         "hist": hist,
         "patents": patents,
     }

@@ -11,7 +11,7 @@ sells nothing: no offers, prices or services (repositioned 2026-11-12). See `CLA
 
 ```
 /                  home: hero figure, four numbers, the record, selected work, founder, writing, say hello
-/method/           "How I decide who does what": function allocation, with a short film
+/method/           "How we decide who does what": function allocation, with a narrated film
 /work/             case study index, filterable by kind of work
 /work/<slug>/      nine case studies (generated, see _gen/cases.py)
 /patents/          searchable explorer over 358 granted patents

@@ -2,18 +2,18 @@
 layout: default
 nav: method
 title: "Approach"
-description: "How I decide which work belongs to people and which to machines: watch the work, score each task against a scale of automation, and write the result down."
+description: "How we decide which work belongs to people and which to machines: watch the work, score each task against a scale of automation, and write the result down."
 ---
 
 <div class="shell">
 
   <header class="page-head">
     <p class="kicker">Approach <span class="sep">/</span> Function allocation</p>
-    <h1>How I decide who does what</h1>
+    <h1>How we decide who does what</h1>
     <p class="lede">
       When a team adds AI to a job, someone has to decide which tasks the machine takes and how
       much it decides on its own. Human factors calls that decision function allocation, and
-      it has a method. This is the one I use.
+      it has a method. This is how the teams I have led do it.
     </p>
   </header>
 
@@ -33,66 +33,153 @@ description: "How I decide which work belongs to people and which to machines: w
     </figcaption>
   </figure>
 
-  <section class="section flow">
+</div>
+
+<!-- Every section below is the same two halves of the page grid: the text on
+     the left, a figure of that step on the right. The scale is the one
+     full-width figure, because its five stops need the room. -->
+
+<section class="section" style="border-top:0">
+  <div class="shell">
     <div class="sec-head">
       <h2 class="label">1. Watch the work</h2>
       <span class="count">List every task</span>
     </div>
-    <p>
-      I start by watching people do the job with the tools they have, and then I ask them
-      about what I saw. People can show a judgment call that they could never have described
-      in a meeting, so observation finds tasks that no requirements document lists.
-    </p>
-    <p>
-      The methods are naturalistic observation, stimulated recall and probing. The output is a
-      complete list of the tasks in the job.
-    </p>
-  </section>
+    <div class="g2 ap-step">
+      <div class="prose">
+        <p>
+          We start by watching people do the job with the tools they have, and then we ask
+          them about what we saw. People can show a judgment call that they could never have
+          described in a meeting, so observation finds tasks that no requirements document
+          lists.
+        </p>
+        <p>
+          The methods are naturalistic observation, stimulated recall and probing. The output
+          is a complete list of the tasks in the job.
+        </p>
+      </div>
+      <figure class="cs-fig reveal">
+        <p class="cs-label">The task list, from a job that answers customer requests</p>
+        <ol class="ap-tasks">
+          <li class="chip">Read the request</li>
+          <li class="chip">Check the record</li>
+          <li class="chip">Judge the exception</li>
+          <li class="chip">Write the reply</li>
+          <li class="chip">File the result</li>
+        </ol>
+        <figcaption class="caption">An example. A real list runs much longer.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
-  <section class="section flow">
+<section class="section">
+  <div class="shell">
     <div class="sec-head">
       <h2 class="label">2. Score each task</h2>
       <span class="count">Choose a level of automation</span>
     </div>
-    <p>
-      For each task the question is how much of the decision the machine should hold. Thomas
-      Sheridan's levels of automation, first set out for the supervisory control of complex
-      systems, give that question a scale.
-    </p>
+    <div class="g2 ap-step">
+      <div class="prose">
+        <p>
+          For each task the question is how much of the decision the machine should hold.
+          Thomas Sheridan's levels of automation, first set out for the supervisory control of
+          complex systems, give that question a scale.
+        </p>
+        <p>
+          We score each task against four questions, and the answers set its level.
+        </p>
+      </div>
+      <figure class="cs-fig reveal">
+        <p class="cs-label">The four questions</p>
+        <dl class="ap-crit">
+          <div><dt>Cost if wrong</dt><dd>What happens when the result is a mistake?</dd></div>
+          <div><dt>Can it be undone</dt><dd>Is the action reversible?</dd></div>
+          <div><dt>How often</dt><dd>How many times a day does the task come up?</dd></div>
+          <div><dt>Who answers for it</dt><dd>Where does the liability sit?</dd></div>
+        </dl>
+      </figure>
+    </div>
 
-    <ol class="levels">
-      <li><span class="lv-n">1</span><span class="lv-t">Person does it</span><span class="chip">Judge the exception</span></li>
-      <li><span class="lv-n">2</span><span class="lv-t">Machine suggests</span><span class="chip">Write the reply</span></li>
-      <li class="is-machine"><span class="lv-n">3</span><span class="lv-t">Machine acts, person approves</span><span class="chip">Check the record</span></li>
-      <li class="is-machine"><span class="lv-n">4</span><span class="lv-t">Machine acts, person is told</span><span class="chip">Read the request</span></li>
-      <li class="is-machine"><span class="lv-n">5</span><span class="lv-t">Machine does it</span><span class="chip">File the result</span></li>
-    </ol>
-    <p class="caption">Five stops on the scale, each with an example task from a job that answers customer requests. At stops 1 and 2 a person makes the decision. At stops 3 to 5 the machine does.</p>
+    <figure class="ap-scale reveal">
+      <ol class="levels">
+        <li><span class="lv-n">1</span><span class="lv-t">Person does it</span><span class="chip">Judge the exception</span></li>
+        <li><span class="lv-n">2</span><span class="lv-t">Machine suggests</span><span class="chip">Write the reply</span></li>
+        <li class="is-machine"><span class="lv-n">3</span><span class="lv-t">Machine acts, person approves</span><span class="chip">Check the record</span></li>
+        <li class="is-machine"><span class="lv-n">4</span><span class="lv-t">Machine acts, person is told</span><span class="chip">Read the request</span></li>
+        <li class="is-machine"><span class="lv-n">5</span><span class="lv-t">Machine does it</span><span class="chip">File the result</span></li>
+      </ol>
+      <figcaption class="caption">Five stops on the scale, each with one of the example tasks. At stops 1 and 2 a person makes the decision. At stops 3 to 5 the machine does.</figcaption>
+    </figure>
+  </div>
+</section>
 
-    <p>
-      I score each task against four things: what it costs if the result is wrong, whether it
-      can be undone, how often the task comes up, and who answers for it.
-    </p>
-    <p>
-      I first did this work in 2002 at Lockheed Martin, on a Navy destroyer program. The
-      question there was which jobs on the ship the machines should take and which had to
-      stay with the crew. That work cut the mission center crew by more than half.
-    </p>
-  </section>
-
-  <section class="section flow">
+<section class="section">
+  <div class="shell">
     <div class="sec-head">
       <h2 class="label">3. Write it down</h2>
       <span class="count">A table the team can use</span>
     </div>
-    <p>
-      The result is a table: each task, its level, and the reason. It goes into the
-      specifications and prompts the team already works from, so the people who run the
-      system can follow it and can argue with it.
-    </p>
-    <p>
-      <a class="link-out" href="/work/">See it in the case studies <span class="arrow" aria-hidden="true">&rarr;</span></a>
-    </p>
-  </section>
+    <div class="g2 ap-step">
+      <div class="prose">
+        <p>
+          The result is a table: each task, its level, and the reason. It goes into the
+          specifications and prompts the team already works from, so the people who run the
+          system can follow it and can argue with it.
+        </p>
+        <p>
+          <a class="link-out" href="/work/">See it in the case studies <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </p>
+      </div>
+      <figure class="cs-fig reveal">
+        <p class="cs-label">The allocation table</p>
+        <div class="cs-scroll">
+          <table class="ap-table">
+            <thead>
+              <tr><th scope="col">Task</th><th scope="col">Level</th><th scope="col">Why</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Judge the exception</th><td>Person does it</td><td>Costly if wrong</td></tr>
+              <tr><th scope="row">Write the reply</th><td>Machine suggests</td><td>A person signs it</td></tr>
+              <tr class="is-machine"><th scope="row">Check the record</th><td>Machine acts, person approves</td><td>Easy to verify</td></tr>
+              <tr class="is-machine"><th scope="row">Read the request</th><td>Machine acts, person is told</td><td>High volume, low risk</td></tr>
+              <tr class="is-machine"><th scope="row">File the result</th><td>Machine does it</td><td>Routine and reversible</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
 
-</div>
+<section class="section">
+  <div class="shell">
+    <div class="sec-head">
+      <h2 class="label">Where this comes from</h2>
+      <span class="count">A Navy destroyer program, 2002</span>
+    </div>
+    <div class="g2 ap-step">
+      <div class="prose">
+        <p>
+          I first led this work in 2002 at Lockheed Martin, on the U.S. Navy's next-generation
+          destroyer program. The question there was which jobs on the ship the machines should
+          take and which had to stay with the crew.
+        </p>
+        <p>
+          We modeled the operators' workload, kept it inside a safe band, and moved the tasks
+          that freed up to early automation.
+        </p>
+      </div>
+      <dl class="g2 ap-facts reveal">
+        <div class="stat">
+          <dt class="k">Years deciding what a person does and what a machine does</dt>
+          <dd class="n">24</dd>
+        </div>
+        <div class="stat">
+          <dt class="k">Of the mission center crew cut, while the ship added mission capability</dt>
+          <dd class="n">Over half</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
