@@ -91,7 +91,8 @@ keeps the site previewable without Ruby, which the authoring container does not 
 
 ## Evidence on Hand
 
-**Cleared and published** (approved 2026-08-13): the M.A. thesis and its PDF, peer-reviewed
+**Cleared and published** (approved 2026-08-13): the M.A. thesis and its PDF, the doctoral
+dissertation PDF (added 2026-11-14, public academic work), peer-reviewed
 publications, the 358 granted patents, three redacted Tessa case studies, five AT&T
 method-only case studies as text with all images removed, and the patent-development workshop
 case study with the client unnamed.

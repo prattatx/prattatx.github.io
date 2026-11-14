@@ -49,7 +49,11 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
     <div class="pat-filters">
       <label class="visually-hidden" for="pat-q">Search patents</label>
       <input class="pat-search" id="pat-q" type="search"
-             placeholder="Search titles, patent numbers, co-inventors" autocomplete="off">
+             placeholder="Search titles and patent numbers" autocomplete="off">
+      <label class="visually-hidden" for="pat-cat">Category</label>
+      <select class="pat-select" id="pat-cat">
+        <option value="all">All categories</option>
+      </select>
       <div class="filters" style="padding:0;border:0;gap:var(--s2)">
         <button type="button" data-s="all" aria-pressed="true">All</button>
         <button type="button" data-s="0" aria-pressed="false">In force</button>
@@ -67,7 +71,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
           <th scope="col">Title</th>
           <th scope="col">Granted</th>
           <th scope="col">Status</th>
-          <th scope="col" class="h-people">Co-inventors</th>
+          <th scope="col" class="h-cat">Category</th>
         </tr>
       </thead>
       <tbody id="pat-rows"></tbody>
@@ -148,7 +152,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
   'use strict';
 
   var PAGE = 60;
-  var state = { q: '', status: 'all', year: null, person: null, shown: PAGE };
+  var state = { q: '', status: 'all', year: null, person: null, cat: null, shown: PAGE };
   var DATA = null;
 
   var $rows = document.getElementById('pat-rows');
@@ -161,6 +165,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
   var $axis = document.getElementById('hist-axis');
   var $people = document.getElementById('people');
   var $q = document.getElementById('pat-q');
+  var $cat = document.getElementById('pat-cat');
   var $caption = document.getElementById('pat-caption');
 
   if (window.__PATENTS__) {
@@ -186,6 +191,7 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
   function init() {
     buildField();
     buildPeople();
+    buildCategories();
 
     $q.addEventListener('input', function () {
       state.q = $q.value.trim().toLowerCase();
@@ -297,14 +303,29 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
     });
   }
 
+  /* The category list, with a count beside each name. The categories and
+     each patent's place in them come from _gen/patent_categories.py. */
+  function buildCategories() {
+    var counts = DATA.categories.map(function () { return 0; });
+    DATA.patents.forEach(function (p) { counts[p[6]] += 1; });
+    $cat.innerHTML = '<option value="all">All categories</option>' +
+      DATA.categories.map(function (name, i) {
+        return '<option value="' + i + '">' + esc(name) + ' (' + counts[i] + ')</option>';
+      }).join('');
+    $cat.addEventListener('change', function () {
+      state.cat = $cat.value === 'all' ? null : parseInt($cat.value, 10);
+      state.shown = PAGE;
+      render();
+    });
+  }
+
   function matches(p) {
     if (state.status !== 'all' && p[3] !== parseInt(state.status, 10)) return false;
     if (state.year !== null && p[2] !== state.year) return false;
+    if (state.cat !== null && p[6] !== state.cat) return false;
     if (state.person !== null && p[5].indexOf(state.person) === -1) return false;
     if (state.q) {
-      var hay = (p[0] + ' ' + p[1] + ' ' + p[5].map(function (i) {
-        return DATA.inventors[i];
-      }).join(' ')).toLowerCase();
+      var hay = (p[0] + ' ' + p[1] + ' ' + DATA.categories[p[6]]).toLowerCase();
       if (hay.indexOf(state.q) === -1) return false;
     }
     return true;
@@ -315,9 +336,6 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
     var slice = list.slice(0, state.shown);
 
     $rows.innerHTML = slice.map(function (p) {
-      var people = p[5].map(function (i) { return esc(DATA.inventors[i]); });
-      var shown = people.slice(0, 2).join(', ');
-      if (people.length > 2) shown += ' +' + (people.length - 2);
       return '<tr>' +
         '<td class="c-num"><a href="https://patents.google.com/patent/' + esc(p[0]) + '/en">' +
           esc(p[0]) + '</a></td>' +
@@ -325,11 +343,12 @@ description: "358 granted U.S. patents, 226 still in force. The full verified re
         '<td class="c-year">' + p[2] + '</td>' +
         '<td class="c-status"><span class="dot-status s' + p[3] + '" aria-hidden="true"></span>' +
           esc(DATA.status[p[3]]) + '</td>' +
-        '<td class="c-people">' + (shown || '-') + '</td>' +
+        '<td class="c-cat">' + esc(DATA.categories[p[6]]) + '</td>' +
         '</tr>';
     }).join('');
 
     var bits = [];
+    if (state.cat !== null) bits.push('in ' + DATA.categories[state.cat]);
     if (state.year !== null) bits.push('granted ' + state.year);
     if (state.person !== null) bits.push('with ' + DATA.inventors[state.person]);
     if (state.status !== 'all') bits.push(DATA.status[parseInt(state.status, 10)].toLowerCase());
