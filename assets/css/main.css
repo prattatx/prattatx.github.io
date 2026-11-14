@@ -1226,15 +1226,29 @@ a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px);
 }
 .cs-meta dd { font-size: var(--text-base); color: var(--text); line-height: 1.55; }
 
-.cs-cols { padding-block: clamp(var(--s10), 5vw, 4.5rem); align-items: start; }
-.cs-cols .case-body { padding-block: 0; }
-.cs-cols .case-body p,
-.cs-cols .case-body ul { max-width: none; }
-.cs-cols .note { max-width: none; }
-/* How the work was led, set apart as a card: it is the part of the page that
-   is about the person and not the project. */
+/* The body reads across and then down. The problem runs the full width as
+   the opening statement, in large type. Under it the approach takes the left
+   half; the outcome and the leadership card share the right half, because
+   together they stand about as tall as the approach. */
+.cs-rows { padding-block: clamp(var(--s10), 5vw, 4.5rem); }
+.cs-rows > * + * { margin-top: clamp(var(--s10), 4vw, var(--s16)); }
+.cs-rows .case-body { padding-block: 0; }
+.cs-rows .case-body p,
+.cs-rows .case-body ul { max-width: none; }
+.cs-row { align-items: start; }
+.cs-stack { display: grid; gap: clamp(var(--s8), 3vw, var(--s12)); min-width: 0; }
+.cs-row .note { max-width: none; margin-top: 0; }
+.cs-row--note { padding-top: var(--s6); border-top: 1px solid var(--border-muted); }
+.case-body.cs-story p {
+  font-size: clamp(1.25rem, 2.3vw, 1.75rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.case-body ul + p { margin-top: var(--s5); }
+/* Leadership, set apart as a card: the part of the page about the person and
+   the team, not the project. */
 .cs-led {
-  margin-top: clamp(var(--s8), 3vw, var(--s12));
   padding: var(--s6);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1242,19 +1256,13 @@ a.card:focus-visible { box-shadow: var(--shadow-2); transform: translateY(-2px);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-1);
 }
-.cs-led h2 { margin-top: 0; color: var(--accent-text); }
-.cs-led + h2 { margin-top: clamp(var(--s10), 4vw, var(--s16)); }
+.cs-row .cs-led { padding: var(--s6); }
+.cs-led h2 { color: var(--accent-text); }
 .cs-led ul li:last-child { margin-bottom: 0; }
-.case-body ul + p { margin-top: var(--s5); }
-/* The right half is usually the shorter one. It stays in view while the
-   longer left half scrolls past, so the page never shows a bare right half. */
-@media (min-width: 901px) {
-  .cs-cols > .case-body:last-child { position: sticky; top: 96px; }
-}
 
 @media (max-width: 900px) {
   .cs-head .g2,
-  .cs-cols { grid-template-columns: minmax(0, 1fr); }
+  .cs-row { grid-template-columns: minmax(0, 1fr); }
 }
 .case-body h2 {
   font-family: var(--font-ui);

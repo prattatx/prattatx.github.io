@@ -8,7 +8,9 @@ is Career Management/Portfolio/Portfolio Resources/*.md, sanitized per the
 Since 2026-11-14 each case also carries a drawn figure of its method (see
 Figures below) and is written in a leader's voice: "I" for the decisions and
 the direction, "we" for the work a team did. No team sizes, and no reporting
-lines the career record does not support.
+lines the career record does not support. Keep "I" rare (James, 2026-11-14):
+role lines and the "Leading the team" bullets start with a verb, and the team
+is named wherever it did the work.
 """
 
 import os
@@ -35,12 +37,12 @@ CASES = [
         'kicker': 'Case study / Workshop',
         'year': '2025',
         'sort': '2025-06',
-        'blurb': ('A one-day workshop I designed and led for an early-stage hardware '
-                  'startup. Product dissection, use-journey mapping and my 10x ideation '
-                  'method, scored down to a shortlist for patent counsel.'),
-        'role': ('Designed the workshop and led the day. I set the agenda, ran the '
+        'blurb': ('A one-day workshop for an early-stage hardware startup, led with a team'
+                  ' of co-facilitators. Product dissection, use-journey mapping and the '
+                  '10x ideation method, scored down to a shortlist for patent counsel.'),
+        'role': ('Workshop designer and lead. Set the agenda and the method, ran the '
                  'strategy and ideation segments, and led the colleagues who '
-                 'co-facilitated the other segments.'),
+                 'co-facilitated the rest.'),
         'context': ('An early-stage hardware startup in the balance and movement-training '
                     'space. Client unnamed.'),
         'kinds': ['W', 'S'],
@@ -67,8 +69,8 @@ CASES = [
                  'direction.</p>'),
             ]),
             ('The approach', [
-                ('<p>I designed a single day that moved from strategy to a prioritized '
-                 'shortlist ready for counsel.</p>'),
+                ('<p>The day was designed to move from strategy to a prioritized shortlist'
+                 ' ready for counsel.</p>'),
                 ('<ul><li><strong>Why patents.</strong> Facilitated discussion to pin down'
                  ' what the portfolio was actually for: licensing, defensibility, '
                  'visibility, and how aggressively to file.</li><li><strong>Product '
@@ -91,14 +93,14 @@ CASES = [
                  'counsel. Ad-hoc filing replaced with a deliberate, founder-aligned '
                  'portfolio plan.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I set the agenda and the method, and led a group of '
-                 'co-facilitators through the day.</li><li>I held every idea to what the '
-                 'founder wanted the portfolio to do: licensing, defensibility and '
-                 'visibility.</li><li>I closed the day with a decision: a scored shortlist'
-                 ' and a filing direction that went to patent counsel.</li><li>The method '
-                 'draws on my own record as a named inventor on 358 granted U.S. '
-                 'patents.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Set the agenda and the method for the day, then led a team of '
+                 'co-facilitators through it.</li><li>Kept the group working toward what '
+                 'the founder wanted the portfolio to do: licensing, defensibility and '
+                 'visibility.</li><li>Closed the day with a decision the room had scored '
+                 'together: a shortlist and a filing direction for patent '
+                 'counsel.</li><li>The method builds on a record as a named inventor on '
+                 '358 granted U.S. patents.</li></ul>'),
             ]),
             ('The method', [
                 ('<p>The <strong>10x Ideas facilitation guide</strong> (three prompt '
@@ -114,12 +116,12 @@ CASES = [
         'kicker': 'Case study / Enterprise program',
         'year': '2019',
         'sort': '2019-04',
-        'blurb': ('A design-thinking program I conceived, funded and led inside a Fortune '
-                  '10 Chief Data Office. Ten participants and thirty ideas became one '
-                  'prioritized vision for a developer hub.'),
-        'role': ('Sponsor and lead. I conceived the program within the Chief Data Office '
-                 '(AI User Experience), funded it, set the design of the session, and '
-                 'engaged an external firm to facilitate it to that design.'),
+        'blurb': ('A design-thinking program inside a Fortune 10 Chief Data Office, '
+                  'conceived, funded and led from start to finish. Ten participants and '
+                  'thirty ideas became one prioritized vision for a developer hub.'),
+        'role': ('Sponsor and lead. Conceived the program within the Chief Data Office (AI'
+                 ' User Experience), funded it, set the design of the session, and engaged'
+                 ' an external firm to facilitate it to that design.'),
         'context': 'Chief Data Office of a Fortune 10 telecom.',
         'kinds': ['W', 'S'],
         'date': '2019',
@@ -155,12 +157,11 @@ CASES = [
                  'an earlier discovery workshop plus developer interviews. The session '
                  'moved through a deliberate sequence.</p>'),
                 ('<ul><li><strong>Persona grounding</strong>, so every later decision '
-                 'traced back to a real user.</li>'
-                 '<li><strong>As-is scenario mapping</strong> to surface '
-                 'where the current experience broke down.</li><li><strong>Big-idea '
-                 'generation</strong>, producing roughly thirty candidate '
-                 'concepts.</li><li><strong>Prioritization</strong> on an '
-                 'impact-versus-feasibility matrix, separating no-brainers from big bets '
+                 'traced back to a real user.</li><li><strong>As-is scenario '
+                 'mapping</strong> to surface where the current experience broke '
+                 'down.</li><li><strong>Big-idea generation</strong>, producing roughly '
+                 'thirty candidate concepts.</li><li><strong>Prioritization</strong> on an'
+                 ' impact-versus-feasibility matrix, separating no-brainers from big bets '
                  'and save-for-laters.</li><li><strong>Prototype deep dive</strong> to '
                  'make the winning direction tangible.</li></ul>'),
             ]),
@@ -173,12 +174,13 @@ CASES = [
                  'what to build first versus defer, and the session closed with a concrete'
                  ' prototype and a next-step timeline.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I made the case for the program, funded it, and owned it from '
-                 'the discovery research through the final session.</li><li>I set the '
-                 'design of the session and engaged an external firm to facilitate '
-                 'it.</li><li>I gave leadership a prioritization matrix that showed what '
-                 'to build first, what to defer, and why.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Made the case for the program and funded it, then stayed with '
+                 'the team from the discovery research through the final '
+                 'session.</li><li>Set the design of the session and brought in an '
+                 "external firm to facilitate it.</li><li>Gave leadership the team's "
+                 'prioritization matrix: what to build first, what to defer, and '
+                 'why.</li></ul>'),
             ]),
         ],
     },
@@ -188,11 +190,11 @@ CASES = [
         'kicker': 'Case study / Founder work',
         'year': '2026',
         'sort': '2026-01',
-        'blurb': ('As CEO I owned the story the company told investors. One protagonist, '
-                  'then the market, then the wedge, with every claim sourced or labeled as'
-                  ' an assumption.'),
-        'role': ('Founder and CEO. I set the narrative, wrote and designed the deck, and '
-                 'revised it against investor feedback.'),
+        'blurb': ('The story a pre-seed company told investors, set as CEO and worked '
+                  'through with the founding team. One protagonist, then the market, then '
+                  'the wedge, with every claim sourced or labeled as an assumption.'),
+        'role': ('Founder and CEO. Set the narrative, wrote and designed the deck with the'
+                 " founding team's input, and revised it against investor feedback."),
         'context': ('Pre-seed ambient-AI consumer hardware and software startup. My own '
                     'company.'),
         'kinds': ['S', 'T'],
@@ -216,7 +218,7 @@ CASES = [
                  ' Roughly fifteen slides, without drowning the story in features.</p>'),
             ]),
             ('The approach', [
-                '<p>I sequenced the deck so that each slide did one job.</p>',
+                '<p>The deck was sequenced so that each slide did one job.</p>',
                 ('<ul><li><strong>Problem</strong> told through a single named '
                  'protagonist, so the pain lands before it is sized.</li><li><strong>Scale'
                  ' and why-now</strong> to turn the personal story into a '
@@ -237,11 +239,12 @@ CASES = [
                  'and a concrete milestone. Iterated across multiple versions against '
                  'investor feedback.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I decided what the company would claim, and what it would label '
-                 'as an assumption.</li><li>I ordered the deck around the questions '
-                 'investors ask, in the order they ask them.</li><li>I revised the '
-                 'narrative across versions as investor feedback came in.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Decided, with the founding team, what the company would claim '
+                 'and what it would label as an assumption.</li><li>Ordered the deck '
+                 'around the questions investors ask, in the order they ask '
+                 'them.</li><li>Took investor feedback back to the team after each round '
+                 'and revised the narrative.</li></ul>'),
             ]),
         ],
     },
@@ -251,11 +254,13 @@ CASES = [
         'kicker': 'Case study / Founder work',
         'year': '2026',
         'sort': '2026-02',
-        'blurb': ('A competitive-intelligence program I directed as CEO for an emerging '
-                  'consumer-AI category: comparable deep dives, a positioning map, a '
-                  'dashboard the team used, and a weekly scan to keep it current.'),
-        'role': ('Founder and CEO. I directed the program, chose the competitors and the '
-                 'frame, and used the result to set where the company would compete.'),
+        'blurb': ('A competitive-intelligence program for an emerging consumer-AI '
+                  'category, directed as CEO and run with the team: comparable deep dives,'
+                  ' a positioning map, a shared dashboard, and a weekly scan to keep it '
+                  'current.'),
+        'role': ('Founder and CEO. Directed the program, chose the competitors and the '
+                 'frame with the team, and used the result to set where the company would '
+                 'compete.'),
         'context': 'Emerging consumer-AI category. My own company.',
         'kinds': ['R', 'S'],
         'date': '2026',
@@ -276,7 +281,7 @@ CASES = [
                  'differentiate.</p>'),
             ]),
             ('The approach', [
-                '<p>I set this up as a standing program with a weekly cadence.</p>',
+                '<p>We set this up as a standing program with a weekly cadence.</p>',
                 ('<ul><li><strong>Shortlist discipline.</strong> A defined set of '
                  'competitors, each chosen to stress-test the positioning thesis from a '
                  'different angle: direct analog, best-funded peer, adjacent category, '
@@ -296,11 +301,11 @@ CASES = [
                  'defensible wedge and an ongoing intelligence cadence, used to align the '
                  'team and prioritize where to compete.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I chose the shortlist so that each competitor tested the '
-                 'positioning thesis from a different angle.</li><li>I set one frame for '
-                 'every deep dive, so the team compared like with like.</li><li>I used the'
-                 ' map to align the team on where to compete.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Chose the shortlist so that each competitor tested the '
+                 'positioning thesis from a different angle.</li><li>Set one frame for '
+                 'every deep dive, so the team compared like with like.</li><li>Used the '
+                 'map and the dashboard to align the team on where to compete.</li></ul>'),
             ]),
         ],
     },
@@ -311,10 +316,10 @@ CASES = [
         'year': '2026',
         'sort': '2026-03',
         'blurb': ('A shipped app built around urgent alerts showed almost nothing on a '
-                  "normal day. I led the analysis, framed three options for the company's "
-                  'decision-makers, and recommended one.'),
-        'role': ('Founder and CEO. I led the product and UX analysis, framed the decision,'
-                 ' and made the recommendation.'),
+                  "normal day. We framed three options for the company's decision-makers "
+                  'and recommended one.'),
+        'role': ('Founder and CEO. Led the product and UX analysis with the team, framed '
+                 'the decision, and made the recommendation.'),
         'context': 'Consumer ambient-AI app. My own company.',
         'kinds': ['P', 'S'],
         'date': '2026',
@@ -341,7 +346,7 @@ CASES = [
                  'screen.</p>'),
             ]),
             ('The approach', [
-                ('<p>I framed the design decision as three options, each with its '
+                ('<p>We framed the design decision as three options, each with its '
                  'evidence.</p>'),
                 ('<ul><li><strong>Named the real question.</strong> Should the app deliver'
                  ' ambient value between alerts, or stay an intentionally quiet safety '
@@ -364,11 +369,11 @@ CASES = [
                  'that resolved an engagement-versus-safety tension, framed so '
                  'decision-makers could choose on merits.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I named the strategy question behind the screen design, so the '
-                 'team settled both together.</li><li>I held every option to the same '
-                 "evidence: documented caregiver needs and the team's behavioral "
-                 'targets.</li><li>I recommended the option with the lowest build risk, '
+            ('Leading the team', [
+                ('<ul><li>Named the strategy question behind the screen design, so the '
+                 'team settled both together.</li><li>Held every option to the same '
+                 "evidence: documented caregiver needs and the team's own behavioral "
+                 'targets.</li><li>Recommended the option with the lowest build risk, '
                  'which reused signals the backend already produced.</li></ul>'),
             ]),
         ],
@@ -379,11 +384,11 @@ CASES = [
         'kicker': 'Case study / Enterprise research program',
         'year': '2018',
         'sort': '2018-11',
-        'blurb': ('A mixed-method research program I led inside a Fortune 10 Chief Data '
-                  'Office. Contextual inquiry, cognitive task analysis and a validating '
-                  'survey produced personas that leadership used to set priorities.'),
-        'role': ('Program lead within the Chief Data Office (AI User Experience). I set '
-                 'the research plan and methods, directed the work, and turned the '
+        'blurb': ('A mixed-method research program inside a Fortune 10 Chief Data Office. '
+                  'Contextual inquiry, cognitive task analysis and a validating survey '
+                  'produced personas that leadership used to set priorities.'),
+        'role': ('Program lead within the Chief Data Office (AI User Experience). Set the '
+                 "research plan and methods, directed the team's work, and turned the "
                  'findings into product direction for leadership.'),
         'context': ('Chief Data Office of a Fortune 10 telecom, designing service and '
                     'self-service analytics systems for internal data analysts.'),
@@ -415,9 +420,9 @@ CASES = [
                  'effectiveness without taxing the efficiency of skilled users.</p>'),
             ]),
             ('The approach', [
-                ('<p>I wrote a formal User Experience Research Plan that applied '
-                 'human-factors engineering to persona development. We then used those '
-                 'personas to drive design.</p>'),
+                ('<p>The program ran to a formal User Experience Research Plan that '
+                 'applied human-factors engineering to persona development. We then used '
+                 'those personas to drive design.</p>'),
                 ('<ul><li><strong>Contextual inquiry</strong>, observing analysts doing '
                  'real work in their existing tool suite.</li><li><strong>Cognitive task '
                  'analysis</strong> to locate pain points and the drivers of '
@@ -439,12 +444,12 @@ CASES = [
                  'where it mattered most, in service of enabling data-driven decisions '
                  'company-wide.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I set the research plan and chose the six methods.</li><li>I '
-                 'paired the qualitative work with a survey, so the personas were '
-                 'validated at scale.</li><li>I tied the findings to business objectives '
-                 '(adoption and effectiveness) and took them to leadership as a basis for '
-                 'priorities.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Set the research plan and chose the six methods the team '
+                 "used.</li><li>Paired the qualitative work with a survey, so the team's "
+                 'personas were validated at scale.</li><li>Tied the findings to business '
+                 'objectives (adoption and effectiveness) and took them to leadership as a'
+                 ' basis for priorities.</li></ul>'),
             ]),
         ],
     },
@@ -454,12 +459,12 @@ CASES = [
         'kicker': 'Case study / Enterprise research',
         'year': '2019',
         'sort': '2019-09',
-        'blurb': ('Before engineering built a new discovery concept, I had it tested with '
+        'blurb': ('Before engineering built a new discovery concept, we tested it with '
                   'analysts. Task-based focus groups against an interactive prototype gave'
                   ' the team comparable feedback on every flow.'),
-        'role': ('Research lead within the Chief Data Office (AI User Experience). I '
-                 'directed the study and set its protocol, task flows and prototype-driven'
-                 ' test plan.'),
+        'role': ('Research lead within the Chief Data Office (AI User Experience). '
+                 'Directed the study and set its protocol, task flows and prototype-driven'
+                 ' test plan with the team.'),
         'context': ('Chief Data Office of a Fortune 10 telecom, validating a data and '
                     'analytics discovery concept before build.'),
         'kinds': ['R'],
@@ -502,12 +507,12 @@ CASES = [
                  'The protocol turned subjective reactions into structured signal mapped '
                  'to specific screens and tasks.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I put the concept in front of analysts before engineering '
-                 'committed to building it.</li><li>I fixed the flows and the screen '
-                 'sequence, so feedback from every group could be compared.</li><li>I gave'
-                 ' the team findings mapped to specific screens and tasks, which they used'
-                 ' to refine the prototype.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Put the concept in front of analysts before engineering '
+                 'committed to building it.</li><li>Fixed the flows and the screen '
+                 'sequence, so feedback from every group could be compared.</li><li>Gave '
+                 'the product team findings mapped to specific screens and tasks, which '
+                 'they used to refine the prototype.</li></ul>'),
             ]),
         ],
     },
@@ -517,12 +522,12 @@ CASES = [
         'kicker': 'Case study / Product and UI design',
         'year': '2021',
         'sort': '2021-06',
-        'blurb': ('A data product catalog for a Fortune 10 Chief Data Office. I led a team'
-                  ' of engineers and leaders to one design that put search, lineage and '
-                  'data flows in a single interface, for web and mobile.'),
+        'blurb': ('A data product catalog for a Fortune 10 Chief Data Office. A team of '
+                  'engineers and leaders, brought to one design, put search, lineage and '
+                  'data flows in a single interface for web and mobile.'),
         'role': ('Product and UX design lead within the Chief Data Office (AI User '
-                 'Experience). I brought a multidisciplinary team of engineers and leaders'
-                 ' to a shared design, using human-factors methods to get there.'),
+                 'Experience). Brought a multidisciplinary team of engineers and leaders '
+                 'to a shared design, using human-factors methods to get there.'),
         'context': ('Chief Data Office of a Fortune 10 telecom, building self-service data'
                     ' findability for internal analysts and data scientists.'),
         'kinds': ['P'],
@@ -547,8 +552,8 @@ CASES = [
                  'The result was duplicated effort and slow time-to-insight.</p>'),
             ]),
             ('The approach', [
-                ('<p>I led a product and UX design effort to make data discoverable and '
-                 'reusable through a single catalog, designed for both web and mobile.</p>'),
+                ('<p>We set out to make data discoverable and reusable through a single '
+                 'catalog, designed for both web and mobile.</p>'),
                 ('<ul><li>A browseable, searchable catalog of data products with '
                  'type-ahead and filtering.</li><li>Visible product lineage and data '
                  'flows, so users could trust and trace what they found.</li><li>Detail '
@@ -565,12 +570,12 @@ CASES = [
                  'engineering a clear target and leadership a tangible vision for '
                  'self-service data findability.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I brought engineers and leaders who each held part of the '
-                 'problem to one shared design.</li><li>I grounded the design in the '
-                 'research from the persona program: how analysts search and '
-                 'decide.</li><li>I gave engineering a clear target and leadership a '
-                 'concrete picture of self-service data findability.</li></ul>'),
+            ('Leading the team', [
+                ('<ul><li>Brought engineers and leaders who each held part of the problem '
+                 "to one shared design.</li><li>Grounded the team's design in the research"
+                 ' from the persona program: how analysts search and decide.</li><li>Gave '
+                 'engineering a clear target and leadership a concrete picture of '
+                 'self-service data findability.</li></ul>'),
             ]),
         ],
     },
@@ -580,10 +585,10 @@ CASES = [
         'kicker': 'Case study / Thought leadership',
         'year': '2017',
         'sort': '2017-01',
-        'blurb': ('I was lead author of an enterprise automation white paper and the Data '
-                  'Powered series. I convened engineers and senior leaders, brought their '
-                  'views into one account, and wrote it.'),
-        'role': ('Lead author. I convened contributors from engineering and senior '
+        'blurb': ('An enterprise automation white paper and the Data Powered series, '
+                  'written as lead author with engineers and senior leaders. Their '
+                  'separate views became one shared account.'),
+        'role': ('Lead author. Convened contributors from engineering and senior '
                  'leadership, ran the multi-author review, and wrote the synthesis.'),
         'context': 'Chief Data Office of a Fortune 10 telecom.',
         'kinds': ['T', 'S'],
@@ -608,7 +613,7 @@ CASES = [
                  'investment.</p>'),
             ]),
             ('The approach', [
-                ('<p>My method was the same across the papers, including an enterprise '
+                ('<p>The method was the same across the papers, including an enterprise '
                  'automation white paper and the Data Powered series: convene the right '
                  'experts, align them, and write the synthesis.</p>'),
                 ('<ul><li>Bring engineers and leaders together and surface what each '
@@ -625,11 +630,11 @@ CASES = [
                  'strategy and orient teams. The papers became a common reference point '
                  'across teams.</p>'),
             ]),
-            ('How I led it', [
-                ('<ul><li>I convened engineers and senior leaders and drew out what each '
-                 'of them knew.</li><li>I ran the review across the authors and resolved '
-                 'their differences into one narrative.</li><li>I wrote durable frameworks'
-                 ' into the papers, including a five-milestone automation maturity '
+            ('Leading the team', [
+                ('<ul><li>Convened engineers and senior leaders and drew out what each of '
+                 'them knew.</li><li>Ran the review across the authors and resolved their '
+                 'differences into one narrative.</li><li>Wrote durable frameworks into '
+                 'the papers with them, including a five-milestone automation maturity '
                  'model.</li></ul>'),
             ]),
         ],
@@ -708,7 +713,7 @@ def fig_paths(part):
     return '%s<div class="cs-paths">%s</div>' % (label, "".join(rows))
 
 
-LEFT_SECTIONS = ("The problem", "The approach")
+LED_HEADING = "Leading the team"
 
 FIGURES = {"steps": fig_steps, "funnel": fig_funnel, "converge": fig_converge,
            "grid": fig_grid, "paths": fig_paths}
@@ -727,19 +732,37 @@ def write_case(case):
     next_slug = ORDER[idx + 1] if idx < len(ORDER) - 1 else None
     by_slug = {c["slug"]: c for c in CASES}
 
-    # The body is laid out on the page's two halves. Left: the problem and the
-    # approach. Right: the outcome, then "How I led it" as a card, then any
-    # further section and the clearance note. The two columns start level, and
-    # on a phone they stack in reading order.
-    left, right = [], []
-    for heading, blocks in case["body"]:
+    # The body reads across and then down, the way a page is read:
+    #   1. the problem, full width, set large as the opening statement
+    #   2. the approach on the left; on the right the outcome, with the
+    #      leadership card under it
+    #   3. any further section on the left, the clearance note on the right
+    # The right half of row 2 holds two short sections because together they
+    # stand about as tall as the approach. On a phone everything stacks in the
+    # same order.
+    def section(heading, blocks, extra=""):
         inner = "\n".join("          " + b for b in blocks)
-        if heading == "How I led it":
-            right.append('        <section class="cs-led">\n          <h2>%s</h2>\n%s\n        </section>'
-                         % (heading, inner))
-        else:
-            block = "        <h2>%s</h2>\n%s" % (heading, inner)
-            (left if heading in LEFT_SECTIONS else right).append(block)
+        return ('        <section class="case-body%s">\n          <h2>%s</h2>\n%s\n        </section>'
+                % (extra, heading, inner))
+
+    body = dict(case["body"])
+    order = [h for h, _ in case["body"]]
+    assert order[:4] == ["The problem", "The approach", "The outcome", LED_HEADING], order
+    note = '        <p class="note">%s</p>' % case["sanitized"]
+    rows = [
+        section("The problem", body["The problem"], " cs-story"),
+        '      <div class="g2 cs-row">\n%s\n        <div class="cs-stack">\n%s\n%s\n        </div>\n      </div>'
+        % (section("The approach", body["The approach"]),
+           section("The outcome", body["The outcome"]),
+           section(LED_HEADING, body[LED_HEADING], " cs-led")),
+    ]
+    extras = order[4:]
+    if extras:
+        left = "\n".join(section(h, body[h]) for h in extras)
+        rows.append('      <div class="g2 cs-row">\n        <div class="cs-stack">\n%s\n        </div>\n'
+                    '        <div class="case-body cs-note">\n  %s\n        </div>\n      </div>' % (left, note))
+    else:
+        rows.append('      <div class="cs-row cs-row--note">\n%s\n      </div>' % note)
 
     kinds_dd = ", ".join(KINDS[k] for k in case["kinds"])
 
@@ -783,15 +806,8 @@ description: "%(blurb)s"
 
 %(figure)s
 
-    <div class="g2 cs-cols">
-      <div class="case-body">
-%(left)s
-      </div>
-      <div class="case-body">
-%(right)s
-
-        <p class="note">%(sanitized)s</p>
-      </div>
+    <div class="cs-rows">
+%(rows)s
     </div>
 
     <nav class="case-nav">
@@ -810,9 +826,7 @@ description: "%(blurb)s"
         kinds_dd=kinds_dd,
         figure=figure_html(case),
         date=case["date"],
-        left="\n\n".join(left),
-        right="\n\n".join(right),
-        sanitized=case["sanitized"],
+        rows="\n".join(rows),
         nav="\n".join(nav),
     )
 
