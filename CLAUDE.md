@@ -179,6 +179,9 @@ the authoring container does not have.
   then re-run it. It writes the nine pages and the index together.
 - `_gen/patents.py`: rebuilds the patent JSON from the CSV export
 - `build-preview.py`: single-file preview renderer for working without Jekyll
+- `_gen/site_preview.py`: builds every page into `_preview/site` so the whole site can be served
+  and clicked through locally. Use this, not a pile of single-file previews, before showing James
+  anything.
 
 ## Gotchas
 
@@ -191,6 +194,11 @@ the authoring container does not have.
   entry rather than spot-checking: the same defect was found three times because each pass looked
   at a narrower slice than the problem.
 
+- **A local preview must match what Jekyll publishes before James sees it.** On 2026-11-14 he
+  reported two posts as broken when only the preview was: it passed Markdown through raw and
+  dropped the preview text of posts with no `summary`. `_gen/site_preview.py` converts Markdown
+  posts and stops if any page still holds Liquid. Give every post a `summary` in its front
+  matter so its preview never depends on a fallback.
 - **Do not hand-edit `work/*/index.html`.** `_gen/cases.py` overwrites them.
 - **`build-preview.py` is not Jekyll.** It resolves simple Liquid only. Anything looping over
   `site.posts` needs a real build to verify.

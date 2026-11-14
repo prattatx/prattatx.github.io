@@ -46,6 +46,13 @@ the patent JSON inlined, so it opens with no server:
 python3 build-preview.py index.html _preview/home.html
 ```
 
+To browse the whole site locally, with working links between pages:
+
+```
+python3 _gen/site_preview.py
+python3 -m http.server 4173 --directory _preview/site
+```
+
 It resolves only enough Liquid for an accurate visual preview. It handles the landing page's
 `{% for post in site.posts limit:3 %}` loop from post front matter, but not post bodies: the feed,
 the sitemap and the posts themselves still need a real Jekyll build to see.
