@@ -72,6 +72,12 @@ columns: Person or Machine. It is the through-line of the work as one picture.
   `funnel` (a few counts), `converge` (inputs on the left, results on the right), `grid` (rows
   read on the same columns) and `paths` (named flows as chains of chips). The accent always
   marks the result. They reuse the chip from the hero figure.
+- **Case study layout.** The page head and the body both sit on the two halves of the page
+  grid. Head: title and lede left, the facts of the case (role, context, kind, date) as a card
+  right. Body: the problem and the approach left; the outcome, a "How I led it" card and the
+  clearance note right. The right half is sticky above 900px, because it is usually the
+  shorter one. Before this, title and text both ran down the left with the right half bare,
+  which James flagged as unbalanced.
 - **The Approach page** (section 30). Every step is the two halves of the page grid: text
   left, a figure of that step right. The five-stop scale is the one full-width figure. Before
   this, text ran at 68ch beside full-width figures and the page read as unfinished.

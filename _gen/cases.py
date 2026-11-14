@@ -708,6 +708,8 @@ def fig_paths(part):
     return '%s<div class="cs-paths">%s</div>' % (label, "".join(rows))
 
 
+LEFT_SECTIONS = ("The problem", "The approach")
+
 FIGURES = {"steps": fig_steps, "funnel": fig_funnel, "converge": fig_converge,
            "grid": fig_grid, "paths": fig_paths}
 
@@ -725,10 +727,19 @@ def write_case(case):
     next_slug = ORDER[idx + 1] if idx < len(ORDER) - 1 else None
     by_slug = {c["slug"]: c for c in CASES}
 
-    sections = []
+    # The body is laid out on the page's two halves. Left: the problem and the
+    # approach. Right: the outcome, then "How I led it" as a card, then any
+    # further section and the clearance note. The two columns start level, and
+    # on a phone they stack in reading order.
+    left, right = [], []
     for heading, blocks in case["body"]:
-        sections.append("      <h2>%s</h2>\n%s" % (
-            heading, "\n".join("      " + b for b in blocks)))
+        inner = "\n".join("          " + b for b in blocks)
+        if heading == "How I led it":
+            right.append('        <section class="cs-led">\n          <h2>%s</h2>\n%s\n        </section>'
+                         % (heading, inner))
+        else:
+            block = "        <h2>%s</h2>\n%s" % (heading, inner)
+            (left if heading in LEFT_SECTIONS else right).append(block)
 
     kinds_dd = ", ".join(KINDS[k] for k in case["kinds"])
 
@@ -750,29 +761,37 @@ description: "%(blurb)s"
 <article>
 
   <div class="shell">
-    <header class="page-head">
-      <p class="kicker">
-        <a href="/work/" style="color:var(--accent-text)">Work</a>
-        <span class="sep">/</span> %(kicker)s
-        <span class="sep">/</span> %(year)s
-      </p>
-      <h1>%(title)s</h1>
-      <p class="lede">%(blurb)s</p>
-
-      <dl class="meta-grid">
-        <div><dt>Role</dt><dd>%(role)s</dd></div>
-        <div><dt>Context</dt><dd>%(context)s</dd></div>
-        <div><dt>Kind of work</dt><dd>%(kinds_dd)s</dd></div>
-        <div><dt>Date</dt><dd>%(date)s</dd></div>
-      </dl>
+    <header class="page-head cs-head">
+      <div class="g2">
+        <div>
+          <p class="kicker">
+            <a href="/work/" style="color:var(--accent-text)">Work</a>
+            <span class="sep">/</span> %(kicker)s
+            <span class="sep">/</span> %(year)s
+          </p>
+          <h1>%(title)s</h1>
+          <p class="lede">%(blurb)s</p>
+        </div>
+        <dl class="cs-meta">
+          <div class="wide"><dt>Role</dt><dd>%(role)s</dd></div>
+          <div class="wide"><dt>Context</dt><dd>%(context)s</dd></div>
+          <div><dt>Kind of work</dt><dd>%(kinds_dd)s</dd></div>
+          <div><dt>Date</dt><dd>%(date)s</dd></div>
+        </dl>
+      </div>
     </header>
 
 %(figure)s
 
-    <div class="case-body">
-%(sections)s
+    <div class="g2 cs-cols">
+      <div class="case-body">
+%(left)s
+      </div>
+      <div class="case-body">
+%(right)s
 
-      <p class="note">%(sanitized)s</p>
+        <p class="note">%(sanitized)s</p>
+      </div>
     </div>
 
     <nav class="case-nav">
@@ -791,7 +810,8 @@ description: "%(blurb)s"
         kinds_dd=kinds_dd,
         figure=figure_html(case),
         date=case["date"],
-        sections="\n\n".join(sections),
+        left="\n\n".join(left),
+        right="\n\n".join(right),
         sanitized=case["sanitized"],
         nav="\n".join(nav),
     )
