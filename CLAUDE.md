@@ -24,9 +24,10 @@ network) and is verifying him. They read the record, maybe the writing, maybe sa
 **The employer is named as one plain title line**: in the home hero, the About page and the CV. Nothing about the work there, ever. The
 footer carries "Views here are my own, not my employer's." Topics the role rules out are in the private rules file.
 
-**Booking is an open door and appears twice:** the masthead button and the home page's closing
-block, which says in words that James does not take paid work. No other page carries a booking
-button.
+**Booking is an open door and appears once:** in the home page's closing block, which says in
+words that James does not take paid work. The masthead "Say hello" button links to that block
+(`/#contact`), so a first-time visitor reads who James wants to hear from before seeing a
+calendar (changed 2026-11-15, on James's yes). No other page carries a booking button.
 
 **Contact is `site.email` in `_config.yml`.** `james@fyve.dev` is closing; never publish it.
 

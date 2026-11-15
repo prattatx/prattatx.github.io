@@ -73,9 +73,9 @@ margin:{top:'13mm',bottom:'13mm',left:'12mm',right:'12mm'}});await b.close();})(
 
 `_config.yml` has three keys the pages read:
 
-- `calendar_url`: set to `https://www.cal.com/james-pratt`. Drives the "Say hello" button in the
-  masthead and "Book a time" in the home page's closing block, the only two places booking appears.
-  Blank it and both vanish.
+- `calendar_url`: set to `https://www.cal.com/james-pratt`. Drives "Book a time" in the
+  home page's closing block, the only place booking appears. Blank it and the button vanishes.
+  The masthead "Say hello" button links to that block (`/#contact`) and does not read this key.
 - `email`: the one published address. Every `mailto:` on the site reads it.
 - `ga4`: set to `G-LPYRNPZYB1`. Loads gtag.js asynchronously from `_includes/analytics.html`,
   with `anonymize_ip` on. Blank it out and the script stops shipping entirely, no other edit needed.
