@@ -233,6 +233,12 @@ the authoring container does not have.
   `.post-body` links pass because they keep the body text colour. `a.inline` uses the accent
   colour with the box-shadow underline, so it may fail the same rule wherever it is used: run
   axe on the page before relying on it.
+- **A pushed branch is public.** The repo is public, so a commit or a pull request publishes its
+  text before James merges anything. Hold any wording that needs his yes (Tessa, the employer, a
+  role) out of commits and branches until he gives it (2026-11-15).
+- **Check a merge with a cache-busting URL.** After a merge, load the live page with a query
+  string (`/?v=<commit>`). The plain URL can serve the old page for about ten minutes, which reads
+  as a failed deploy (2026-11-15).
 - **`build-preview.py` is not Jekyll.** It resolves simple Liquid only. Anything looping over
   `site.posts` needs a real build to verify.
 - **The patent page reads `window.__PATENTS__` first, then falls back to `fetch`.** That is how the
@@ -255,7 +261,10 @@ the authoring container does not have.
 
 ## Deploy
 
-Push to `master`. GitHub Pages builds and serves.
+A push to `master` publishes: GitHub Pages builds and serves it. **Every change reaches `master`
+through a branch and a pull request that James merges,** including edits to this file and other
+documents the build excludes. An agent never pushes to `master` directly, and an approval of
+wording is not an approval to push (2026-11-15).
 
 Pages is `build_type: legacy`, source `master:/`, so `pages-build-deployment` runs Jekyll and
 that is the only deployer. Verify with:
