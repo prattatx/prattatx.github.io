@@ -121,8 +121,8 @@ enterprise references, no traction or revenue figures. None of these exist to pu
    here. Promote them as artifacts, not as tables, and let the chrome recede behind them.
 2. **Confirm, do not introduce.** The visitor already knows who James is. Optimize for fast
    verification of a claim they arrived with, not for an origin story.
-3. **Nothing is for sale.** Booking is an open door in two places, the masthead and the home
-   page's closing block, and the copy says James does not take paid work.
+3. **Nothing is for sale.** Booking is an open door in one place, the home page's closing
+   block, which the masthead button links to, and the copy says James does not take paid work.
 4. **Clearance outranks completeness.** A gap in the public record is correct when the material
    behind it is not cleared. Acknowledge the gap, never fill it.
 5. **Every claim is traceable.** No number, title, or date ships without a source in the Career
