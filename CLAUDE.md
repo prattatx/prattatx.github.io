@@ -26,9 +26,10 @@ Schwab"): in the home hero, the About page and the CV. Nothing about the work th
 footer carries "Views here are my own, not my employer's." Nothing on the site comments on the
 brokerage industry, securities markets or investing, and nothing mentions a trading bot.
 
-**Booking is an open door and appears twice:** the masthead button and the home page's closing
-block, which says in words that James does not take paid work. No other page carries a booking
-button.
+**Booking is an open door and appears once:** in the home page's closing block, which says in
+words that James does not take paid work. The masthead "Say hello" button links to that block
+(`/#contact`), so a first-time visitor reads who James wants to hear from before seeing a
+calendar (changed 2026-11-15, on James's yes). No other page carries a booking button.
 
 **Contact is `site.email` in `_config.yml`.** `james@fyve.dev` is closing; never publish it.
 

@@ -5,7 +5,7 @@ url: "https://prattatx.github.io"
 
 # Set these and they wire themselves in. Leave empty and the site simply omits them.
 ga4: "G-LPYRNPZYB1"   # GA4 measurement ID. The old UA-78948113-1 property is dead and unrelated.
-calendar_url: "https://www.cal.com/james-pratt"   # booking link, shown in the masthead and the closing block
+calendar_url: "https://www.cal.com/james-pratt"   # booking link, shown in the home page's closing block
 email: "jhp96001@gmail.com"   # the one published address; every mailto reads this
 
 markdown: kramdown
