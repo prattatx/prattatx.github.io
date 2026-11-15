@@ -663,9 +663,18 @@ a {
   line-height: 1.5;
   color: var(--text-3);
 }
-.sorter figcaption a { color: var(--accent-text); white-space: nowrap; }
+/* A real underline, not the inset shadow used in .prose: axe does not count a
+   box-shadow as a non-colour cue (link-in-text-block, 2026-11-15). */
+.sorter figcaption a {
+  color: var(--accent-text);
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-border);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
 .sorter figcaption a:hover,
-.sorter figcaption a:focus-visible { color: var(--accent-hover); }
+.sorter figcaption a:focus-visible { color: var(--accent-hover); text-decoration-color: var(--accent); }
 .sorter-replay {
   flex: none;
   font-family: var(--font-ui);
