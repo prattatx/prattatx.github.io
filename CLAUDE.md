@@ -200,6 +200,15 @@ the authoring container does not have.
   posts and stops if any page still holds Liquid. Give every post a `summary` in its front
   matter so its preview never depends on a fallback.
 - **Do not hand-edit `work/*/index.html`.** `_gen/cases.py` overwrites them.
+- **`_gen/site_preview.py` takes its first argument as the output folder.** It has no `--help`:
+  running it with one built the whole site into a folder named `--help` in the repo root
+  (2026-11-15). Run it with no arguments to build into `_preview/site`.
+- **A link inside a sentence needs a real underline to pass axe.** axe's `link-in-text-block`
+  rule does not count an inset box-shadow as a non-colour cue. The hero figure's caption link
+  failed it until it got `text-decoration: underline` (PR 12, 2026-11-15). `.prose` and
+  `.post-body` links pass because they keep the body text colour. `a.inline` uses the accent
+  colour with the box-shadow underline, so it may fail the same rule wherever it is used: run
+  axe on the page before relying on it.
 - **`build-preview.py` is not Jekyll.** It resolves simple Liquid only. Anything looping over
   `site.posts` needs a real build to verify.
 - **The patent page reads `window.__PATENTS__` first, then falls back to `fetch`.** That is how the
