@@ -156,8 +156,8 @@ Four families. A page picks the family its content belongs to and varies only
 the archetypes that family allows.
 
 - **Landing** (`/`): Stat-Led. Hero with the sorting figure, the four numbers,
-  then labelled sections on one grid: the record, selected work, founder,
-  writing, say hello. One page only.
+  then labelled sections on one grid: the record, speaking, founder, selected
+  work, writing, say hello. One page only.
 - **Index** (`/work/`, `/research/`, `/speaking/`, `/writing/`, `/about/`):
   Long Document. Page head, then labelled sections carrying rows, lists or cards.
 - **Document** (9 case studies, `/cv/`, `/presentations/*/`): Long Document,
