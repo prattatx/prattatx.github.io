@@ -97,7 +97,9 @@ publications, the 358 granted patents, three redacted Tessa case studies, five A
 method-only case studies as text with all images removed, and the patent-development workshop
 case study with the client unnamed.
 
-**Never publish without a fresh yes from James:** the private list in James's workspace.
+**Never publish without a fresh yes from James:** the private list in James's workspace,
+`Career Management/26Q3 Personal Site Rebuild/site-private-rules.md` (moved there 2026-11-24
+because this repo is public).
 
 `/work/` carries a short "Not published here" section that acknowledges this body of work
 exists without naming any of it. Keep it that way.
